@@ -1,9 +1,16 @@
 package com.example.taraziot;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnRefresh;
     TextView smsNumberText;
     private final int SMS_REQUEST_CODE = 100;
+    String SMS_SENT = "SMS_SENT";
+    String SMS_DELIVERED = "SMS_DELIVERED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
 
-            requestReceiveSMSpermission();
+            requestReceiveSMSPermission();
 
         } else {
 
@@ -38,9 +47,152 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+                    requestSendSMSpermission();
+
+                } else {
+
+                    sendMessage();
+
+                }
+            }
+        });
+
+
     }
 
-    private void requestReceiveSMSpermission() {
+
+    private void sendMessage() {
+
+        try {
+
+            //Broadcast for Sent SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک ارسال شد";
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            state = "یک خطای عمومی رخ داد";
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            state = "اپراتور در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            state = " پروتکل PDU در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            state = "سیم کارت در دسترس نیست";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_SENT));
+
+            //Broadcast for Delivered SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک تحویل داده شد";
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            state = "پیامک تحویل داده نشد";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_DELIVERED));
+
+            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage("+989359698705", null, " تست ارسال پیامک", sentSMS, deliverSMS);
+
+            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+
+            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    private void requestSendSMSpermission() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.SEND_SMS)) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("درخواست مجوز")
+                    .setMessage("برای عملکرد صحیح برنامه باید دسترسی به ارسال پیامک تایید شود")
+                    .setPositiveButton("موافقم", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            reqPermission2();
+
+                        }
+                    })
+                    .setNegativeButton("لغو", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            dialogInterface.dismiss();
+
+                        }
+                    })
+                    .create()
+                    .show();
+
+        } else {
+
+            reqPermission2();
+
+        }
+
+    }
+
+    private void reqPermission2() {
+
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, SMS_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == SMS_REQUEST_CODE) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                sendMessage();
+
+            } else {
+
+                Toast.makeText(this, " مجوز رد شد", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+    }
+
+
+//-*******************************************************************************************************************
+
+    private void requestReceiveSMSPermission() {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.RECEIVE_SMS)) {
 
@@ -79,38 +231,29 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_REQUEST_CODE);
 
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == SMS_REQUEST_CODE) {
-
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                Toast.makeText(this, "مجوز تایید شد", Toast.LENGTH_SHORT).show();
-
-            } else {
-
-                Toast.makeText(this, "مجوز رد شد", Toast.LENGTH_SHORT).show();
-
-            }
-
-        }
-
-
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                getSMSDetails();
-//                Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
 }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (requestCode == SMS_REQUEST_CODE) {
+//
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                Toast.makeText(this, "مجوز تایید شد", Toast.LENGTH_SHORT).show();
+//
+//            } else {
+//
+//                Toast.makeText(this, "مجوز رد شد", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//        }
+//
+//
+//    }
 
 //    private void getSMSDetails() {
 //        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
