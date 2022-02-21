@@ -21,24 +21,12 @@ public class MainActivity extends AppCompatActivity {
     TextView smsNumberText;
     private final int SMS_REQUEST_CODE = 100;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         smsNumberText = findViewById(R.id.smsNumberText);
         btnRefresh = findViewById(R.id.refresh);
-
-
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                getSMSDetails();
-//                Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
 
@@ -111,5 +99,59 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                getSMSDetails();
+//                Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 }
+
+//    private void getSMSDetails() {
+//        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
+//            StringBuffer stringBuffer = new StringBuffer();
+//            stringBuffer.append("*********SMS History*************** :");
+//            Uri uri = Uri.parse("content://sms");
+//            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+//            if (cursor.moveToFirst()) {
+//                for (int i = 0; i < cursor.getCount(); i++) {
+//                    String body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
+//                            .toString();
+//                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"))
+//                            .toString();
+//                    String date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+//                            .toString();
+//                    Date smsDayTime = new Date(Long.valueOf(date));
+//                    String type = cursor.getString(cursor.getColumnIndexOrThrow("type"))
+//                            .toString();
+//                    String typeOfSMS = null;
+//                    switch (Integer.parseInt(type)) {
+//                        case 1:
+//                            typeOfSMS = "INBOX";
+//                            break;
+//                        case 2:
+//                            typeOfSMS = "SENT";
+//                            break;
+//                        case 3:
+//                            typeOfSMS = "DRAFT";
+//                            break;
+//                    }
+//                    stringBuffer.append("\nPhone Number:--- " + number + " \nMessage Type:--- "
+//                            + typeOfSMS + " \nMessage Date:--- " + smsDayTime
+//                            + " \nMessage Body:--- " + body);
+//                    stringBuffer.append("\n----------------------------------");
+//                    cursor.moveToNext();
+//                }
+//                smsNumberText.setText(stringBuffer);
+//            }
+//            cursor.close();
+//        } else {
+//            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
+//        }
+//    }
