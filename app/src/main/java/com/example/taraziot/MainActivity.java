@@ -2,6 +2,7 @@ package com.example.taraziot;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +26,14 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnRefresh;
+    Button btnRefresh, b1;
     TextView smsNumberText;
+    EditText text;
     private final int SMS_REQUEST_CODE = 100;
     String SMS_SENT = "SMS_SENT";
     String SMS_DELIVERED = "SMS_DELIVERED";
+    private final long startTime = 50000;
+    private final long interval = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         smsNumberText = findViewById(R.id.smsNumberText);
         btnRefresh = findViewById(R.id.refresh);
+        b1 = findViewById(R.id.button1);
+        text = findViewById(R.id.timeText);
+//        int time=Integer.parseInt(editText.getText().toString());
+//        time=time*1000;
+//        startTime = time;
+//
+//        // place this code on button listener if you want.
+//        countDownTimer = new MyTimer(startTime, interval);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAlert(view);
+//
+//setAlarm();
+
+
+            }
+        });
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
 
@@ -62,6 +86,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+// End of onCreate
+
+
+    //    private void setAlarm() {
+//        Intent intent = new Intent(this, MyService.class);
+//        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+//        Toast.makeText(this, "Alarm will ring after every 15 minutes interval",Toast.LENGTH_LONG).show();
+//    }
+//
+//
+    public void startAlert(View view) {
+//        int time_second = 2;
+//        Intent intent = new Intent(this, MyBroadcastReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+//                this.getApplicationContext(), 234324243, intent, 0);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+//                + (time_second * 1000), pendingIntent);
+//        Toast.makeText(this, "Alarm set in " + time_second + " seconds", Toast.LENGTH_LONG).show();
+
+//        int i = Integer.parseInt(text.getText().toString());
+       int i = 1;
+        Intent intent = new Intent(this, SMSBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 23432, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (i * 1000), pendingIntent);
+        Toast.makeText(this, "Alarm is set in " + i + " seconds.", Toast.LENGTH_SHORT).show();
 
     }
 
