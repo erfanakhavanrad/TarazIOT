@@ -4,26 +4,40 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 public class MyService extends Service {
 
-    MediaPlayer mp;
+    private MediaPlayer soundPlayer;
 
     @Override
     public void onCreate() {
-        super.onCreate();
-        mp = MediaPlayer.create(getApplicationContext(), Settings.System.DEFAULT_ALARM_ALERT_URI);
-        mp.start();
-
-
-        Toast.makeText(getApplicationContext(), "Hi, I am service see you again after 15 minutes", Toast.LENGTH_LONG).show();
+//        super.onCreate();
+        Toast.makeText(this, "سرویس ساخته شد", Toast.LENGTH_SHORT).show();
+        soundPlayer = MediaPlayer.create(this, R.raw.song);
+        soundPlayer.setLooping(false);
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+//        return super.onStartCommand(intent, flags, startId);
+        Toast.makeText(this, "سرویس استارت شد", Toast.LENGTH_SHORT).show();
+        soundPlayer.start();
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+//        super.onDestroy();
+        Toast.makeText(this, "سرویس متوقف شد", Toast.LENGTH_SHORT).show();
+        soundPlayer.stop();
+    }
+
+    @Nullable
+    @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 }

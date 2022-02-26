@@ -27,8 +27,8 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="MyBroadcastReceiver" >
-        </receiver>
+<!--        <receiver android:name="MyBroadcastReceiver" >-->
+<!--        </receiver>-->
     </application>
 
 </manifest>

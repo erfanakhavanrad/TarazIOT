@@ -10,7 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +29,7 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnRefresh, b1;
+    Button btnRefresh, b1, stop, vibrate;
     TextView smsNumberText;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     String SMS_DELIVERED = "SMS_DELIVERED";
     private final long startTime = 50000;
     private final long interval = 1000;
+    Intent servIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         btnRefresh = findViewById(R.id.refresh);
         b1 = findViewById(R.id.button1);
         text = findViewById(R.id.timeText);
+        stop = findViewById(R.id.stop);
+        vibrate = findViewById(R.id.vibrate);
+        servIntent = new Intent(this, MyService.class);
 //        int time=Integer.parseInt(editText.getText().toString());
 //        time=time*1000;
 //        startTime = time;
@@ -50,10 +57,30 @@ public class MainActivity extends AppCompatActivity {
 //        // place this code on button listener if you want.
 //        countDownTimer = new MyTimer(startTime, interval);
 
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+//                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.star);
+                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.star);
+                vibrator.cancel();
+                mediaPlayer.stop();
+//                startActivity(new Intent(MainActivity.this, ActivityTwo.class));
+            }
+        });
+
+
+        vibrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonVibrate(view);
+            }
+        });
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAlert(view);
+//                startAlert(view);
 //
 //setAlarm();
 
@@ -90,6 +117,12 @@ public class MainActivity extends AppCompatActivity {
     }
 // End of onCreate
 
+    public void buttonVibrate(View view){
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+//        textView.setText("Successful");
+        Toast.makeText(this, "Successful", Toast.LENGTH_SHORT).show();
+    }
 
     //    private void setAlarm() {
 //        Intent intent = new Intent(this, MyService.class);
@@ -111,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 //        Toast.makeText(this, "Alarm set in " + time_second + " seconds", Toast.LENGTH_LONG).show();
 
 //        int i = Integer.parseInt(text.getText().toString());
-       int i = 1;
+        int i = 1;
         Intent intent = new Intent(this, SMSBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 23432, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
