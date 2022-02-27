@@ -1,6 +1,7 @@
 package com.example.taraziot;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
         startService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContextCompat.startForegroundService(MainActivity.this, servIntent);
+//                ContextCompat.startForegroundService(MainActivity.this, servIntent);
+                DataPref.saveServiceStatus(MainActivity.this,true);
             }
         });
 
@@ -70,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         stopService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stopService(servIntent);
+//                stopService(servIntent);
+                DataPref.saveServiceStatus(MainActivity.this,false);
             }
         });
 
@@ -276,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
