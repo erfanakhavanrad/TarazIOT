@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../home/user2/Downloads/sdk/platforms/android-32/data/res/drawable/ic_lock_idle_alarm.xml" value="0.2345" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
       </map>
     </option>
