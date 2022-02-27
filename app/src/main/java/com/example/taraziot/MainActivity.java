@@ -29,7 +29,7 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnRefresh, b1, stop, vibrate;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService;
     TextView smsNumberText;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         b1 = findViewById(R.id.button1);
         text = findViewById(R.id.timeText);
         stop = findViewById(R.id.stop);
+        startService = findViewById(R.id.start_btn);
+        stopService = findViewById(R.id.stop_btn);
         vibrate = findViewById(R.id.vibrate);
         servIntent = new Intent(this, MyService.class);
 //        int time=Integer.parseInt(editText.getText().toString());
@@ -56,6 +58,22 @@ public class MainActivity extends AppCompatActivity {
 //
 //        // place this code on button listener if you want.
 //        countDownTimer = new MyTimer(startTime, interval);
+
+        startService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ContextCompat.startForegroundService(MainActivity.this, servIntent);
+            }
+        });
+
+
+        stopService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopService(servIntent);
+            }
+        });
+
 
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 // End of onCreate
 
-    public void buttonVibrate(View view){
+    public void buttonVibrate(View view) {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
 //        textView.setText("Successful");
