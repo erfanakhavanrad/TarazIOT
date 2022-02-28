@@ -1,14 +1,20 @@
 package com.example.taraziot.service;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RawRes;
@@ -24,8 +30,24 @@ public class AudioService extends Service {
     public static final String NOTIFICATION_CHANNEL_ID = "AudioService";
 
     private MediaPlayer mediaPlayer = null;
+    private Vibrator vibrator = null;
 
-    @Nullable @Override
+    private Handler handler = null;
+    private VibrateRunnable vibrateRunnable;
+
+    private long[] vibrateEffect = null;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        handler = new Handler(Looper.getMainLooper());
+        vibrateRunnable = new VibrateRunnable();
+    }
+
+    @Nullable
+    @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
@@ -33,6 +55,10 @@ public class AudioService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        vibrateRunnable = null;
+        handler = null;
+
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -45,7 +71,8 @@ public class AudioService extends Service {
 
         int returnValue = START_NOT_STICKY;
 
-        if(intent.getAction().equals(STOP_SELF_KEY)) {
+        if (intent.getAction().equals(STOP_SELF_KEY)) {
+            handler.removeCallbacks(vibrateRunnable);
             stopSelf();
             return returnValue;
         }
@@ -62,6 +89,10 @@ public class AudioService extends Service {
         mediaPlayer.setVolume(100, 100);
         mediaPlayer.start();
 
+        this.vibrateEffect = audioData.vibrateEffect;
+
+        vibrateDevice();
+
         startForeground(1, createNotification());
 
         return returnValue;
@@ -71,9 +102,13 @@ public class AudioService extends Service {
         @RawRes
         public int resId;
         public boolean isLooping;
-        public AudioData(@RawRes int resId, boolean isLooping) {
+        @Nullable
+        public long[] vibrateEffect;
+
+        public AudioData(@RawRes int resId, boolean isLooping, @Nullable long[] vibrateEffect) {
             this.resId = resId;
             this.isLooping = isLooping;
+            this.vibrateEffect = vibrateEffect;
         }
     }
 
@@ -85,7 +120,7 @@ public class AudioService extends Service {
         intent.setAction(STOP_SELF_KEY);
 
         PendingIntent pendingIntent = PendingIntent.getService(
-                this, 0 , intent, 0
+                this, 0, intent, 0
         );
 
         return new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
@@ -100,12 +135,41 @@ public class AudioService extends Service {
     }
 
     public void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (isAndroidOreo()) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     NOTIFICATION_CHANNEL_ID, "Audio Service", NotificationManager.IMPORTANCE_DEFAULT
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
+    }
+
+    private void vibrateDevice() {
+        if (vibrateEffect == null) return;
+        handler.post(vibrateRunnable);
+    }
+
+    @SuppressWarnings("InnerClassMayBeStatic")
+    private class VibrateRunnable implements Runnable {
+        @Override
+        public void run() {
+            if (isAndroidOreo()) {
+                vibrator.vibrate(
+                        VibrationEffect.createWaveform(
+                                vibrateEffect, VibrationEffect.DEFAULT_AMPLITUDE
+                        )
+                );
+            } else {
+                vibrator.vibrate(vibrateEffect, -1);
+                // vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
+
+            handler.postDelayed(this, 2000);
+        }
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private boolean isAndroidOreo() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 }

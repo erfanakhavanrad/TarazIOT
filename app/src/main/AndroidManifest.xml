@@ -2,12 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taraziot">
 
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -26,24 +25,28 @@
             </intent-filter>
         </activity>
         <service android:name=".MyService" />
-<!--        <receiver android:name=".SMSBroadcastReceiver"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.provider.Telephony.SMS_RECEIVED" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
+        <!--        <receiver android:name=".SMSBroadcastReceiver"-->
+        <!--            android:exported="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.provider.Telephony.SMS_RECEIVED" />-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
 
-        <receiver android:name=".receiver.SMSReceiverImpl" android:exported="true" android:enabled="true">
+        <receiver
+            android:name=".receiver.SMSReceiverImpl"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <service android:name=".service.AudioService"
-            android:exported="true"
-            android:enabled="true"/>
+        <service
+            android:name=".service.AudioService"
+            android:enabled="true"
+            android:exported="true" />
 
-<!--        <receiver android:name="MyBroadcastReceiver" >-->
-<!--        </receiver>-->
+        <!--        <receiver android:name="MyBroadcastReceiver" >-->
+        <!--        </receiver>-->
     </application>
 
 </manifest>
