@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage("+989127938973", null, "START", sentSMS, deliverSMS);
+//            smsManager.sendTextMessage("+989359698705", null, "START", sentSMS, deliverSMS);
 
             Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
 
@@ -327,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
 
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage("+989127938973", null, "STOP", sentSMS, deliverSMS);
+//            smsManager.sendTextMessage("+989359698705", null, "STOP", sentSMS, deliverSMS);
 
             Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
 
@@ -451,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                sendMessage();
+//                sendMessage();
 
             } else {
 
