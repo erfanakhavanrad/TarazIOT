@@ -30,7 +30,7 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn;
     TextView smsNumberText;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         startService = findViewById(R.id.start_btn);
         stopService = findViewById(R.id.stop_btn);
         vibrate = findViewById(R.id.vibrate);
+        configServerBtn = findViewById(R.id.configServerBtn);
         servIntent = new Intent(this, MyService.class);
 //        int time=Integer.parseInt(editText.getText().toString());
 //        time=time*1000;
@@ -61,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
 //
 //        // place this code on button listener if you want.
 //        countDownTimer = new MyTimer(startTime, interval);
+
+        configServerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ConfigServerActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         startSMS.setOnClickListener(new View.OnClickListener() {
             @Override
