@@ -1,55 +1,243 @@
-<?xml version = "1.0" encoding = "utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    tools:context=".MainActivity">
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/etIP"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:hint="IP-Address"-->
-    <!--        android:inputType="text" />-->
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/etPort"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@+id/etIP"-->
-    <!--        android:hint="Port No"-->
-    <!--        android:inputType="number" />-->
-    <!--        android:layout_below = "@+id/etPort"-->
-    <Button
-        android:id="@+id/btnConnect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:text="Connect To Server" />
+    android:gravity="right"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteY="25dp">
 
     <TextView
-        android:id="@+id/tvMessages"
-        android:layout_width="match_parent"
+        android:id="@+id/slogan_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/etMessage"
-        android:layout_below="@+id/btnConnect"
-        android:inputType="textMultiLine"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="برای ادامه اطلاعات خود را وارد کنید"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etMessage"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/ssidName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnSend"
-        android:hint="Enter Message"
-        android:inputType="text" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="ارتباط با دستگاه قطع است"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnSend"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="SEND" />
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_marginTop="64dp"
+        android:orientation="vertical"
+        android:paddingLeft="20sp"
+        android:paddingRight="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slogan_name">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="شماره سیم کارت سرور 09xxxxxxxxx"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSimCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="سریال دستگاه"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSerialNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="شماره موبایل ادمین 09xxxxxxxxx"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtAdminPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="رمزعبور"
+            android:layoutDirection="rtl"
+            app:passwordToggleEnabled="true"
+            app:startIconDrawable="@drawable/ic_baseline_lock_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:textDirection="rtl" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="تکرار رمزعبور"
+            android:layoutDirection="rtl"
+            app:passwordToggleEnabled="true"
+            app:startIconDrawable="@drawable/ic_baseline_lock_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:textDirection="rtl" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="شماره موبایل نفر اول 09xxxxxxxxx"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtFirstUserPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="شماره موبایل نفر دوم 09xxxxxxxxx"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSecondUserPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="شماره موبایل نفر سوم 09xxxxxxxxx"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtThirdUserPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="شماره موبایل نفر چهارم 09xxxxxxxxx"
+            android:layoutDirection="rtl"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtForthUserPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <!--            <Button-->
+            <!--                android:id="@+id/btnRegister"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:layout_weight="2"-->
+            <!--                android:backgroundTint="@color/white"-->
+            <!--                android:elevation="0dp"-->
+            <!--                android:enabled="false"-->
+            <!--                android:text="false"-->
+            <!--                android:textColor="@color/black" />-->
+
+            <Button
+                android:id="@+id/btnConfig"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:backgroundTint="@color/blue"
+                android:elevation="0dp"
+                android:text="ثبت اطلاعات"
+                android:textAllCaps="false"
+                android:textSize="25sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

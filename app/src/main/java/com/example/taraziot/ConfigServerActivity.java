@@ -1,13 +1,17 @@
 package com.example.taraziot;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,10 +23,11 @@ import java.net.Socket;
 public class ConfigServerActivity extends AppCompatActivity {
 
     Thread Thread1 = null;
-    EditText etIP, etPort;
-    TextView tvMessages;
-    EditText etMessage;
-    Button btnSend;
+    //    EditText etIP, etPort;
+    TextView ssidName;
+    TextInputEditText edtSimCard, edtSerialNumber, edtAdminPhoneNumber, edtPassword, edtConfirmPassword,
+            edtFirstUserPhoneNumber, edtSecondUserPhoneNumber, edtThirdUserPhoneNumber, edtForthUserPhoneNumber;
+    Button btnConfig;
     String SERVER_IP;
     int SERVER_PORT;
 
@@ -30,30 +35,58 @@ public class ConfigServerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_server);
-//        etIP = findViewById(R.id.etIP);
-//        etPort = findViewById(R.id.etPort);
-        tvMessages = findViewById(R.id.tvMessages);
-        etMessage = findViewById(R.id.etMessage);
-        btnSend = findViewById(R.id.btnSend);
-        Button btnConnect = findViewById(R.id.btnConnect);
-        btnConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvMessages.setText("");
-//                SERVER_IP = etIP.getText().toString().trim();
-                SERVER_IP = "192.168.43.111";
+        ssidName = findViewById(R.id.ssidName);
+        edtSimCard = findViewById(R.id.edtSimCard);
+        edtSerialNumber = findViewById(R.id.edtSerialNumber);
+        edtAdminPhoneNumber = findViewById(R.id.edtAdminPhoneNumber);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
+        edtFirstUserPhoneNumber = findViewById(R.id.edtFirstUserPhoneNumber);
+        edtSecondUserPhoneNumber = findViewById(R.id.edtSecondUserPhoneNumber);
+        edtThirdUserPhoneNumber = findViewById(R.id.edtThirdUserPhoneNumber);
+        edtForthUserPhoneNumber = findViewById(R.id.edtForthUserPhoneNumber);
+        btnConfig = findViewById(R.id.btnConfig);
+        SERVER_IP = "192.168.43.111";
 //                SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
-                SERVER_PORT = 8888;
-                Thread1 = new Thread(new Thread1());
-                Thread1.start();
-            }
-        });
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        SERVER_PORT = 8888;
+        Thread1 = new Thread(new Thread1());
+        Thread1.start();
+
+        btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = etMessage.getText().toString().trim();
-                if (!message.isEmpty()) {
-                    new Thread(new Thread3(message)).start();
+                String simCard = edtSimCard.getText().toString().trim();
+                String serialNumber = edtSerialNumber.getText().toString().trim();
+                String adminPhoneNumber = edtAdminPhoneNumber.getText().toString().trim();
+                String password = edtPassword.getText().toString().trim();
+                String confirmPassword = edtConfirmPassword.getText().toString().trim();
+                String firstUserPhoneNumber = edtFirstUserPhoneNumber.getText().toString().trim();
+                String secondUserPhoneNumber = edtSecondUserPhoneNumber.getText().toString().trim();
+                String thirdUserPhoneNumber = edtThirdUserPhoneNumber.getText().toString().trim();
+                String forthUserPhoneNumber = edtForthUserPhoneNumber.getText().toString().trim();
+
+
+                String[] values = {simCard, serialNumber, adminPhoneNumber, password, confirmPassword,
+                        firstUserPhoneNumber, secondUserPhoneNumber, thirdUserPhoneNumber, forthUserPhoneNumber};
+                Boolean valid = true;
+                for (int i = 0; i < values.length; i++) {
+                    if (TextUtils.isEmpty(values[i])) {
+                        valid = false;
+                        break;
+                    }
+//                    System.out.println(valid);
+                }
+
+
+                if (valid) {
+//                    String message = edtSimCard.getText().toString().trim();
+                    String mainMessage = "$" + "simCard:" + simCard + ",serialNumber:" + serialNumber + ",adminPhoneNumber:" + adminPhoneNumber + ",password:" + password + ",confirmPassword:" + confirmPassword +
+                            ",firstUserPhoneNumber:" + firstUserPhoneNumber + ",secondUserPhoneNumber:" + secondUserPhoneNumber +
+                            ",thirdUserPhoneNumber:" + thirdUserPhoneNumber + ",forthUserPhoneNumber:" + forthUserPhoneNumber + "$:";
+
+                    new Thread(new Thread3(mainMessage)).start();
+                } else {
+                    Toast.makeText(ConfigServerActivity.this, "تمام فیلدها را پر کنید", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -72,7 +105,9 @@ public class ConfigServerActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tvMessages.setText("Connected\n");
+                        ssidName.setText("متصل به دستگاه\n");
+//                        ssidName.setBackgroundColor(Color.parseColor("#E0FFEB"));
+                        ssidName.setTextColor(Color.parseColor("#0EBF01"));
                     }
                 });
                 new Thread(new Thread2()).start();
@@ -92,7 +127,8 @@ public class ConfigServerActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                tvMessages.append("server: " + message + "\n");
+                                ssidName.append("server: " + message + "\n");
+
                             }
                         });
                     } else {
@@ -121,8 +157,9 @@ public class ConfigServerActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    tvMessages.append("client: " + message + "\n");
-                    etMessage.setText("");
+                    ssidName.append("client: " + message + "\n");
+//                    edtSimCard.setText("");
+                    // TODO: 3/9/22 Above line
                 }
             });
         }
