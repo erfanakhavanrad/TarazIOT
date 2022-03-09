@@ -3,7 +3,6 @@ package com.example.taraziot;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         stopService = findViewById(R.id.stop_btn);
         vibrate = findViewById(R.id.vibrate);
         configServerBtn = findViewById(R.id.configServerBtn);
-        servIntent = new Intent(this, MyService.class);
+//        servIntent = new Intent(this, MyService.class);
 //        int time=Integer.parseInt(editText.getText().toString());
 //        time=time*1000;
 //        startTime = time;
@@ -209,12 +208,12 @@ public class MainActivity extends AppCompatActivity {
 //        Toast.makeText(this, "Alarm set in " + time_second + " seconds", Toast.LENGTH_LONG).show();
 
 //        int i = Integer.parseInt(text.getText().toString());
-        int i = 1;
-        Intent intent = new Intent(this, SMSBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 23432, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (i * 1000), pendingIntent);
-        Toast.makeText(this, "Alarm is set in " + i + " seconds.", Toast.LENGTH_SHORT).show();
+//        int i = 1;
+//        Intent intent = new Intent(this, SMSBroadcastReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 23432, intent, 0);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (i * 1000), pendingIntent);
+//        Toast.makeText(this, "Alarm is set in " + i + " seconds.", Toast.LENGTH_SHORT).show();
 
     }
 

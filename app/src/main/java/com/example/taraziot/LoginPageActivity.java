@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -61,111 +60,105 @@ public class LoginPageActivity extends AppCompatActivity {
                 }
 //                else if (edtPassword.getText().toString() >)
                 number = false;
-sendStartSMS(serverPhoneNumber);
+                sendStartSMS(serverPhoneNumber);
 
+            }
+//                        if (response.isSuccessful()) {
+//                            Users users = response.body();
+//                            if (users != null) {
+//                                token = users.getAccess_token();
+//                                verifiedAt = users.getExpires_at();
+//                                Log.d(TAG, "onResponse: " + token);
+//                                userManagerSharedPrefs.saveUserInformation(edtUsername.getText().toString(),
+//                                        edtPassword.getText().toString(),
+//                                        token, verifiedAt);
+//
+//                                Intent i = new Intent(LoginPageActivity.this, MainActivity.class);
+//                                startActivity(i);
+//                                finish();
+//                            } else if (response.code() == 404) {
+//                                Toast.makeText(LoginPageActivity.this, "not found", Toast.LENGTH_SHORT).show();
+//                            } else
+//                                Toast.makeText(LoginPageActivity.this, "on response error", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Users> call, Throwable t) {
+//                        Toast.makeText(LoginPageActivity.this, "ابتدا باید ثبت نام کنید", Toast.LENGTH_SHORT).show();
+//                        Log.i(TAG, "onFailure: " + t.getMessage());
+//                        number = true;
+////                        showLoading();
+//                    }
+//                });
 
-                        if (response.isSuccessful()) {
-                            Users users = response.body();
-                            if (users != null) {
-                                token = users.getAccess_token();
-                                verifiedAt = users.getExpires_at();
-                                Log.d(TAG, "onResponse: " + token);
-                                userManagerSharedPrefs.saveUserInformation(edtUsername.getText().toString(),
-                                        edtPassword.getText().toString(),
-                                        token, verifiedAt);
+            private void sendStartSMS(String serverPhoneNumber) {
 
-                                Intent i = new Intent(LoginPageActivity.this, MainActivity.class);
-                                startActivity(i);
-                                finish();
-                            } else if (response.code() == 404) {
-                                Toast.makeText(LoginPageActivity.this, "not found", Toast.LENGTH_SHORT).show();
-                            } else
-                                Toast.makeText(LoginPageActivity.this, "on response error", Toast.LENGTH_SHORT).show();
+                try {
+
+                    //Broadcast for Sent SMS
+                    registerReceiver(new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+
+                            String state = "";
+                            switch (getResultCode()) {
+                                case Activity.RESULT_OK:
+                                    state = "پیامک ارسال شد";
+                                    break;
+                                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                    state = "یک خطای عمومی رخ داد";
+                                    break;
+                                case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                    state = "اپراتور در دسترس نیست";
+                                    break;
+                                case SmsManager.RESULT_ERROR_NULL_PDU:
+                                    state = " پروتکل PDU در دسترس نیست";
+                                    break;
+                                case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                    state = "سیم کارت در دسترس نیست";
+                                    break;
+                            }
+                            Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
                         }
+                    }, new IntentFilter(SMS_SENT));
 
-                    }
+                    //Broadcast for Delivered SMS
+                    registerReceiver(new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            String state = "";
+                            switch (getResultCode()) {
+                                case Activity.RESULT_OK:
+                                    state = "پیامک تحویل داده شد";
+                                    break;
+                                case Activity.RESULT_CANCELED:
+                                    state = "پیامک تحویل داده نشد";
+                                    break;
+                            }
+                            Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                        }
+                    }, new IntentFilter(SMS_DELIVERED));
 
-                    @Override
-                    public void onFailure(Call<Users> call, Throwable t) {
-                        Toast.makeText(LoginPageActivity.this, "ابتدا باید ثبت نام کنید", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onFailure: " + t.getMessage());
-                        number = true;
-//                        showLoading();
-                    }
-                });
+                    PendingIntent sentSMS = PendingIntent.getBroadcast(LoginPageActivity.this, 0, new Intent(SMS_SENT), 0);
+                    PendingIntent deliverSMS = PendingIntent.getBroadcast(LoginPageActivity.this, 0, new Intent(SMS_DELIVERED), 0);
 
-
-
-
-
-    }
-
-
-    private void sendStartSMS(String serverPhoneNumber) {
-
-        try {
-
-            //Broadcast for Sent SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک ارسال شد";
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            state = "یک خطای عمومی رخ داد";
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            state = "اپراتور در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            state = " پروتکل PDU در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            state = "سیم کارت در دسترس نیست";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_SENT));
-
-            //Broadcast for Delivered SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک تحویل داده شد";
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            state = "پیامک تحویل داده نشد";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_DELIVERED));
-
-            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-
-            SmsManager smsManager = SmsManager.getDefault();
+                    SmsManager smsManager = SmsManager.getDefault();
 //            smsManager.sendTextMessage("+989127938973", null, "START", sentSMS, deliverSMS);
 //            smsManager.sendTextMessage("+989359698705", null, "START", sentSMS, deliverSMS);
-            smsManager.sendTextMessage(serverPhoneNumber, null, "START", sentSMS, deliverSMS);
+                    smsManager.sendTextMessage(serverPhoneNumber, null, "START", sentSMS, deliverSMS);
 
-            Toast.makeText(LoginPageActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginPageActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
 
-        } catch (Exception e) {
+                } catch (Exception e) {
 
-            Toast.makeText(LoginPageActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginPageActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
 
-        }
+                }
 
+            }
+
+        });
     }
-
-
 }
