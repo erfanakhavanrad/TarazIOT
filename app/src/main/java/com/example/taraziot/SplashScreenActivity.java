@@ -22,8 +22,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     ImageView imageSplash1;
     TextView textSlogan;
     UserManagerSharedPrefs userManagerSharedPrefs;
-    String token, verifiedAt;
-    Boolean agreed = false;
+    //    String token, verifiedAt;
+//    Boolean agreed = false;
+    Boolean registered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intentSplash = new Intent(SplashScreenActivity.this, MainActivity.class);
 //                startActivity(intent1);
 //                finish();
-                if (!agreed) {
-                    Intent intent = new Intent(SplashScreenActivity.this, LoginPageActivity.class);
+                if (!registered) {
+                    Intent intent = new Intent(SplashScreenActivity.this, ConfigServerActivity.class);
                     startActivity(intent);
                     finish();
 
                 } else {
-                    if (token != null && verifiedAt != null) {
+                    if (registered) {
                         Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -81,9 +82,10 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void configSharedP() {
 
         this.userManagerSharedPrefs = new UserManagerSharedPrefs(this);
-        token = userManagerSharedPrefs.getFullName();
-        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
-        agreed = userManagerSharedPrefs.getAgreeToTerms();
+//        token = userManagerSharedPrefs.getFullName();
+//        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
+//        agreed = userManagerSharedPrefs.getAgreeToTerms();
+        registered = userManagerSharedPrefs.getRegistered();
     }
 
 

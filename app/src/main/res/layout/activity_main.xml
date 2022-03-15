@@ -6,146 +6,233 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/ic_baseline_refresh_24"
-        android:padding="10dp"
+    <ImageView
+        android:id="@+id/SensorImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Button
-        android:layout_width="40dp"
-        android:id="@+id/configServerBtn"
-        android:layout_height="40dp"
-        android:background="@drawable/ic_baseline_settings_input_antenna_24"
-        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <EditText
-        android:id="@+id/timeText"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="140dp"
-        app:layout_constraintBottom_toTopOf="@+id/smsNumberText"
+    <Button
+        android:id="@+id/statusRefreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="دریافت آخرین وضعیت دستگاه"
+        android:textAlignment="center"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/SensorImage" />
 
     <TextView
-        android:id="@+id/smsNumberText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="68dp"
-        android:text="NUMBER_GOES_HERE"
+        android:id="@+id/statusTxt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="وضعیت دستگاه"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/refresh"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.945" />
+        app:layout_constraintTop_toBottomOf="@+id/statusRefreshButton" />
 
-    <Button
-        android:id="@+id/button1"
+    <TextView
+        android:id="@+id/alarmsStatusTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alarm"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="36dp"
+        android:text="وضعیت أارم دستگاه"
+        app:layout_constraintBottom_toTopOf="@+id/armedToggleButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/refresh"
-        app:layout_constraintVertical_bias="0.163" />
+        app:layout_constraintTop_toBottomOf="@+id/statusTxt"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/vibrate"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/armedToggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="83dp"
-        android:layout_marginEnd="85dp"
-        android:layout_marginBottom="47dp"
-        android:text="vibrate"
-        app:layout_constraintBottom_toTopOf="@+id/button1"
-        app:layout_constraintEnd_toStartOf="@+id/refresh"
-        app:layout_constraintHorizontal_bias="0.867"
+        android:layout_marginTop="55dp"
+        android:defaultFocusHighlightEnabled="true"
+        android:focusedByDefault="true"
+        app:checkedButton="@+id/button1"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/smsNumberText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/statusTxt"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/buttonMaleGender"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:defaultFocusHighlightEnabled="true"
+            android:focusedByDefault="true"
+            android:text="مرد" />
+
+        <Button
+            android:id="@+id/buttonFemaleGender"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="زن" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <Button
-        android:id="@+id/stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Stop alram"
+        android:text="قطع صدای آژیر دستگاه"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.817"
+        app:layout_constraintHorizontal_bias="0.544"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/refresh" />
+        app:layout_constraintTop_toBottomOf="@+id/armedToggleButton" />
 
 
-    <Button
-        android:id="@+id/start_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="40dp"
-        android:text="start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stop" />
+    <!--    <Button-->
+    <!--        android:layout_width="40dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:background="@drawable/ic_baseline_refresh_24"-->
+    <!--        android:padding="10dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-    <Button
-        android:id="@+id/stop_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="48dp"
-        android:text="Stop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
+        <Button
+            android:layout_width="40dp"
+            android:id="@+id/configServerBtn"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_baseline_settings_input_antenna_24"
+            android:padding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/stopSMS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="48dp"
-        android:text="Send Stop"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stop_btn" />
+    <!--    <EditText-->
+    <!--        android:id="@+id/timeText"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginBottom="140dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/smsNumberText"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.517"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
 
-    <Button
-        android:id="@+id/startSMS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="40dp"
-        android:text="Send Start"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_btn" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/smsNumberText"-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="68dp"-->
+    <!--        android:text="NUMBER_GOES_HERE"-->
+    <!--        android:textAlignment="center"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/refresh"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.945" />-->
 
-    <Button
-        android:id="@+id/refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send SMS"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.83"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+    <!--    <Button-->
+    <!--        android:id="@+id/button1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Alarm"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.21"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/refresh"-->
+    <!--        app:layout_constraintVertical_bias="0.163" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/vibrate"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="83dp"-->
+    <!--        android:layout_marginEnd="85dp"-->
+    <!--        android:layout_marginBottom="47dp"-->
+    <!--        android:text="vibrate"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/button1"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/refresh"-->
+    <!--        app:layout_constraintHorizontal_bias="0.867"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/smsNumberText"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/stop"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        android:text="Stop alram"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.817"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/refresh" />-->
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/start_btn"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:text="start"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/stop" />-->
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/stop_btn"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginStart="68dp"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        android:text="Stop"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/button1" />-->
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/stopSMS"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginStart="56dp"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        android:text="Send Stop"-->
+    <!--        android:textAllCaps="false"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/stop_btn" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/startSMS"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:text="Send Start"-->
+    <!--        android:textAllCaps="false"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/start_btn" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/refresh"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Send SMS"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.83"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.499" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -27,10 +28,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn;
-    TextView smsNumberText;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton;
+    TextView smsNumberText, statusTxt;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
     String SMS_SENT = "SMS_SENT";
@@ -38,21 +41,45 @@ public class MainActivity extends AppCompatActivity {
     private final long startTime = 50000;
     private final long interval = 1000;
     Intent servIntent;
+    UserManagerSharedPrefs userManagerSharedPrefs;
+    String destinationAddress, lasrrrrrrrr;
+//    SMSReceiverImpl smsReceiver = new SMSReceiverImpl();
+
+
+//    BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//
+//            Bundle b = intent.getExtras();
+//
+//           lasrrrrrrrr  = b.getString("message");
+//
+//            Log.e("newmesage", "" + lasrrrrrrrr);
+//            Toast.makeText(context, lasrrrrrrrr, Toast.LENGTH_SHORT).show();
+//        }
+//    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        smsNumberText = findViewById(R.id.smsNumberText);
-        btnRefresh = findViewById(R.id.refresh);
-        b1 = findViewById(R.id.button1);
-        text = findViewById(R.id.timeText);
-        stop = findViewById(R.id.stop);
-        startSMS = findViewById(R.id.startSMS);
-        stopSMS = findViewById(R.id.stopSMS);
-        startService = findViewById(R.id.start_btn);
-        stopService = findViewById(R.id.stop_btn);
-        vibrate = findViewById(R.id.vibrate);
+        statusRefreshButton = findViewById(R.id.statusRefreshButton);
+        statusTxt = findViewById(R.id.statusTxt);
+        requestSendSMSpermission();
+//        registerReceiver(smsReceiver, new IntentFilter("broadCastName"));
+
+        // old views
+//        smsNumberText = findViewById(R.id.smsNumberText);
+//        btnRefresh = findViewById(R.id.refresh);
+//        b1 = findViewById(R.id.button1);
+//        text = findViewById(R.id.timeText);
+//        stop = findViewById(R.id.stop);
+//        startSMS = findViewById(R.id.startSMS);
+//        stopSMS = findViewById(R.id.stopSMS);
+//        startService = findViewById(R.id.start_btn);
+//        stopService = findViewById(R.id.stop_btn);
+//        vibrate = findViewById(R.id.vibrate);
         configServerBtn = findViewById(R.id.configServerBtn);
 //        servIntent = new Intent(this, MyService.class);
 //        int time=Integer.parseInt(editText.getText().toString());
@@ -62,6 +89,49 @@ public class MainActivity extends AppCompatActivity {
 //        // place this code on button listener if you want.
 //        countDownTimer = new MyTimer(startTime, interval);
 
+        getSMSDetails();
+        configSharedP();
+//        Toast.makeText(this, lasrrrrrrrr, Toast.LENGTH_SHORT).show();
+
+//        Intent intent = new Intent();
+//        if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
+//
+//            Bundle mBundle = intent.getExtras();
+//            SmsMessage[] msg;
+//            String smsFrom;
+//
+//            if (mBundle != null) {
+//                try {
+//                    Object[] mPdus = (Object[]) mBundle.get("pdus");
+//                    msg = new SmsMessage[mPdus.length];
+//
+//                    for (int i = 0; i < mPdus.length; i++) {
+//                        msg[i] = SmsMessage.createFromPdu((byte[]) mPdus[i]);
+//                        smsFrom = msg[i].getOriginatingAddress();
+//                        String smsBody = msg[i].getMessageBody();
+//
+//                        Toast.makeText(MainActivity.this, "شماره: " + smsFrom + " / پیام: " + smsBody, Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        }
+
+
+
+        statusRefreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: 3/14/22 send sms
+//                statusTxt.setText("hjjh");
+                sendRefreshStatusSMS(destinationAddress);
+//                Toast.makeText(MainActivity.this, destinationAddress, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         configServerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,87 +140,89 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        startSMS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-
-                    requestSendSMSpermission();
-
-                } else {
-
-                    sendStartSMS();
-
-                }
-            }
-        });
-
-
-        stopSMS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-
-                    requestSendSMSpermission();
-
-                } else {
-
-                    sendStopSMS();
-
-                }
-            }
-        });
-
-
-        startService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                ContextCompat.startForegroundService(MainActivity.this, servIntent);
-                DataPref.saveServiceStatus(MainActivity.this, true);
-            }
-        });
-
-
-        stopService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                stopService(servIntent);
-                DataPref.saveServiceStatus(MainActivity.this, false);
-            }
-        });
-
-
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-//                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.star);
-                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.star);
-                vibrator.cancel();
-                mediaPlayer.stop();
-//                startActivity(new Intent(MainActivity.this, ActivityTwo.class));
-            }
-        });
-
-
-        vibrate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buttonVibrate(view);
-            }
-        });
-
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                startAlert(view);
+// TODO: 3/15/22 here
+//        startSMS.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
 //
-//setAlarm();
+//                    requestSendSMSpermission();
+//
+//                } else {
+//
+//                    sendStartSMS();
+//
+//                }
+//            }
+//        });
+
+// TODO: 3/15/22 here 
+//        stopSMS.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+//
+//                    requestSendSMSpermission();
+//
+//                } else {
+//
+//                    sendStopSMS();
+//
+//                }
+//            }
+//        });
 
 
-            }
-        });
+        // TODO: 3/15/22 here 
+//        startService.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                ContextCompat.startForegroundService(MainActivity.this, servIntent);
+//                DataPref.saveServiceStatus(MainActivity.this, true);
+//            }
+//        });
+
+
+        // TODO: 3/15/22 here
+//        stopService.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                stopService(servIntent);
+//                DataPref.saveServiceStatus(MainActivity.this, false);
+//            }
+//        });
+
+// TODO: 3/15/22 here
+//        stop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+////                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.star);
+//                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.star);
+//                vibrator.cancel();
+//                mediaPlayer.stop();
+////                startActivity(new Intent(MainActivity.this, ActivityTwo.class));
+//            }
+//        });
+//
+//
+//        vibrate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                buttonVibrate(view);
+//            }
+//        });
+//
+//        b1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                startAlert(view);
+////
+////setAlarm();
+//
+//
+//            }
+//        });
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
 
@@ -180,6 +252,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 // End of onCreate
+
+
+    private void configSharedP() {
+
+        this.userManagerSharedPrefs = new UserManagerSharedPrefs(this);
+//        token = userManagerSharedPrefs.getFullName();
+//        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
+//        agreed = userManagerSharedPrefs.getAgreeToTerms();
+        destinationAddress = userManagerSharedPrefs.getDestinationAddress(destinationAddress);
+    }
+
 
     public void buttonVibrate(View view) {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -217,6 +300,74 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private void sendRefreshStatusSMS(String destinationAddress) {
+
+        try {
+
+            //Broadcast for Sent SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک ارسال شد";
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            state = "یک خطای عمومی رخ داد";
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            state = "اپراتور در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            state = " پروتکل PDU در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            state = "سیم کارت در دسترس نیست";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_SENT));
+
+            //Broadcast for Delivered SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک تحویل داده شد";
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            state = "پیامک تحویل داده نشد";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_DELIVERED));
+
+            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+
+            SmsManager smsManager = SmsManager.getDefault();
+//            Toast.makeText(this, destinationAddress, Toast.LENGTH_SHORT).show();
+            String newdestination = "+98" + destinationAddress;
+            smsManager.sendTextMessage(newdestination, null, "I236E", sentSMS, deliverSMS);
+//            smsManager.sendTextMessage("+989359698705", null, "START", sentSMS, deliverSMS);
+
+            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+
+//            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
 
     private void sendStartSMS() {
 
@@ -516,6 +667,52 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_REQUEST_CODE);
 
     }
+
+
+    private void getSMSDetails() {
+        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("*********SMS History*************** :");
+            Uri uri = Uri.parse("content://sms");
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    String body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
+                            .toString();
+                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"))
+                            .toString();
+                    String date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                            .toString();
+                    Date smsDayTime = new Date(Long.valueOf(date));
+                    String type = cursor.getString(cursor.getColumnIndexOrThrow("type"))
+                            .toString();
+                    String typeOfSMS = null;
+                    switch (Integer.parseInt(type)) {
+                        case 1:
+                            typeOfSMS = "INBOX";
+                            break;
+                        case 2:
+                            typeOfSMS = "SENT";
+                            break;
+                        case 3:
+                            typeOfSMS = "DRAFT";
+                            break;
+                    }
+                    stringBuffer.append("\nPhone Number:--- " + number + " \nMessage Type:--- "
+                            + typeOfSMS + " \nMessage Date:--- " + smsDayTime
+                            + " \nMessage Body:--- " + body);
+                    stringBuffer.append("\n----------------------------------");
+                    cursor.moveToNext();
+                }
+//                smsNumberText.setText(stringBuffer);
+                Toast.makeText(this, stringBuffer, Toast.LENGTH_SHORT).show();
+            }
+            cursor.close();
+        } else {
+            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
+        }
+    }
 }
 //
 //    @Override
@@ -540,46 +737,5 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
-//    private void getSMSDetails() {
-//        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
-//            StringBuffer stringBuffer = new StringBuffer();
-//            stringBuffer.append("*********SMS History*************** :");
-//            Uri uri = Uri.parse("content://sms");
-//            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-//            if (cursor.moveToFirst()) {
-//                for (int i = 0; i < cursor.getCount(); i++) {
-//                    String body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
-//                            .toString();
-//                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"))
-//                            .toString();
-//                    String date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
-//                            .toString();
-//                    Date smsDayTime = new Date(Long.valueOf(date));
-//                    String type = cursor.getString(cursor.getColumnIndexOrThrow("type"))
-//                            .toString();
-//                    String typeOfSMS = null;
-//                    switch (Integer.parseInt(type)) {
-//                        case 1:
-//                            typeOfSMS = "INBOX";
-//                            break;
-//                        case 2:
-//                            typeOfSMS = "SENT";
-//                            break;
-//                        case 3:
-//                            typeOfSMS = "DRAFT";
-//                            break;
-//                    }
-//                    stringBuffer.append("\nPhone Number:--- " + number + " \nMessage Type:--- "
-//                            + typeOfSMS + " \nMessage Date:--- " + smsDayTime
-//                            + " \nMessage Body:--- " + body);
-//                    stringBuffer.append("\n----------------------------------");
-//                    cursor.moveToNext();
-//                }
-//                smsNumberText.setText(stringBuffer);
-//            }
-//            cursor.close();
-//        } else {
-//            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
-//        }
+
 //    }

@@ -18,15 +18,41 @@ public class UserManagerSharedPrefs {
         editor.putString("verifiedAt", verifiedAt);
         editor.apply();
     }
-    public void saveAgree(Boolean AgreeToTerms){
+
+    public void saveAgree(Boolean AgreeToTerms) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("AgreeToTerms", AgreeToTerms);
         editor.apply();
     }
 
-    public Boolean getAgreeToTerms(){
+
+    public boolean registered(Boolean registered) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("registered", registered);
+        editor.apply();
+        return registered;
+    }
+
+    public String destinationAddress(String destinationAddress){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("destinationAddress", destinationAddress);
+        editor.apply();
+        return destinationAddress;
+    }
+
+
+    public Boolean getAgreeToTerms() {
         return sharedPreferences.getBoolean("AgreeToTerms", false);
     }
+
+    public Boolean getRegistered() {
+        return sharedPreferences.getBoolean("registered", false);
+    }
+
+    public String getDestinationAddress(String destinationAddress) {
+        return sharedPreferences.getString("destinationAddress", destinationAddress);
+    }
+
     public String getVerifiedAt() {
         return sharedPreferences.getString("verifiedAt", null);
     }

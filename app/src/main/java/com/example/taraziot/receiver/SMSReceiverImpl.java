@@ -3,6 +3,7 @@ package com.example.taraziot.receiver;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.annotation.RawRes;
 
@@ -62,6 +63,17 @@ public class SMSReceiverImpl extends SMSReceiver {
 
                     startAudioService(R.raw.star, true, pattern2);
 
+                    break;
+
+
+                case "3":
+                    Bundle extras = intent.getExtras();
+                    Intent i = new Intent("broadCastName");
+                    // Data you need to pass to activity
+                    i.putExtra("message", extras.getString(message
+                    ));
+
+                    context.sendBroadcast(i);
                     break;
 
             }

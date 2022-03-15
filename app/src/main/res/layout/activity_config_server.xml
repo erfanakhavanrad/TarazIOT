@@ -32,11 +32,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    <EditText-->
+<!--        android:id="@+id/serveredt"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:hint="Ip"-->
+<!--        android:padding="15dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/slogan_name" />-->
+
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="48dp"
         android:orientation="vertical"
         android:paddingLeft="20sp"
         android:paddingRight="20sp"
@@ -59,25 +69,26 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:maxLength="11"
-                android:singleLine="true" />
+                android:singleLine="true"
+                app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="سریال دستگاه"
-            android:layoutDirection="rtl"
-            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="سریال دستگاه"-->
+        <!--            android:layoutDirection="rtl"-->
+        <!--            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtSerialNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="11"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/edtSerialNumber"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:inputType="number"-->
+        <!--                android:maxLength="11"-->
+        <!--                android:singleLine="true" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -171,40 +182,40 @@
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="شماره موبایل نفر سوم 09xxxxxxxxx"
-            android:layoutDirection="rtl"
-            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="شماره موبایل نفر سوم 09xxxxxxxxx"-->
+        <!--            android:layoutDirection="rtl"-->
+        <!--            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtThirdUserPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="11"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/edtThirdUserPhoneNumber"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:inputType="number"-->
+        <!--                android:maxLength="11"-->
+        <!--                android:singleLine="true" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="شماره موبایل نفر چهارم 09xxxxxxxxx"
-            android:layoutDirection="rtl"
-            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="شماره موبایل نفر چهارم 09xxxxxxxxx"-->
+        <!--            android:layoutDirection="rtl"-->
+        <!--            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtForthUserPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="11"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/edtFourthUserPhoneNumber"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:inputType="number"-->
+        <!--                android:maxLength="11"-->
+        <!--                android:singleLine="true" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
