@@ -3,6 +3,7 @@ package com.example.taraziot.receiver;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 
 import androidx.annotation.RawRes;
 
@@ -24,6 +25,8 @@ public class SMSReceiverImpl extends SMSReceiver {
         if (
                 isValidPhone(phone, "50004001847347") ||
                         isValidPhone(phone, "100058452000") ||
+                        isValidPhone(phone, "093559698705") ||
+                        isValidPhone(phone, "+9893559698705") ||
                         isValidPhone(phone, "09127938973") ||
                         isValidPhone(phone, "09352622917") ||
                         isValidPhone(phone, "+989352622917") ||
@@ -72,9 +75,21 @@ public class SMSReceiverImpl extends SMSReceiver {
                     break;
 
 
-                case "3":
-                    MainActivity.statusTxt.setText(message);
+                case "E56S2":
+                    MainActivity.statusTxt.setText("دستگاه روشن و فعال است");
+//                    MainActivity.statusTxt.setTextColor(Color.parseColor("#0EBF01"));
+                    break;
 
+
+                case "T2E6S":
+                    MainActivity.statusTxt.setText("دستگاه خاموش و غیر فعال است");
+                    MainActivity.statusTxt.setTextColor(Color.parseColor("#d42427"));
+                    break;
+
+
+
+
+//                    ssidName.setTextColor();
 //                    Intent i = new Intent(context, MainActivity.class);
 //                    i.putExtra("msgContent", message);
 ////                    i.putExtra("sender",from);
@@ -93,7 +108,7 @@ public class SMSReceiverImpl extends SMSReceiver {
 //                    ));
 //
 //                    context.sendBroadcast(i);
-                    break;
+
 
             }
         }

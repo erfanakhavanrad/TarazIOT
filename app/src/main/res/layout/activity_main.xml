@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+
         android:padding="10dp"
         android:text="دریافت آخرین وضعیت دستگاه"
         android:textAlignment="center"
@@ -126,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_marginTop="12dp"
-        android:text="وضعیت آماده به کار آلارم دستگاه"
+        android:text="تعیین وضعیت آماده به کار آلارم دستگاه"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp"
@@ -135,24 +136,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+
     <Button
         android:id="@+id/armAlarmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
-        android:text="آژیر آماده به کار"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/green"
+        android:backgroundTint="@color/white"
+        android:elevation="50dp"
+        android:layout_marginEnd="108dp"
+        android:text="تغییر حالت آلارم به آماده به کار"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/armedStatusTxt" />
-
 
     <Button
         android:id="@+id/disarmAlarmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="36dp"
-        android:text="آزیر در حالت غیرفعال"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="88dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/red"
+        android:elevation="50dp"
+        android:text="تغییر حالت آلارم به غیرفعال"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/armedStatusTxt" />
 
@@ -160,8 +167,8 @@
         android:id="@+id/disableAlarmSoundButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="128dp"
         android:text="قطع صدای آژیر دستگاه"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/armAlarmButton" />
