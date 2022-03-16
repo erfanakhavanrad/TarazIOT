@@ -3,17 +3,23 @@ package com.example.taraziot.receiver;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 import androidx.annotation.RawRes;
 
+import com.example.taraziot.MainActivity;
 import com.example.taraziot.R;
+import com.example.taraziot.UserManagerSharedPrefs;
 import com.example.taraziot.service.AudioService;
 
 public class SMSReceiverImpl extends SMSReceiver {
+    UserManagerSharedPrefs userManagerSharedPrefs;
+    String statusFromServer;
 
     @Override
     protected void onMessageReceived(Intent intent, String phone, String message) {
+//        public static int var1 =20;
+        configSharedP();
+
 
         if (
                 isValidPhone(phone, "50004001847347") ||
@@ -67,13 +73,26 @@ public class SMSReceiverImpl extends SMSReceiver {
 
 
                 case "3":
-                    Bundle extras = intent.getExtras();
-                    Intent i = new Intent("broadCastName");
-                    // Data you need to pass to activity
-                    i.putExtra("message", extras.getString(message
-                    ));
+                    MainActivity.statusTxt.setText(message);
 
-                    context.sendBroadcast(i);
+//                    Intent i = new Intent(context, MainActivity.class);
+//                    i.putExtra("msgContent", message);
+////                    i.putExtra("sender",from);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // adding this flag starts the new Activity in a new Task
+
+
+//                    Intent i = new Intent(context, SMSReceiverImpl.class);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    i.putExtra("message", message);
+//                    context.startActivity(i);
+//
+//                    Bundle extras = intent.getExtras();
+//                    Intent i = new Intent("broadCastName");
+//                    // Data you need to pass to activity
+//                    i.putExtra("message", extras.getString(message
+//                    ));
+//
+//                    context.sendBroadcast(i);
                     break;
 
             }
@@ -116,4 +135,14 @@ public class SMSReceiverImpl extends SMSReceiver {
                 )
         );
     }
+
+    private void configSharedP() {
+
+        this.userManagerSharedPrefs = new UserManagerSharedPrefs(context);
+//        token = userManagerSharedPrefs.getFullName();
+//        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
+//        agreed = userManagerSharedPrefs.getAgreeToTerms();
+        statusFromServer = userManagerSharedPrefs.getDestinationAddress(statusFromServer);
+    }
+
 }

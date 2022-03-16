@@ -19,6 +19,14 @@ public class UserManagerSharedPrefs {
         editor.apply();
     }
 
+
+    public void statusFromServer(String statusFromServer) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("statusFromServer", statusFromServer);
+        editor.apply();
+    }
+
+
     public void saveAgree(Boolean AgreeToTerms) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("AgreeToTerms", AgreeToTerms);
@@ -40,6 +48,10 @@ public class UserManagerSharedPrefs {
         return destinationAddress;
     }
 
+
+    public String getStatusFromServer(String statusFromServer) {
+        return sharedPreferences.getString("statusFromServer", statusFromServer);
+    }
 
     public Boolean getAgreeToTerms() {
         return sharedPreferences.getBoolean("AgreeToTerms", false);

@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/SensorImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/taraznet2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,68 +30,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SensorImage" />
 
-    <TextView
-        android:id="@+id/statusTxt"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="وضعیت دستگاه"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/statusRefreshButton" />
 
-    <TextView
-        android:id="@+id/alarmsStatusTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:text="وضعیت أارم دستگاه"
-        app:layout_constraintBottom_toTopOf="@+id/armedToggleButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusTxt"
-        app:layout_constraintVertical_bias="1.0" />
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/linearLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="10dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/statusTxt">-->
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/armedToggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:defaultFocusHighlightEnabled="true"
-        android:focusedByDefault="true"
-        app:checkedButton="@+id/button1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusTxt"
-        app:singleSelection="true">
 
-        <Button
-            android:id="@+id/buttonMaleGender"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:defaultFocusHighlightEnabled="true"
-            android:focusedByDefault="true"
-            android:text="مرد" />
+    <!--        <com.google.android.material.button.MaterialButtonToggleGroup-->
+    <!--            android:id="@+id/armedToggleButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
 
-        <Button
-            android:id="@+id/buttonFemaleGender"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="زن" />
+    <!--            android:layout_gravity="center"-->
+    <!--            android:defaultFocusHighlightEnabled="true"-->
+    <!--            android:focusedByDefault="true"-->
+    <!--            android:gravity="center"-->
+    <!--            app:checkedButton="@+id/button1"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/alarmsStatusTxt"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/statusTxt"-->
+    <!--            app:singleSelection="true">-->
 
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+    <!--            <Button-->
+    <!--                android:id="@+id/button"-->
+    <!--                style="?attr/materialButtonOutlinedStyle"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:defaultFocusHighlightEnabled="true"-->
+    <!--                android:focusedByDefault="true"-->
+    <!--                android:text="غیرفعال" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="قطع صدای آژیر دستگاه"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/armedToggleButton" />
+    <!--            <Button-->
+    <!--                android:id="@+id/buttonFemaleGender"-->
+    <!--                style="?attr/materialButtonOutlinedStyle"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="10dp"-->
+    <!--                android:text="فعال" />-->
+
+    <!--        </com.google.android.material.button.MaterialButtonToggleGroup>-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/alarmsStatusTxt"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:layout_marginLeft="5dp"-->
+    <!--            android:text="وضعیت آماده به کار آلارم دستگاه"-->
+    <!--            android:textSize="18sp"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/statusTxt" />-->
+    <!--    </LinearLayout>-->
 
 
     <!--    <Button-->
@@ -102,14 +98,83 @@
     <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-        <Button
-            android:layout_width="40dp"
-            android:id="@+id/configServerBtn"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_baseline_settings_input_antenna_24"
-            android:padding="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/statusTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="52dp"
+        android:text="وضعیت دستگاه "
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusRefreshButton" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusTxt" />
+
+    <TextView
+        android:id="@+id/armedStatusTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="12dp"
+        android:text="وضعیت آماده به کار آلارم دستگاه"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/armAlarmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:text="آژیر آماده به کار"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/armedStatusTxt" />
+
+
+    <Button
+        android:id="@+id/disarmAlarmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="36dp"
+        android:text="آزیر در حالت غیرفعال"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/armedStatusTxt" />
+
+    <Button
+        android:id="@+id/disableAlarmSoundButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="12dp"
+        android:text="قطع صدای آژیر دستگاه"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/armAlarmButton" />
+
+    <Button
+        android:id="@+id/configServerBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_baseline_settings_input_antenna_24"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
     <!--    <EditText-->

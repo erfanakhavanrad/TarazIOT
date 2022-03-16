@@ -32,8 +32,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton;
-    TextView smsNumberText, statusTxt;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, armAlarmButton, disarmAlarmButton;
+ public static TextView smsNumberText, statusTxt, armedStatusTxt;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
     String SMS_SENT = "SMS_SENT";
@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private final long interval = 1000;
     Intent servIntent;
     UserManagerSharedPrefs userManagerSharedPrefs;
-    String destinationAddress, lasrrrrrrrr;
+    String destinationAddress, statusFromServer;
+
 //    SMSReceiverImpl smsReceiver = new SMSReceiverImpl();
 
 
@@ -66,7 +67,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         statusRefreshButton = findViewById(R.id.statusRefreshButton);
         statusTxt = findViewById(R.id.statusTxt);
+        armedStatusTxt = findViewById(R.id.armedStatusTxt);
+        armAlarmButton = findViewById(R.id.armAlarmButton);
+        disarmAlarmButton = findViewById(R.id.disarmAlarmButton);
         requestSendSMSpermission();
+
+
+
+
 //        registerReceiver(smsReceiver, new IntentFilter("broadCastName"));
 
         // old views
@@ -125,9 +133,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: 3/14/22 send sms
+
+
+
+
 //                statusTxt.setText("hjjh");
                 sendRefreshStatusSMS(destinationAddress);
+//                Intent intent = getIntent();
+//                String message = intent.getStringExtra("message");
+//                Toast.makeText(MainActivity.this, "MAin "+ message, Toast.LENGTH_SHORT).show();
 //                Toast.makeText(MainActivity.this, destinationAddress, Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -261,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
 //        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
 //        agreed = userManagerSharedPrefs.getAgreeToTerms();
         destinationAddress = userManagerSharedPrefs.getDestinationAddress(destinationAddress);
+        statusFromServer = userManagerSharedPrefs.getStatusFromServer(statusFromServer);
     }
 
 
