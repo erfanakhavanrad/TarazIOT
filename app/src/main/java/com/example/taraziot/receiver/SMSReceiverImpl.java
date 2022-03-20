@@ -27,6 +27,7 @@ public class SMSReceiverImpl extends SMSReceiver {
                 isValidPhone(phone, "093559698705") ||
                 isValidPhone(phone, "+9893559698705") ||
                 isValidPhone(phone, "09127938973") ||
+                isValidPhone(phone, "+989127938973") ||
                 isValidPhone(phone, "09352622917") ||
                 isValidPhone(phone, "+989352622917") ||
                 isValidPhone(phone, "+989368810895") ||
@@ -41,8 +42,6 @@ public class SMSReceiverImpl extends SMSReceiver {
                 isValidPhone(phone, "+989368810519") ||
                 isValidPhone(phone, "09368810280") ||
                 isValidPhone(phone, "+989368810280") ||
-                isValidPhone(phone, "+989198290411") ||
-                isValidPhone(phone, "09198290411") ||
                 isValidPhone(phone, "+989353368463") ||
                 isValidPhone(phone, "09353368463")
         ) {

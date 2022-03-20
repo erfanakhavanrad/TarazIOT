@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         disarmAlarmButton = findViewById(R.id.disarmAlarmButton);
         disableAlarmSoundButton = findViewById(R.id.disableAlarmSoundButton);
         configServerBtn = findViewById(R.id.configServerBtn);
-destinationAddress = "9198290411";
+destinationAddress = "9127938973";
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.SEND_SMS)) {

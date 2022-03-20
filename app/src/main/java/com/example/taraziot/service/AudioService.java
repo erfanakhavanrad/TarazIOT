@@ -123,11 +123,11 @@ public class AudioService extends Service {
         );
 
         return new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("this is a title")
-                .setContentText("this is a text")
-                .setSmallIcon(android.R.drawable.ic_dialog_email)
+                .setContentTitle("دزدگیر به کار افتاده است")
+                .setContentText("سریعا محل را چک کنید")
+                .setSmallIcon(android.R.drawable.stat_sys_warning)
                 .addAction(
-                        android.R.drawable.ic_media_pause, "Stop",
+                        android.R.drawable.ic_media_pause, "قطع صدای موبایل",
                         pendingIntent
                 )
                 .build();
