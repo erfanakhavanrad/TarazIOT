@@ -90,7 +90,7 @@ public class SMSReceiverImpl extends SMSReceiver {
 
                 case "E56S2":
                     MainActivity.statusTxt.setText("دستگاه روشن و فعال است");
-//                    MainActivity.statusTxt.setTextColor(Color.parseColor("#0EBF01"));
+                    MainActivity.statusTxt.setTextColor(Color.parseColor("#0EBF01"));
                     break;
 
 
