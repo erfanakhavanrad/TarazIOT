@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     Intent servIntent;
     UserManagerSharedPrefs userManagerSharedPrefs;
     String destinationAddress, statusFromServer;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
 
 //    SMSReceiverImpl smsReceiver = new SMSReceiverImpl();
 
@@ -74,10 +75,36 @@ public class MainActivity extends AppCompatActivity {
         disarmAlarmButton = findViewById(R.id.disarmAlarmButton);
         disableAlarmSoundButton = findViewById(R.id.disableAlarmSoundButton);
         configServerBtn = findViewById(R.id.configServerBtn);
+destinationAddress = "9198290411";
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+            }
+        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             requestSendSMSpermission();
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+            }
+    }
         else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+            }
             SMSReceiverImpl smsListener = new SMSReceiverImpl();
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
@@ -109,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 //        countDownTimer = new MyTimer(startTime, interval);
 
 //        getSMSDetails();
-        configSharedP();
+//        configSharedP();
 //        Toast.makeText(this, lasrrrrrrrr, Toast.LENGTH_SHORT).show();
 
 //        Intent intent = new Intent();
