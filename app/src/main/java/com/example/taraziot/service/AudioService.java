@@ -56,13 +56,12 @@ public class AudioService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        vibrateRunnable = null;
-        handler = null;
-
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+            vibrateRunnable = null;
+            handler = null;
         }
     }
 
@@ -164,7 +163,8 @@ public class AudioService extends Service {
                 // vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
             }
 
-            handler.postDelayed(this, 2000);
+            if (handler != null)
+                handler.postDelayed(this, 2000);
         }
     }
 

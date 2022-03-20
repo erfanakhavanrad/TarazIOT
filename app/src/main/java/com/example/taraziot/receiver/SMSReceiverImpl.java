@@ -22,8 +22,7 @@ public class SMSReceiverImpl extends SMSReceiver {
         configSharedP();
 
 
-        if (
-                isValidPhone(phone, "50004001847347") ||
+        if (isValidPhone(phone, "50004001847347") ||
                         isValidPhone(phone, "100058452000") ||
                         isValidPhone(phone, "093559698705") ||
                         isValidPhone(phone, "+9893559698705") ||

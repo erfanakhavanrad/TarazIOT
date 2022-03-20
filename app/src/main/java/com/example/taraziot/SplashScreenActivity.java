@@ -50,7 +50,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 //                startActivity(intent1);
 //                finish();
                 if (!registered) {
-                    Intent intent = new Intent(SplashScreenActivity.this, ConfigServerActivity.class);
+                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+//                    Intent intent = new Intent(SplashScreenActivity.this, ConfigServerActivity.class);
                     startActivity(intent);
                     finish();
 

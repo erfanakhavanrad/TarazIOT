@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -27,6 +28,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.example.taraziot.receiver.SMSReceiverImpl;
 
 import java.util.Date;
 
@@ -60,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,14 @@ public class MainActivity extends AppCompatActivity {
         disableAlarmSoundButton = findViewById(R.id.disableAlarmSoundButton);
         configServerBtn = findViewById(R.id.configServerBtn);
 
-        requestSendSMSpermission();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            requestSendSMSpermission();
+        else {
+            SMSReceiverImpl smsListener = new SMSReceiverImpl();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
+            registerReceiver(smsListener, intentFilter);
+        }
 //reqPermission();
 //reqPermission2();
 //requestReceiveSMSPermission();
@@ -291,7 +300,6 @@ public class MainActivity extends AppCompatActivity {
     }
 // End of onCreate
 
-
     private void configSharedP() {
 
         this.userManagerSharedPrefs = new UserManagerSharedPrefs(this);
@@ -301,7 +309,6 @@ public class MainActivity extends AppCompatActivity {
         destinationAddress = userManagerSharedPrefs.getDestinationAddress(destinationAddress);
         statusFromServer = userManagerSharedPrefs.getStatusFromServer(statusFromServer);
     }
-
 
     public void buttonVibrate(View view) {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -406,7 +413,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
     private void sendDisarmAlarmSMS(String destinationAddress) {
 
@@ -544,7 +550,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     private void sendRefreshStatusSMS(String destinationAddress) {
 
         try {
@@ -678,7 +683,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     private void sendStopSMS() {
 
         try {
@@ -743,7 +747,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
     private void sendMessage() {
 
@@ -837,7 +840,10 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            reqPermission2();
+            SMSReceiverImpl smsListener = new SMSReceiverImpl();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
+            registerReceiver(smsListener, intentFilter);
 
         }
 
@@ -858,6 +864,10 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
 //                sendMessage();
+                SMSReceiverImpl smsListener = new SMSReceiverImpl();
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
+                registerReceiver(smsListener, intentFilter);
 
             } else {
 
@@ -878,7 +888,7 @@ public class MainActivity extends AppCompatActivity {
 
             new AlertDialog.Builder(this)
                     .setTitle("درخواست مجوز")
-                    .setMessage("برای عملکرد صحیح برنامه باید دسترسی به دریافت پیامکتایید شود")
+                    .setMessage("برای عملکرد صحیح برنامه باید دسترسی به دریافت پیامک تایید شود")
                     .setPositiveButton("موافقم", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
