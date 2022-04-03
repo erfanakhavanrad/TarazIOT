@@ -49,6 +49,7 @@ public class SMSReceiverImpl extends SMSReceiver {
             switch (message) {
 
                 case "ZSU21":
+                case "1":
 
                     if (isServiceRunning(AudioService.class)) {
                         stopAudioService();
