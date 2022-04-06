@@ -106,34 +106,109 @@ public class ConfigServerActivity extends AppCompatActivity {
                 String[] values = {simCard, adminPhoneNumber, password, confirmPassword};
 
                 Boolean valid = true;
+//                int validNumber = 1;
                 for (int i = 0; i < values.length; i++) {
                     if (TextUtils.isEmpty(values[i])) {
                         valid = false;
+//                        validNumber = 0;
                         break;
                     }
 //                    System.out.println(valid);
                 }
 
 
+                Boolean passwordValid = false;
+                //start
                 if (valid) {
+                    if (password.equals(confirmPassword)) {
+                        passwordValid = true;
+
+                    } else {
+                        passwordValid = false;
+                    }
 //                    String message = edtSimCard.getText().toString().trim();
 //                    String mainMessage = "$" + "simCard:" + simCard + ",adminPhoneNumber:" + adminPhoneNumber + ",password:" + password + ",confirmPassword:" + confirmPassword +
 //                            ",firstUserPhoneNumber:" + firstUserPhoneNumber + ",secondUserPhoneNumber:" + secondUserPhoneNumber +
 //                            ",thirdUserPhoneNumber:" + thirdUserPhoneNumber + ",fourthUserPhoneNumber:" + fourthUserPhoneNumber + "$";
-                    mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + confirmPassword +
-                            ",5:" + firstUserPhoneNumber + ",6:" + secondUserPhoneNumber + "$";
-                    new Thread(new Thread3(mainMessage)).start();
+                    if (passwordValid && valid) {
+//                       mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + confirmPassword +
+//                               ",5:" + firstUserPhoneNumber + ",6:" + secondUserPhoneNumber + "$";
 
+                        mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + firstUserPhoneNumber + ",5:" + secondUserPhoneNumber + "$";
+                        new Thread(new Thread3(mainMessage)).start();
+                    } else {
+                        Toast.makeText(context, "مقادیر رمز یکسان نیستند", Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
                     Toast.makeText(ConfigServerActivity.this, "فیلدهای اجباری را پر کنید", Toast.LENGTH_SHORT).show();
 //                    passwordLayout.error = getString(R.string.error)
-                    edtSimCard.setError("اجباری");
-                    edtAdminPhoneNumber.setError("اجباری");
-                    edtPassword.setError("اجباری");
-                    edtConfirmPassword.setError("اجباری");
+//                    edtSimCard.setError("اجباری");
+//                    edtAdminPhoneNumber.setError("اجباری");
+//                    edtPassword.setError("اجباری");
+//                    edtConfirmPassword.setError("اجباری");
+
+                    if (TextUtils.isEmpty(edtSimCard.getText())) {
+                        edtSimCard.setError("اجباری");
+                    }
+                    if (TextUtils.isEmpty(edtAdminPhoneNumber.getText())) {
+                        edtAdminPhoneNumber.setError("اجباری");
+                    }
+                    if (TextUtils.isEmpty(edtPassword.getText())) {
+                        edtPassword.setError("اجباری");
+                    }
+
+                    if (TextUtils.isEmpty(edtConfirmPassword.getText())) {
+                        edtConfirmPassword.setError("اجباری");
+                    }
 
                 }
+                //end
+
+//                second method start
+//                switch (validNumber) {
+//                    case 1:
+////                    if (password.equals(confirmPassword)){
+////                        passwordValid = true;
+////                    } else{
+////                        valid = false;
+////                    }
+////                    String message = edtSimCard.getText().toString().trim();
+////                    String mainMessage = "$" + "simCard:" + simCard + ",adminPhoneNumber:" + adminPhoneNumber + ",password:" + password + ",confirmPassword:" + confirmPassword +
+////                            ",firstUserPhoneNumber:" + firstUserPhoneNumber + ",secondUserPhoneNumber:" + secondUserPhoneNumber +
+////                            ",thirdUserPhoneNumber:" + thirdUserPhoneNumber + ",fourthUserPhoneNumber:" + fourthUserPhoneNumber + "$";
+//                        if (password.equals(confirmPassword)) {
+//                            mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + confirmPassword +
+//                                    ",5:" + firstUserPhoneNumber + ",6:" + secondUserPhoneNumber + "$";
+//                            new Thread(new Thread3(mainMessage)).start();
+//                            break;
+//                        } else {
+//                            Toast.makeText(context, "مقادیر رمز یکسان نیستند", Toast.LENGTH_SHORT).show();
+//                            break;
+//                        }
+////                    valid = true;
+//                    case 0:
+//                        Toast.makeText(ConfigServerActivity.this, "فیلدهای اجباری را پر کنید", Toast.LENGTH_SHORT).show();
+////                    passwordLayout.error = getString(R.string.error)
+//
+//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
+//                                edtSimCard.setError("اجباری");
+//                            }
+//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
+//                                edtAdminPhoneNumber.setError("اجباری");
+//                            }
+//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
+//                                edtPassword.setError("اجباری");
+//                            }
+//
+//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
+//                                edtConfirmPassword.setError("اجباری");
+//                            }
+//
+//
+//                }
+// second method end
+
             }
         });
 
@@ -154,6 +229,7 @@ public class ConfigServerActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         ssidName.setText("متصل به دستگاه\n");
+                        btnConfig.setEnabled(true);
 //                        ssidName.setBackgroundColor(Color.parseColor("#E0FFEB"));
                         ssidName.setTextColor(Color.parseColor("#0EBF01"));
                     }

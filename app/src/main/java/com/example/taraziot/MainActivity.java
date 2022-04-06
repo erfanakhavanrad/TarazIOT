@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     Intent servIntent;
     UserManagerSharedPrefs userManagerSharedPrefs;
     String destinationAddress, statusFromServer;
-    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
 //    SMSReceiverImpl smsReceiver = new SMSReceiverImpl();
@@ -83,8 +83,9 @@ public class MainActivity extends AppCompatActivity {
         disableAlarmSoundButton = findViewById(R.id.disableAlarmSoundButton);
         configServerBtn = findViewById(R.id.configServerBtn);
 //destinationAddress = "9127938973";
-destinationAddress = "9944420283";
-checkAndRequestPermissions();
+//destinationAddress = "9944420283";
+
+        checkAndRequestPermissions();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.SEND_SMS)) {
@@ -96,7 +97,7 @@ checkAndRequestPermissions();
         }
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestSendSMSpermission();
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.SEND_SMS)) {
@@ -105,8 +106,7 @@ checkAndRequestPermissions();
                         new String[]{Manifest.permission.SEND_SMS},
                         MY_PERMISSIONS_REQUEST_SEND_SMS);
             }
-    }
-        else {
+        } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.SEND_SMS)) {
             } else {
@@ -173,19 +173,23 @@ checkAndRequestPermissions();
 //            }
 //
 //        }
-
+        configSharedP();
+       String modifiedDestinationAddress = destinationAddress.substring(1);
+//        destinationAddress.substring(1,3);
+//        destinationAddress = "awdwad";
+//        Toast.makeText(this, modified, Toast.LENGTH_SHORT).show();
 
         disableAlarmSoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendDisableAlarmSoundSMS(destinationAddress);
+                sendDisableAlarmSoundSMS(modifiedDestinationAddress);
             }
         });
 
         disarmAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendDisarmAlarmSMS(destinationAddress);
+                sendDisarmAlarmSMS(modifiedDestinationAddress);
             }
         });
 
@@ -193,7 +197,7 @@ checkAndRequestPermissions();
         armAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendArmAlarmSMS(destinationAddress);
+                sendArmAlarmSMS(modifiedDestinationAddress);
             }
         });
 
@@ -205,7 +209,7 @@ checkAndRequestPermissions();
 
 
 //                statusTxt.setText("hjjh");
-                sendRefreshStatusSMS(destinationAddress);
+                sendRefreshStatusSMS(modifiedDestinationAddress);
 //                Intent intent = getIntent();
 //                String message = intent.getStringExtra("message");
 //                Toast.makeText(MainActivity.this, "MAin "+ message, Toast.LENGTH_SHORT).show();
@@ -312,8 +316,8 @@ checkAndRequestPermissions();
             requestReceiveSMSPermission();
 
         } else {
-
-            Toast.makeText(this, "مجوز قبلا دریافت شده", Toast.LENGTH_SHORT).show();
+//here
+//            Toast.makeText(this, "مجوز قبلا دریافت شده", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -891,7 +895,7 @@ checkAndRequestPermissions();
 
     }
 
-    private  boolean checkAndRequestPermissions() {
+    private boolean checkAndRequestPermissions() {
         int permissionSendMessage = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS);
         int receiveSMSPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
@@ -907,7 +911,7 @@ checkAndRequestPermissions();
             listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
         }
         if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
         return true;
@@ -942,7 +946,7 @@ checkAndRequestPermissions();
 //                        // shouldShowRequestPermissionRationale will return true
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS) ||
-                        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)
                         ) {
 //
                             new AlertDialog.Builder(this)

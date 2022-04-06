@@ -14,25 +14,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:text="برای ادامه اطلاعات خود را وارد کنید"
+        android:text="جهت تنطبم دستگاه، اطلاعات خود را وارد کنید"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/ssidName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:text="ارتباط با دستگاه قطع است"
-        android:textColor="@color/red"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <EditText-->
+    <!--    <EditText-->
 <!--        android:id="@+id/serveredt"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="50dp"-->
@@ -42,11 +30,26 @@
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/slogan_name" />-->
 
+    <TextView
+        android:id="@+id/ssidName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="1dp"
+        android:text="ارتباط با دستگاه قطع است"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="92dp"
         android:orientation="vertical"
         android:paddingLeft="20sp"
         android:paddingRight="20sp"
@@ -59,7 +62,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="شماره سیم کارت سرور 09xxxxxxxxx"
+            android:hint="شماره سیم کارت دستگاه 09xxxxxxxxx"
             android:layoutDirection="rtl"
             app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
 
@@ -95,7 +98,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="شماره موبایل ادمین 09xxxxxxxxx"
+            android:hint="شماره همراه ادمین 09xxxxxxxxx"
             android:layoutDirection="rtl"
             app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
 
@@ -152,7 +155,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="شماره موبایل نفر اول 09xxxxxxxxx"
+            android:hint="شماره موبایل اول 09xxxxxxxxx"
             android:layoutDirection="rtl"
             app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
 
@@ -169,7 +172,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="شماره موبایل نفر دوم 09xxxxxxxxx"
+            android:hint="شماره موبایل دوم 09xxxxxxxxx"
             android:layoutDirection="rtl"
             app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
 
@@ -242,6 +245,7 @@
                 android:layout_weight="2"
                 android:backgroundTint="@color/blue"
                 android:elevation="0dp"
+                android:enabled="false"
                 android:text="ثبت اطلاعات"
                 android:textAllCaps="false"
                 android:textSize="25sp" />

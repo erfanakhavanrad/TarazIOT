@@ -14,36 +14,40 @@ import com.example.taraziot.service.AudioService;
 
 public class SMSReceiverImpl extends SMSReceiver {
     UserManagerSharedPrefs userManagerSharedPrefs;
-    String statusFromServer;
+    String statusFromServer, statusFromServer98;
 
     @Override
     protected void onMessageReceived(Intent intent, String phone, String message) {
 //        public static int var1 =20;
         configSharedP();
-
-
-        if (isValidPhone(phone, "50004001847347") ||
-                isValidPhone(phone, "100058452000") ||
-                isValidPhone(phone, "093559698705") ||
-                isValidPhone(phone, "+9893559698705") ||
-                isValidPhone(phone, "09127938973") ||
-                isValidPhone(phone, "+989127938973") ||
-                isValidPhone(phone, "09352622917") ||
-                isValidPhone(phone, "+989352622917") ||
-                isValidPhone(phone, "+989368810895") ||
-                isValidPhone(phone, "09368810895") ||
-                isValidPhone(phone, "09368810941") ||
-                isValidPhone(phone, "+989368810941") ||
-                isValidPhone(phone, "09368810718") ||
-                isValidPhone(phone, "+989368810718") ||
-                isValidPhone(phone, "09368810138") ||
-                isValidPhone(phone, "+989368810138") ||
-                isValidPhone(phone, "09368810519") ||
-                isValidPhone(phone, "+989368810519") ||
-                isValidPhone(phone, "09368810280") ||
-                isValidPhone(phone, "+989368810280") ||
-                isValidPhone(phone, "+989353368463") ||
-                isValidPhone(phone, "09353368463")
+        configSharedP98();
+//        if (isValidPhone(phone, "50004001847347") ||
+//                isValidPhone(phone, "100058452000") ||
+//                isValidPhone(phone, "093559698705") ||
+//                isValidPhone(phone, "+9893559698705") ||
+//                isValidPhone(phone, "09127938973") ||
+//                isValidPhone(phone, "+989127938973") ||
+//                isValidPhone(phone, "09352622917") ||
+//                isValidPhone(phone, "+989352622917") ||
+//                isValidPhone(phone, "+989368810895") ||
+//                isValidPhone(phone, "09368810895") ||
+//                isValidPhone(phone, "09368810941") ||
+//                isValidPhone(phone, "+989368810941") ||
+//                isValidPhone(phone, "09368810718") ||
+//                isValidPhone(phone, "+989368810718") ||
+//                isValidPhone(phone, "09368810138") ||
+//                isValidPhone(phone, "+989368810138") ||
+//                isValidPhone(phone, "09368810519") ||
+//                isValidPhone(phone, "+989368810519") ||
+//                isValidPhone(phone, "09368810280") ||
+//                isValidPhone(phone, "+989368810280") ||
+//                isValidPhone(phone, "+989353368463") ||
+//                isValidPhone(phone, "09353368463")
+//        )
+        statusFromServer98 = statusFromServer98.substring(1);
+        statusFromServer98 = "+98" + statusFromServer98;
+        if (isValidPhone(phone, statusFromServer) ||
+                isValidPhone(phone, statusFromServer98)
         ) {
 
             switch (message) {
@@ -98,8 +102,6 @@ public class SMSReceiverImpl extends SMSReceiver {
                     MainActivity.statusTxt.setText("دستگاه خاموش و غیر فعال است");
                     MainActivity.statusTxt.setTextColor(Color.parseColor("#d42427"));
                     break;
-
-
 
 
 //                    ssidName.setTextColor();
@@ -171,6 +173,15 @@ public class SMSReceiverImpl extends SMSReceiver {
 //        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
 //        agreed = userManagerSharedPrefs.getAgreeToTerms();
         statusFromServer = userManagerSharedPrefs.getDestinationAddress(statusFromServer);
+    }
+
+    private void configSharedP98() {
+
+        this.userManagerSharedPrefs = new UserManagerSharedPrefs(context);
+//        token = userManagerSharedPrefs.getFullName();
+//        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
+//        agreed = userManagerSharedPrefs.getAgreeToTerms();
+        statusFromServer98 = userManagerSharedPrefs.getDestinationAddress(statusFromServer98);
     }
 
 }
