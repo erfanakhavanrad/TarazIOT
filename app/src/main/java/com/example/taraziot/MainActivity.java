@@ -41,7 +41,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, armAlarmButton, disarmAlarmButton, disableAlarmSoundButton;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, armAlarmButton, disarmAlarmButton, disableAlarmSoundButton, deleteInfoBtn;
     public static TextView smsNumberText, statusTxt, armedStatusTxt;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
         disarmAlarmButton = findViewById(R.id.disarmAlarmButton);
         disableAlarmSoundButton = findViewById(R.id.disableAlarmSoundButton);
         configServerBtn = findViewById(R.id.configServerBtn);
+        deleteInfoBtn = findViewById(R.id.deleteInfoBtn);
 //destinationAddress = "9127938973";
 //destinationAddress = "9944420283";
-
         checkAndRequestPermissions();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //        }
         configSharedP();
-       String modifiedDestinationAddress = destinationAddress.substring(1);
+        String modifiedDestinationAddress = destinationAddress.substring(1);
 //        destinationAddress.substring(1,3);
 //        destinationAddress = "awdwad";
 //        Toast.makeText(this, modified, Toast.LENGTH_SHORT).show();
@@ -218,6 +218,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        deleteInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("خروج از حساب")
+                        .setMessage("آیا میخواهید از حساب کاربری خود خارج شوید؟")
+                        .setPositiveButton("موافقم", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                userManagerSharedPrefs.clearAllInformation();
+                                Intent intent = new Intent(MainActivity.this, ConfigServerActivity.class);
+                                startActivity(intent);
+                                finish();
+
+//                                System.exit(0);
+
+                            }
+                        })
+                        .setNegativeButton("لغو", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                dialogInterface.dismiss();
+
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        });
 
         configServerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1106,6 +1138,8 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
         }
     }
+
+
 }
 //
 //    @Override
