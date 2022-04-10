@@ -69,16 +69,18 @@ public class ConfigServerActivity extends AppCompatActivity {
 // cut the last octet from ip (if you want to keep the . at the end, add 1 to the second parameter
         String firstThreeOctets = ip.substring(0, ip.lastIndexOf(".")); // 192.168.1
 
-        String lastOctet = ip.substring(ip.lastIndexOf(".") + 1); // 97
+//        String lastOctet = ip.substring(ip.lastIndexOf(".") + 1); // 97
 //        Toast.makeText(context, "Second " + lastOctet, Toast.LENGTH_SHORT).show();
         String newIp = firstThreeOctets + ".1"; // 192.168.1.100
 //        Toast.makeText(context, "Third " + newIp, Toast.LENGTH_SHORT).show();
 //        Toast.makeText(context, "ip: " + ip, Toast.LENGTH_SHORT).show();
 //        SERVER_IP = "192.168.43.111";
-        SERVER_IP = "192.168.43.111";
+//        SERVER_IP = "192.168.43.111";
 
 //                SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
 //        SERVER_IP = newIp;
+        SERVER_IP = "192.168.0.100";
+//        SERVER_IP =
 //        SERVER_IP = serveredt.getText().toString().trim();
 //        Toast.makeText(context, "in", Toast.LENGTH_SHORT).show();
         SERVER_PORT = 8888;
@@ -133,8 +135,12 @@ public class ConfigServerActivity extends AppCompatActivity {
                     if (passwordValid && valid) {
 //                       mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + confirmPassword +
 //                               ",5:" + firstUserPhoneNumber + ",6:" + secondUserPhoneNumber + "$";
-
-                        mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + firstUserPhoneNumber + ",5:" + secondUserPhoneNumber + "$";
+//                        beware
+//                        mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + firstUserPhoneNumber + ",5:" + secondUserPhoneNumber + "$";
+                        mainMessage = "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + firstUserPhoneNumber + ",4:" + secondUserPhoneNumber + ",5:" + password;
+                        mainMessage = mainMessage.replaceAll("\\s+", "");
+                        mainMessage = mainMessage.trim();
+                        mainMessage = mainMessage + System.lineSeparator();
                         new Thread(new Thread3(mainMessage)).start();
                     } else {
                         Toast.makeText(context, "مقادیر رمز یکسان نیستند", Toast.LENGTH_SHORT).show();
