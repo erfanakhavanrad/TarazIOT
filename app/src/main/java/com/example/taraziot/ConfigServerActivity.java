@@ -2,6 +2,7 @@ package com.example.taraziot;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ public class ConfigServerActivity extends AppCompatActivity {
     TextInputEditText edtSimCard, edtSerialNumber, edtAdminPhoneNumber, edtPassword, edtConfirmPassword,
             edtFirstUserPhoneNumber, edtSecondUserPhoneNumber;
     //    edtThirdUserPhoneNumber, edtFourthUserPhoneNumber;
-    Button btnConfig;
+    Button btnConfig, btnTest;
     String SERVER_IP, mainMessage,
             simCard, serialNumber, adminPhoneNumber, password, confirmPassword, firstUserPhoneNumber, secondUserPhoneNumber,
             thirdUserPhoneNumber, fourthUserPhoneNumber;
@@ -55,6 +56,7 @@ public class ConfigServerActivity extends AppCompatActivity {
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         edtFirstUserPhoneNumber = findViewById(R.id.edtFirstUserPhoneNumber);
         edtSecondUserPhoneNumber = findViewById(R.id.edtSecondUserPhoneNumber);
+        btnTest = findViewById(R.id.btntest);
 //        edtThirdUserPhoneNumber = findViewById(R.id.edtThirdUserPhoneNumber);
 //        edtFourthUserPhoneNumber = findViewById(R.id.edtFourthUserPhoneNumber);
         btnConfig = findViewById(R.id.btnConfig);
@@ -86,6 +88,15 @@ public class ConfigServerActivity extends AppCompatActivity {
         SERVER_PORT = 8888;
         Thread1 = new Thread(new Thread1());
         Thread1.start();
+
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ConfigServerActivity.this, ConfigSensorActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,15 +139,7 @@ public class ConfigServerActivity extends AppCompatActivity {
                     } else {
                         passwordValid = false;
                     }
-//                    String message = edtSimCard.getText().toString().trim();
-//                    String mainMessage = "$" + "simCard:" + simCard + ",adminPhoneNumber:" + adminPhoneNumber + ",password:" + password + ",confirmPassword:" + confirmPassword +
-//                            ",firstUserPhoneNumber:" + firstUserPhoneNumber + ",secondUserPhoneNumber:" + secondUserPhoneNumber +
-//                            ",thirdUserPhoneNumber:" + thirdUserPhoneNumber + ",fourthUserPhoneNumber:" + fourthUserPhoneNumber + "$";
                     if (passwordValid && valid) {
-//                       mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + confirmPassword +
-//                               ",5:" + firstUserPhoneNumber + ",6:" + secondUserPhoneNumber + "$";
-//                        beware
-//                        mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + firstUserPhoneNumber + ",5:" + secondUserPhoneNumber + "$";
                         mainMessage = "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + firstUserPhoneNumber + ",4:" + secondUserPhoneNumber + ",5:" + password;
                         mainMessage = mainMessage.replaceAll("\\s+", "");
                         mainMessage = mainMessage.trim();
@@ -148,11 +151,6 @@ public class ConfigServerActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(ConfigServerActivity.this, "فیلدهای اجباری را پر کنید", Toast.LENGTH_SHORT).show();
-//                    passwordLayout.error = getString(R.string.error)
-//                    edtSimCard.setError("اجباری");
-//                    edtAdminPhoneNumber.setError("اجباری");
-//                    edtPassword.setError("اجباری");
-//                    edtConfirmPassword.setError("اجباری");
 
                     if (TextUtils.isEmpty(edtSimCard.getText())) {
                         edtSimCard.setError("اجباری");
@@ -170,55 +168,8 @@ public class ConfigServerActivity extends AppCompatActivity {
 
                 }
                 //end
-
-//                second method start
-//                switch (validNumber) {
-//                    case 1:
-////                    if (password.equals(confirmPassword)){
-////                        passwordValid = true;
-////                    } else{
-////                        valid = false;
-////                    }
-////                    String message = edtSimCard.getText().toString().trim();
-////                    String mainMessage = "$" + "simCard:" + simCard + ",adminPhoneNumber:" + adminPhoneNumber + ",password:" + password + ",confirmPassword:" + confirmPassword +
-////                            ",firstUserPhoneNumber:" + firstUserPhoneNumber + ",secondUserPhoneNumber:" + secondUserPhoneNumber +
-////                            ",thirdUserPhoneNumber:" + thirdUserPhoneNumber + ",fourthUserPhoneNumber:" + fourthUserPhoneNumber + "$";
-//                        if (password.equals(confirmPassword)) {
-//                            mainMessage = "$" + "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + password + ",4:" + confirmPassword +
-//                                    ",5:" + firstUserPhoneNumber + ",6:" + secondUserPhoneNumber + "$";
-//                            new Thread(new Thread3(mainMessage)).start();
-//                            break;
-//                        } else {
-//                            Toast.makeText(context, "مقادیر رمز یکسان نیستند", Toast.LENGTH_SHORT).show();
-//                            break;
-//                        }
-////                    valid = true;
-//                    case 0:
-//                        Toast.makeText(ConfigServerActivity.this, "فیلدهای اجباری را پر کنید", Toast.LENGTH_SHORT).show();
-////                    passwordLayout.error = getString(R.string.error)
-//
-//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
-//                                edtSimCard.setError("اجباری");
-//                            }
-//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
-//                                edtAdminPhoneNumber.setError("اجباری");
-//                            }
-//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
-//                                edtPassword.setError("اجباری");
-//                            }
-//
-//                            if (TextUtils.isEmpty(edtSimCard.getText())) {
-//                                edtConfirmPassword.setError("اجباری");
-//                            }
-//
-//
-//                }
-// second method end
-
             }
         });
-
-
     }
 
     private PrintWriter output;
@@ -257,26 +208,15 @@ public class ConfigServerActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-//                                ssidName.append("server: " + message + "\n");
-//                                Toast.makeText(ConfigServerActivity.this, message, Toast.LENGTH_SHORT).show();
-
+//
                                 if (message.contains("68752")) {
                                     userManagerSharedPrefs.registered(true);
                                     userManagerSharedPrefs.destinationAddress(simCard);
                                     Toast.makeText(ConfigServerActivity.this, "اطلاعات با موفقیت ذخیره شد.", Toast.LENGTH_LONG).show();
                                     Toast.makeText(ConfigServerActivity.this, "پس از ۵ ثانیه اپلیکیشن بسته میشود.", Toast.LENGTH_LONG).show();
-                                    final Handler handler = new Handler();
-
-                                    final Runnable runnable = new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            finish();
-                                            System.exit(0);
-                                        }
-                                    };
-
-                                    handler.postDelayed(runnable, 5000);
-
+                                    Intent intent = new Intent(ConfigServerActivity.this, ConfigSensorActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(ConfigServerActivity.this, "مشکلی پیش آمد. لطفا مجددا تلاش کنید.", Toast.LENGTH_LONG).show();
                                     userManagerSharedPrefs.registered(false);
@@ -319,46 +259,4 @@ public class ConfigServerActivity extends AppCompatActivity {
             });
         }
     }
-
-
-//    public static String getIPAddress(boolean useIPv4) {
-//        try {
-//            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-//            for (NetworkInterface intf : interfaces) {
-//                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-//                for (InetAddress addr : addrs) {
-//                    if (!addr.isLoopbackAddress()) {
-//                        String sAddr = addr.getHostAddress();
-//                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
-//                        boolean isIPv4 = sAddr.indexOf(':') < 0;
-//
-//                        if (useIPv4) {
-//                            if (isIPv4)
-//                                return sAddr;
-//                        } else {
-//                            if (!isIPv4) {
-//                                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
-//                                return delim < 0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        } catch (Exception ignored) {
-//        } // for now eat exceptions
-//        return "";
-//    }
-
-
 }
-
-//        webView = findViewById(R.id.webView);
-//
-//        WebSettings wbset = webView.getSettings();
-//        wbset.setJavaScriptEnabled(true);
-//        webView.setWebViewClient(new WebViewClient());
-//        String url = "http://google.com/";
-//
-////        System.out.println(getdeviceid());
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.loadUrl(url);
