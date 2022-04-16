@@ -28,14 +28,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConfigSensorActivity extends AppCompatActivity {
     TextView sensorNameTxt, helpTxt;
     Button wfiSettingBtn, confirmWifiBtn;
-    Thread Thread1 = null;
+    Thread Thread5 = null;
     int SERVER_PORT;
-    String SERVER_IP, ssidName, mainMessage;
+    String SERVER_IP, ssidName, mainMessage, deviceIpTrimmed, baseIp = "192.168.0.";
     WifiManager wifiManager;
     List myWifiList;
 
@@ -54,8 +56,8 @@ public class ConfigSensorActivity extends AppCompatActivity {
 
 //        SERVER_IP = "192.168.0.100";
         SERVER_PORT = 8888;
-        Thread1 = new Thread(new Thread1());
-        Thread1.start();
+        Thread5 = new Thread(new Thread5());
+        Thread5.start();
 
 
         wfiSettingBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,14 +111,21 @@ public class ConfigSensorActivity extends AppCompatActivity {
                 WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
                 int ip = wifiInfo.getIpAddress();
                 String ipAddress = Formatter.formatIpAddress(ip);
-                SERVER_IP = ipAddress;
+//                SERVER_IP = ipAddress;
 
-//                String firstThreeOctets = ipAddress.substring(0, ipAddress.lastIndexOf("."));
-//                String newIp = firstThreeOctets + ".1";
+//                String URL = "http://test.net/demo_form.asp?name1=stringTest";
 
-//                Toast.makeText(ConfigSensorActivity.this, ipAddress, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(ConfigSensorActivity.this, newIp, Toast.LENGTH_SHORT).show();
-                new Thread(new Thread3(mainMessage)).start();
+//                int index = URL.indexOf("=");
+//                String Result = URL.substring(index+1); //index+1 to skip =
+//                int index23 = ipAddress.indexOf(".");
+//                ipAddress = "192.168.0.0";
+                int index23 = ipAddress.indexOf(".");
+                deviceIpTrimmed = ipAddress.substring(index23 + 7);
+                SERVER_IP = baseIp + deviceIpTrimmed;
+
+                Toast.makeText(ConfigSensorActivity.this, ipAddress, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ConfigSensorActivity.this, SERVER_IP, Toast.LENGTH_SHORT).show();
+                new Thread(new Thread7(mainMessage)).start();
             }
         });
 
@@ -126,7 +135,7 @@ public class ConfigSensorActivity extends AppCompatActivity {
     private PrintWriter output;
     private BufferedReader input;
 
-    class Thread1 implements Runnable {
+    class Thread5 implements Runnable {
         public void run() {
             Socket socket;
             try {
@@ -136,20 +145,20 @@ public class ConfigSensorActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        ssidName.setText("متصل به دستگاه\n");
+                        sensorNameTxt.setText("متصل به دستگاه\n");
 //                        btnConfig.setEnabled(true);
 //                        ssidName.setBackgroundColor(Color.parseColor("#E0FFEB"));
 //                        ssidName.setTextColor(Color.parseColor("#0EBF01"));
                     }
                 });
-                new Thread(new ConfigSensorActivity.Thread2()).start();
+                new Thread(new Thread6()).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    class Thread2 implements Runnable {
+    class Thread6 implements Runnable {
         @Override
         public void run() {
             while (true) {
@@ -177,8 +186,8 @@ public class ConfigSensorActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        Thread1 = new Thread(new ConfigSensorActivity.Thread1());
-                        Thread1.start();
+                        Thread5 = new Thread(new ConfigSensorActivity.Thread5());
+                        Thread5.start();
                         return;
                     }
                 } catch (IOException e) {
@@ -188,22 +197,23 @@ public class ConfigSensorActivity extends AppCompatActivity {
         }
     }
 
-    class Thread3 implements Runnable {
+    class Thread7 implements Runnable {
         private String message;
 
-        Thread3(String message) {
+        Thread7(String message) {
             this.message = message;
         }
 
         @Override
         public void run() {
-//            output.write(message);
-//            output.flush();
+            output.write(message);
+            output.flush();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-//                    ssidName.append("client: " + message + "\n");
+//                    sensorNameTxt.append("client: " + message + "\n");
 //                    edtSimCard.setText("");
+                    helpTxt.setText("changed now");
 //                    System.out.println(message);
                     // TODO: 3/9/22 Above line
                 }
