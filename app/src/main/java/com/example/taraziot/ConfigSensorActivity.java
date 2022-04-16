@@ -17,6 +17,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.format.Formatter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ import java.net.Socket;
 import java.util.List;
 
 public class ConfigSensorActivity extends AppCompatActivity {
-    TextView sensorNameTxt;
+    TextView sensorNameTxt, helpTxt;
     Button wfiSettingBtn, confirmWifiBtn;
     Thread Thread1 = null;
     int SERVER_PORT;
@@ -44,6 +45,7 @@ public class ConfigSensorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_sensor);
         sensorNameTxt = findViewById(R.id.sensorNameTxt);
+        helpTxt = findViewById(R.id.helpTxt);
         wfiSettingBtn = findViewById(R.id.wfiSettingBtn);
         confirmWifiBtn = findViewById(R.id.confirmWifiBtn);
         Context context = ConfigSensorActivity.this.getApplicationContext();
@@ -77,24 +79,46 @@ public class ConfigSensorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
                 WifiInfo info = wifiManager.getConnectionInfo();
-
+                String result = "wadaw";
+                int testip;
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(ConfigSensorActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION
                     }, 0);
 
                 } else {
                     ssidName = wifiManager.getConnectionInfo().getSSID();
-                    SERVER_IP = String.valueOf(wifiManager.getConnectionInfo().getIpAddress());
+//                    SERVER_IP = String.valueOf(wifiManager.getConnectionInfo().getIpAddress());
+//                    Toast.makeText(context, SERVER_IP, Toast.LENGTH_SHORT).show();
                     String ssid = info.getSSID();
 
                 }
-
+//testip = wifiManager.getConnectionInfo().getIpAddress();
 //                ssidName = String.valueOf(wifiInfo.getIpAddress());
-                Toast.makeText(context, SERVER_IP, Toast.LENGTH_SHORT).show();
-//                new Thread(new Thread3(mainMessage)).start();
+//                String result = ssidName.charAt(0) + "." + x.charAt(1);
+//                Toast.makeText(context, SERVER_IP, Toast.LENGTH_SHORT).show();
+                WifiManager wifiMan1 = (WifiManager) context.getSystemService(
+                        Context.WIFI_SERVICE);
+                WifiInfo wifiInfo2 = wifiMan1.getConnectionInfo();
+
+                String macAddr = wifiInfo2.getMacAddress();
+                String bssid = wifiInfo2.getBSSID();
+
+
+                // Connected wifi ip
+                WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
+                WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+                int ip = wifiInfo.getIpAddress();
+                String ipAddress = Formatter.formatIpAddress(ip);
+                SERVER_IP = ipAddress;
+
+//                String firstThreeOctets = ipAddress.substring(0, ipAddress.lastIndexOf("."));
+//                String newIp = firstThreeOctets + ".1";
+
+//                Toast.makeText(ConfigSensorActivity.this, ipAddress, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ConfigSensorActivity.this, newIp, Toast.LENGTH_SHORT).show();
+                new Thread(new Thread3(mainMessage)).start();
             }
         });
-
 
     }
 
@@ -173,14 +197,14 @@ public class ConfigSensorActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            output.write(message);
-            output.flush();
+//            output.write(message);
+//            output.flush();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 //                    ssidName.append("client: " + message + "\n");
 //                    edtSimCard.setText("");
-                    System.out.println(message);
+//                    System.out.println(message);
                     // TODO: 3/9/22 Above line
                 }
             });
