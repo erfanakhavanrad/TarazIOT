@@ -244,10 +244,22 @@
                 android:layout_weight="2"
                 android:backgroundTint="@color/blue"
                 android:elevation="0dp"
-
-                android:text="test"
+                android:text="Sensor"
                 android:textAllCaps="false"
                 android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/btntest2222"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:backgroundTint="@color/blue"
+                android:elevation="0dp"
+                android:text="Sensor2222"
+                android:textAllCaps="false"
+                android:textSize="25sp" />
+
             <Button
                 android:id="@+id/btnConfig"
                 android:layout_width="0dp"

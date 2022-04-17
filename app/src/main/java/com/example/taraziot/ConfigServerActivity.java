@@ -35,7 +35,7 @@ public class ConfigServerActivity extends AppCompatActivity {
     TextInputEditText edtSimCard, edtSerialNumber, edtAdminPhoneNumber, edtPassword, edtConfirmPassword,
             edtFirstUserPhoneNumber, edtSecondUserPhoneNumber;
     //    edtThirdUserPhoneNumber, edtFourthUserPhoneNumber;
-    Button btnConfig, btnTest;
+    Button btnConfig, btnTest, btntest2222;
     String SERVER_IP, mainMessage,
             simCard, serialNumber, adminPhoneNumber, password, confirmPassword, firstUserPhoneNumber, secondUserPhoneNumber,
             thirdUserPhoneNumber, fourthUserPhoneNumber;
@@ -57,6 +57,7 @@ public class ConfigServerActivity extends AppCompatActivity {
         edtFirstUserPhoneNumber = findViewById(R.id.edtFirstUserPhoneNumber);
         edtSecondUserPhoneNumber = findViewById(R.id.edtSecondUserPhoneNumber);
         btnTest = findViewById(R.id.btntest);
+        btntest2222 = findViewById(R.id.btntest2222);
 //        edtThirdUserPhoneNumber = findViewById(R.id.edtThirdUserPhoneNumber);
 //        edtFourthUserPhoneNumber = findViewById(R.id.edtFourthUserPhoneNumber);
         btnConfig = findViewById(R.id.btnConfig);
@@ -88,6 +89,16 @@ public class ConfigServerActivity extends AppCompatActivity {
         SERVER_PORT = 8888;
         Thread1 = new Thread(new Thread1());
         Thread1.start();
+
+
+        btntest2222.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ConfigServerActivity.this, ConfigSensor22Activity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
