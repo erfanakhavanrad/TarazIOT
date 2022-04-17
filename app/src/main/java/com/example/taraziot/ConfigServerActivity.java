@@ -1,9 +1,12 @@
 package com.example.taraziot;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -30,15 +35,15 @@ public class ConfigServerActivity extends AppCompatActivity {
 
     Thread Thread1 = null;
     //    EditText etIP, etPort;
-    TextView ssidName;
+    TextView ssidName, slogan_name;
     EditText serveredt;
     TextInputEditText edtSimCard, edtSerialNumber, edtAdminPhoneNumber, edtPassword, edtConfirmPassword,
             edtFirstUserPhoneNumber, edtSecondUserPhoneNumber;
     //    edtThirdUserPhoneNumber, edtFourthUserPhoneNumber;
-    Button btnConfig, btnTest, btntest2222;
+    Button btnConfig, btnmacc, btntest2222;
     String SERVER_IP, mainMessage,
             simCard, serialNumber, adminPhoneNumber, password, confirmPassword, firstUserPhoneNumber, secondUserPhoneNumber,
-            thirdUserPhoneNumber, fourthUserPhoneNumber;
+            thirdUserPhoneNumber, fourthUserPhoneNumber, serverMac, serverMacTrimmed, srvSerial = "SRV-Serial: ", senSerial = "SEN-Serial: ";
 
 
     UserManagerSharedPrefs userManagerSharedPrefs;
@@ -53,10 +58,11 @@ public class ConfigServerActivity extends AppCompatActivity {
 //        edtSerialNumber = findViewById(R.id.edtSerialNumber);
         edtAdminPhoneNumber = findViewById(R.id.edtAdminPhoneNumber);
         edtPassword = findViewById(R.id.edtPassword);
+        slogan_name = findViewById(R.id.slogan_name);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         edtFirstUserPhoneNumber = findViewById(R.id.edtFirstUserPhoneNumber);
         edtSecondUserPhoneNumber = findViewById(R.id.edtSecondUserPhoneNumber);
-        btnTest = findViewById(R.id.btntest);
+        btnmacc = findViewById(R.id.btnmacc);
         btntest2222 = findViewById(R.id.btntest2222);
 //        edtThirdUserPhoneNumber = findViewById(R.id.edtThirdUserPhoneNumber);
 //        edtFourthUserPhoneNumber = findViewById(R.id.edtFourthUserPhoneNumber);
@@ -71,6 +77,7 @@ public class ConfigServerActivity extends AppCompatActivity {
 //        Toast.makeText(context, "first " + ip, Toast.LENGTH_SHORT).show();
 // cut the last octet from ip (if you want to keep the . at the end, add 1 to the second parameter
         String firstThreeOctets = ip.substring(0, ip.lastIndexOf(".")); // 192.168.1
+
 
 //        String lastOctet = ip.substring(ip.lastIndexOf(".") + 1); // 97
 //        Toast.makeText(context, "Second " + lastOctet, Toast.LENGTH_SHORT).show();
@@ -100,12 +107,25 @@ public class ConfigServerActivity extends AppCompatActivity {
             }
         });
 
-        btnTest.setOnClickListener(new View.OnClickListener() {
+        btnmacc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ConfigServerActivity.this, ConfigSensorActivity.class);
-                startActivity(intent);
-                finish();
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ConfigServerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION
+                    }, 0);
+                } else {
+                    WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
+//      String  ssidName = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
+                    WifiInfo info = wifiMgr.getConnectionInfo();
+                    serverMac = info.getBSSID(); //Mac Address
+//                    String ipAddress = Formatter.formatIpAddress(ip);
+                    int index23 = serverMac.indexOf(":");
+                    serverMacTrimmed = serverMac.substring(index23 + 7);
+                    slogan_name.setText(serverMac);
+                    srvSerial = srvSerial + serverMacTrimmed;
+                    ssidName.setText(srvSerial);
+                }
+
             }
         });
 
@@ -221,10 +241,13 @@ public class ConfigServerActivity extends AppCompatActivity {
                             public void run() {
 //
                                 if (message.contains("68752")) {
+
+
                                     userManagerSharedPrefs.registered(true);
                                     userManagerSharedPrefs.destinationAddress(simCard);
-                                    Toast.makeText(ConfigServerActivity.this, "اطلاعات با موفقیت ذخیره شد.", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(ConfigServerActivity.this, "پس از ۵ ثانیه اپلیکیشن بسته میشود.", Toast.LENGTH_LONG).show();
+//                                    userManagerSharedPrefs.
+//                                    Toast.makeText(ConfigServerActivity.this, "اطلاعات با موفقیت ذخیره شد.", Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(ConfigServerActivity.this, "پس از ۵ ثانیه اپلیکیشن بسته میشود.", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(ConfigServerActivity.this, ConfigSensorActivity.class);
                                     startActivity(intent);
                                     finish();

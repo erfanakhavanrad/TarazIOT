@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         configServerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ConfigServerActivity.class);
+                Intent intent = new Intent(MainActivity.this, ChooseDeviceActivity.class);
                 startActivity(intent);
             }
         });
