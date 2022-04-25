@@ -19,6 +19,18 @@ public class UserManagerSharedPrefs {
         editor.apply();
     }
 
+    public void saveServerPassword( String serverPassword) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("serverPassword", serverPassword);
+        editor.apply();
+    }
+
+    public void saveSSIDName(String ssidNameForSave) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("ssidNameForSave", ssidNameForSave);
+        editor.apply();
+    }
+
 
     public void statusFromServer(String statusFromServer) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -75,6 +87,15 @@ public class UserManagerSharedPrefs {
 
     public String getEmail() {
         return sharedPreferences.getString("email", null);
+    }
+
+
+    public String getSsidNameForSave() {
+        return sharedPreferences.getString("ssidNameForSave", null);
+    }
+
+    public String getServerPassword() {
+        return sharedPreferences.getString("serverPassword", null);
     }
 
     public String getToken() {

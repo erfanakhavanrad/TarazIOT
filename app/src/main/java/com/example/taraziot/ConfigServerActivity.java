@@ -115,7 +115,7 @@ public class ConfigServerActivity extends AppCompatActivity {
                     }, 0);
                 } else {
                     WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
-//      String  ssidName = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
+                    String ssidNameForPrint = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
                     WifiInfo info = wifiMgr.getConnectionInfo();
                     serverMac = info.getBSSID(); //Mac Address
 //                    String ipAddress = Formatter.formatIpAddress(ip);
@@ -123,7 +123,8 @@ public class ConfigServerActivity extends AppCompatActivity {
                     serverMacTrimmed = serverMac.substring(index23 + 7);
                     slogan_name.setText(serverMac);
                     srvSerial = srvSerial + serverMacTrimmed;
-                    ssidName.setText(srvSerial);
+//                    ssidName.setText(srvSerial);
+                    ssidName.setText(ssidNameForPrint);
                 }
 
             }
@@ -175,6 +176,7 @@ public class ConfigServerActivity extends AppCompatActivity {
                         mainMessage = mainMessage.replaceAll("\\s+", "");
                         mainMessage = mainMessage.trim();
                         mainMessage = mainMessage + System.lineSeparator();
+                        userManagerSharedPrefs.saveServerPassword(password);
                         new Thread(new Thread3(mainMessage)).start();
                     } else {
                         Toast.makeText(context, "مقادیر رمز یکسان نیستند", Toast.LENGTH_SHORT).show();
@@ -241,14 +243,15 @@ public class ConfigServerActivity extends AppCompatActivity {
                             public void run() {
 //
                                 if (message.contains("68752")) {
-
-
+                                    WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
+                                    String ssidNameForPrint = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
+                                    userManagerSharedPrefs.saveSSIDName(ssidNameForPrint.trim());
                                     userManagerSharedPrefs.registered(true);
                                     userManagerSharedPrefs.destinationAddress(simCard);
 //                                    userManagerSharedPrefs.
 //                                    Toast.makeText(ConfigServerActivity.this, "اطلاعات با موفقیت ذخیره شد.", Toast.LENGTH_LONG).show();
 //                                    Toast.makeText(ConfigServerActivity.this, "پس از ۵ ثانیه اپلیکیشن بسته میشود.", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(ConfigServerActivity.this, ConfigSensorActivity.class);
+                                    Intent intent = new Intent(ConfigServerActivity.this, ConfigSensor22Activity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
