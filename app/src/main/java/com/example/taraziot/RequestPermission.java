@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RequestPermission {
-    public final static String CAMERA = "CAMERA", STORAGE = "STORAGE", LOCATION = "LOCATION", VOICE_RECORD = "VOICE_RECORD";
+    public final static String CAMERA = "CAMERA", STORAGE = "STORAGE", LOCATION = "LOCATION", VOICE_RECORD = "VOICE_RECORD", SMS = "SMS";
     String[] permissionTypes;
     Activity activity;
+
+    public static final int REQ_CODE_PERMISSION =1001;
 
     public static RequestPermission newInstance(Activity activity, String[] permissionTypes) {
         return new RequestPermission(activity, permissionTypes);
@@ -72,12 +74,30 @@ public class RequestPermission {
                         listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO);
                     }
                     break;
+
+                case SMS:
+                    int permissionACCESS_READ_SMS = ContextCompat.checkSelfPermission(activity,
+                            Manifest.permission.READ_SMS);
+                    int permissionACCESS_SEND_SMS = ContextCompat.checkSelfPermission(activity,
+                            Manifest.permission.SEND_SMS);
+                    int permissionACCESS_RECEIVE_SMS = ContextCompat.checkSelfPermission(activity,
+                            Manifest.permission.RECEIVE_SMS);
+                    if (permissionACCESS_READ_SMS != PackageManager.PERMISSION_GRANTED) {
+                        listPermissionsNeeded.add(Manifest.permission.READ_SMS);
+                    }
+                    if (permissionACCESS_SEND_SMS != PackageManager.PERMISSION_GRANTED) {
+                        listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+                    }
+                    if (permissionACCESS_RECEIVE_SMS != PackageManager.PERMISSION_GRANTED) {
+                        listPermissionsNeeded.add(Manifest.permission.RECEIVE_SMS);
+                    }
+                    break;
             }
         }
 
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(activity,
-                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 100);
+                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQ_CODE_PERMISSION);
             return false;
         }
         return true;

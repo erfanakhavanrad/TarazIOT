@@ -144,7 +144,7 @@ ssidNameTrimmed = "YAS2";
                 String serverNameConfirmation = currentWifiName;
                 new AlertDialog.Builder(ConfigSensor22Activity.this)
                         .setTitle("تایید نهایی")
-                        .setMessage(" \nاطلاعات سرور "+serverNameConfirmation+ " به سنسور " + sensorNameConfirmation + " ارسال شود؟")
+                        .setMessage(" \nاطلاعات سرور "+sensorNameConfirmation+ " به سنسور " + serverNameConfirmation + " ارسال شود؟")
                         .setPositiveButton("بله", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

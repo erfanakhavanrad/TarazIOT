@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -16,13 +17,9 @@ import java.util.List;
 public class PermissionsActivity extends AppCompatActivity {
 
     MaterialButton grant, nextPage;
-    List<String> permissionsList = new ArrayList<>();
-    Boolean permissions;
+//    String[] permissions = new String[]{RequestPermission.SMS,RequestPermission.LOCATION};
+    String[] permissions = new String[]{RequestPermission.LOCATION};
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,43 +29,50 @@ public class PermissionsActivity extends AppCompatActivity {
         nextPage = findViewById(R.id.nextPage);
 
 
-//        permissionsList.add(RequestPermission.CAMERA);
-//        permissionsList.add(RequestPermission.STORAGE);
-//        new String[]{RequestPermission.CAMERA, RequestPermission.LOCATION};
-//        permissions = RequestPermission.newInstance(PermissionsActivity.this, new String[]{RequestPermission.LOCATION}).request();
-//        while (permissions) {
-//            grant.setEnabled(false);
-//            nextPage.setEnabled(true);
-//        }
-//
-//        nextPage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(PermissionsActivity.this, ConfigSensor22Activity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        grant.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                RequestPermission.newInstance(PermissionsActivity.this, new String[]{RequestPermission.LOCATION}).request();
-//                permissions = RequestPermission.newInstance(PermissionsActivity.this, new String[]{RequestPermission.LOCATION}).request();
-////                Toast.makeText(PermissionsActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-////               permissions = RequestPermission.newInstance(PermissionsActivity.this, new String[]{RequestPermission.CAMERA, RequestPermission.LOCATION}).request();
-////                permissions = RequestPermission.newInstance(PermissionsActivity.this, new String[]{RequestPermission.LOCATION}).request();
-////                onRequestPermissionsResult(100, RequestPermission.newInstance(PermissionsActivity.this, new String[]{RequestPermission.LOCATION}).request(), );
-//                if (permissions) {
-//                    grant.setEnabled(false);
-//                    nextPage.setEnabled(true);
-//                } else {
-//                    permissions = RequestPermission.newInstance(PermissionsActivity.this, new String[]{RequestPermission.LOCATION}).request();
-//                    if (permissions) {
-//                        grant.setEnabled(false);
-//                        nextPage.setEnabled(true);
-//                    }
-//                }
-//            }
-//        });
+        if (!RequestPermission.newInstance(PermissionsActivity.this, permissions).request()) {
+            grant.setEnabled(true);
+            nextPage.setEnabled(false);
+        }else {
+            grant.setEnabled(false);
+            nextPage.setEnabled(true);
+        }
+
+        nextPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PermissionsActivity.this, ConfigSensor22Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        grant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!RequestPermission.newInstance(PermissionsActivity.this, permissions).request()) {
+                    grant.setEnabled(true);
+                    nextPage.setEnabled(false);
+                } else {
+                        grant.setEnabled(false);
+                        nextPage.setEnabled(true);
+                }
+            }
+        });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean generateAllRequests = true;
+        if (requestCode==RequestPermission.REQ_CODE_PERMISSION){
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i]== PackageManager.PERMISSION_DENIED){
+                    generateAllRequests = false;
+                }
+            }
+            if (generateAllRequests){
+                grant.setEnabled(false);
+                nextPage.setEnabled(true);
+            }
+        }
+
     }
 }
