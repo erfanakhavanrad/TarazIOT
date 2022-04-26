@@ -26,16 +26,21 @@
         android:theme="@style/Theme.TarazIOT"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ChooseDeviceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ConfigSensor22Activity"
+            android:name=".PermissionsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ChooseDeviceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ConfigSensor22Activity"
+            android:exported="true">
+
         </activity>
         <activity
             android:name=".ConfigSensorActivity"
@@ -45,12 +50,10 @@
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ConfigServerActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

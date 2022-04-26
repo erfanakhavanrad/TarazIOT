@@ -131,15 +131,15 @@ public class ConfigSensor22Activity extends AppCompatActivity {
         sendShit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ssidNameTrimmed = userManagerSharedPrefs.getSsidNameForSave().substring(1);
+//               ssidNameTrimmed = userManagerSharedPrefs.getSsidNameForSave().substring(1);
 //                if (ssidNameTrimmed.charAt(ssidNameTrimmed.length() - 1) == 'x') {
 //                }
 
-                ssidNameTrimmed = ssidNameTrimmed.substring(0, ssidNameTrimmed.length() - 1);
+//                ssidNameTrimmed = ssidNameTrimmed.substring(0, ssidNameTrimmed.length() - 1);
 
 //                Toast.makeText(context, ssidNameTrimmed, Toast.LENGTH_SHORT).show();
 
-
+ssidNameTrimmed = "YAS2";
                 String sensorNameConfirmation = ssidNameTrimmed;
                 String serverNameConfirmation = currentWifiName;
                 new AlertDialog.Builder(ConfigSensor22Activity.this)
