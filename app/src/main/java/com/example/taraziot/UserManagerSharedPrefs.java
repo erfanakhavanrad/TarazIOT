@@ -19,7 +19,7 @@ public class UserManagerSharedPrefs {
         editor.apply();
     }
 
-    public void saveServerPassword( String serverPassword) {
+    public void saveServerPassword(String serverPassword) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("serverPassword", serverPassword);
         editor.apply();
@@ -45,7 +45,7 @@ public class UserManagerSharedPrefs {
         editor.apply();
     }
 
-
+// Server
     public boolean registered(Boolean registered) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("registered", registered);
@@ -53,7 +53,22 @@ public class UserManagerSharedPrefs {
         return registered;
     }
 
-    public String destinationAddress(String destinationAddress){
+    public boolean registeredSensor(Boolean registeredSensor) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("registeredSensor", registeredSensor);
+        editor.apply();
+        return registeredSensor;
+    }
+
+    public boolean allowed(Boolean allowed) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("allowed", allowed);
+        editor.apply();
+        return allowed;
+    }
+
+
+    public String destinationAddress(String destinationAddress) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("destinationAddress", destinationAddress);
         editor.apply();
@@ -71,6 +86,13 @@ public class UserManagerSharedPrefs {
 
     public Boolean getRegistered() {
         return sharedPreferences.getBoolean("registered", false);
+    }
+    public Boolean getRegisteredSensor() {
+        return sharedPreferences.getBoolean("registeredSensor", false);
+    }
+
+    public Boolean getPermissionsState() {
+        return sharedPreferences.getBoolean("allowed", false);
     }
 
     public String getDestinationAddress(String destinationAddress) {

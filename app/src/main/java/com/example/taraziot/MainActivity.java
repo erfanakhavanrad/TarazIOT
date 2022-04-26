@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// TODO: 4/26/2022 1- Clean the code. 2- Turn WIFI on in all pages. 3- In the Wild test the application. 4- UI Change. 
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";

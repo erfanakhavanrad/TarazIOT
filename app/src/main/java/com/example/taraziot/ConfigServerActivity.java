@@ -98,6 +98,14 @@ public class ConfigServerActivity extends AppCompatActivity {
         Thread1.start();
 
 
+        edtSimCard.setText("09198290411");
+        edtAdminPhoneNumber.setText("09192503313");
+        edtPassword.setText("12345678");
+        edtConfirmPassword.setText("12345678");
+        edtFirstUserPhoneNumber.setText("09192503314");
+        edtSecondUserPhoneNumber.setText("09192503314");
+
+
         btntest2222.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

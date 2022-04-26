@@ -24,7 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     UserManagerSharedPrefs userManagerSharedPrefs;
     //    String token, verifiedAt;
 //    Boolean agreed = false;
-    Boolean registered;
+    Boolean registered, allowed, registeredSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
         configSharedP();
+        configSharedP2();
+        configSharedP3();
 
         //Animations
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
@@ -49,12 +51,22 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intentSplash = new Intent(SplashScreenActivity.this, MainActivity.class);
 //                startActivity(intent1);
 //                finish();
-                if (!registered) {
+                if (!registered && allowed) {
 //                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                     Intent intent = new Intent(SplashScreenActivity.this, ConfigServerActivity.class);
                     startActivity(intent);
                     finish();
 
+                } else if (registered && !registeredSensor){
+                    Intent intent = new Intent(SplashScreenActivity.this, ConfigSensor22Activity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                else if (!allowed && !registered) {
+                    Intent intent = new Intent(SplashScreenActivity.this, PermissionsActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
                     if (registered) {
                         Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
@@ -83,11 +95,20 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void configSharedP() {
 
         this.userManagerSharedPrefs = new UserManagerSharedPrefs(this);
-//        token = userManagerSharedPrefs.getFullName();
-//        verifiedAt = userManagerSharedPrefs.getVerifiedAt();
-//        agreed = userManagerSharedPrefs.getAgreeToTerms();
         registered = userManagerSharedPrefs.getRegistered();
     }
 
+
+    private void configSharedP2() {
+
+        this.userManagerSharedPrefs = new UserManagerSharedPrefs(this);
+        allowed = userManagerSharedPrefs.getPermissionsState();
+    }
+
+    private void configSharedP3() {
+
+        this.userManagerSharedPrefs = new UserManagerSharedPrefs(this);
+        registeredSensor = userManagerSharedPrefs.getRegisteredSensor();
+    }
 
 }

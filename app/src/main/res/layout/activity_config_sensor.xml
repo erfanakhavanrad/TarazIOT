@@ -6,55 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".ConfigSensorActivity">
 
-    <TextView
-        android:id="@+id/sensorNameTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="اتصال به سنسور:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/sensorNameTxt"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="10dp"-->
+<!--        android:text="اتصال به سنسور:"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/helpTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="ابتدا روی دکمه زیذ کلیک کنید و پس از انتخاب سنسور به این صفحه بازگشته و سپس دکمه تایید را فشار دهید."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sensorNameTxt" />
+<!--    <TextView-->
+<!--        android:id="@+id/helpTxt"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="10dp"-->
+<!--        android:text="ابتدا روی دکمه زیذ کلیک کنید و پس از انتخاب سنسور به این صفحه بازگشته و سپس دکمه تایید را فشار دهید."-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/sensorNameTxt" />-->
 
-    <Button
-        android:id="@+id/wfiSettingBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="48dp"
-        android:padding="5dp"
-        android:text="wifi seetting"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/helpTxt" />
+<!--    <Button-->
+<!--        android:id="@+id/wfiSettingBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="144dp"-->
+<!--        android:layout_marginTop="48dp"-->
+<!--        android:padding="5dp"-->
+<!--        android:text="wifi seetting"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/helpTxt" />-->
 
-    <Button
-        android:id="@+id/confirmWifiBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:padding="5dp"
-        android:text="Confirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wfiSettingBtn" />
+<!--    <Button-->
+<!--        android:id="@+id/confirmWifiBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="80dp"-->
+<!--        android:padding="5dp"-->
+<!--        android:text="Confirm"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/wfiSettingBtn" />-->
 
-    <Button
-        android:id="@+id/sendBtn"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="56dp"
-        android:text="send"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmWifiBtn" />
+<!--    <Button-->
+<!--        android:id="@+id/sendBtn"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="84dp"-->
+<!--        android:layout_marginEnd="56dp"-->
+<!--        android:text="send"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/confirmWifiBtn" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

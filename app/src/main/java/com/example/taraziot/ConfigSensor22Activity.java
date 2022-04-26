@@ -156,7 +156,13 @@ ssidNameTrimmed = "YAS2";
 
 //                                System.exit(0);
                                 mainMessage = "1:" + ssidNameTrimmed + ",2:" + userManagerSharedPrefs.getServerPassword();
-                                new Thread(new ConfigSensor22Activity.Thread3(mainMessage)).start();
+                                try {
+                                    new Thread(new Thread3(mainMessage)).start();
+                                } catch (Exception e){
+                                    System.out.println(e.toString());
+                                    Toast.makeText(context, "مشکلی پیش آمد. یا هنوز به سرور متصل هستید و یا به دستگاه اشتباهی وصل شده اید.", Toast.LENGTH_LONG).show();
+                                }
+
                             }
                         })
                         .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
@@ -212,18 +218,18 @@ ssidNameTrimmed = "YAS2";
                             @Override
                             public void run() {
 //
-                                if (message.contains("68752")) {
-                                    userManagerSharedPrefs.registered(true);
-                                    userManagerSharedPrefs.destinationAddress(simCard);
+                                if (message.contains("95257")) {
+//                                    userManagerSharedPrefs.registered(true);
+//                                    userManagerSharedPrefs.destinationAddress(simCard);
                                     Toast.makeText(ConfigSensor22Activity.this, "اطلاعات با موفقیت ذخیره شد.", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(ConfigSensor22Activity.this, "پس از ۵ ثانیه اپلیکیشن بسته میشود.", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(ConfigSensor22Activity.this, ConfigSensorActivity.class);
+                                    userManagerSharedPrefs.registeredSensor(true);
+//                                    Toast.makeText(ConfigSensor22Activity.this, "پس از ۵ ثانیه اپلیکیشن بسته میشود.", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(ConfigSensor22Activity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
                                     Toast.makeText(ConfigSensor22Activity.this, "مشکلی پیش آمد. لطفا مجددا تلاش کنید.", Toast.LENGTH_LONG).show();
-                                    userManagerSharedPrefs.registered(false);
-
+                                    userManagerSharedPrefs.registeredSensor(true);
 
                                 }
                             }

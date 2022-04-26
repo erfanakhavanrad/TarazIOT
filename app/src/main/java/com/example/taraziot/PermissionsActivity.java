@@ -17,9 +17,10 @@ import java.util.List;
 public class PermissionsActivity extends AppCompatActivity {
 
     MaterialButton grant, nextPage;
-//    String[] permissions = new String[]{RequestPermission.SMS,RequestPermission.LOCATION};
+    //    String[] permissions = new String[]{RequestPermission.SMS,RequestPermission.LOCATION};
     String[] permissions = new String[]{RequestPermission.LOCATION};
-
+    UserManagerSharedPrefs userManagerSharedPrefs;
+    Boolean permissionsState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +28,12 @@ public class PermissionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_permissions);
         grant = findViewById(R.id.grant);
         nextPage = findViewById(R.id.nextPage);
-
+        userManagerSharedPrefs = new UserManagerSharedPrefs(this);
 
         if (!RequestPermission.newInstance(PermissionsActivity.this, permissions).request()) {
             grant.setEnabled(true);
             nextPage.setEnabled(false);
-        }else {
+        } else {
             grant.setEnabled(false);
             nextPage.setEnabled(true);
         }
@@ -40,7 +41,8 @@ public class PermissionsActivity extends AppCompatActivity {
         nextPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PermissionsActivity.this, ConfigSensor22Activity.class);
+                userManagerSharedPrefs.allowed(true);
+                Intent intent = new Intent(PermissionsActivity.this, ConfigServerActivity.class);
                 startActivity(intent);
             }
         });
@@ -52,27 +54,35 @@ public class PermissionsActivity extends AppCompatActivity {
                     grant.setEnabled(true);
                     nextPage.setEnabled(false);
                 } else {
-                        grant.setEnabled(false);
-                        nextPage.setEnabled(true);
+                    grant.setEnabled(false);
+                    nextPage.setEnabled(true);
                 }
             }
         });
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean generateAllRequests = true;
-        if (requestCode==RequestPermission.REQ_CODE_PERMISSION){
+        if (requestCode == RequestPermission.REQ_CODE_PERMISSION) {
             for (int i = 0; i < grantResults.length; i++) {
-                if (grantResults[i]== PackageManager.PERMISSION_DENIED){
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                     generateAllRequests = false;
                 }
             }
-            if (generateAllRequests){
+            if (generateAllRequests) {
                 grant.setEnabled(false);
                 nextPage.setEnabled(true);
             }
         }
 
     }
+
+    private void savePermissionsState() {
+
+        this.userManagerSharedPrefs = new UserManagerSharedPrefs(this);
+        permissionsState = userManagerSharedPrefs.getRegistered();
+    }
+
 }
