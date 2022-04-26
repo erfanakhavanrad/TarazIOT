@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: 4/26/2022 1- Clean the code. 2- Turn WIFI on in all pages. 3- In the Wild test the application. 4- UI Change. 
+// TODO: 4/26/2022 1- Clean the code. 2- Turn WIFI on in all pages. 3- In the Wild test the application. 4- UI Change. 5- IP test for wifi 6- Thread change when sending data from sensor after server. 
 
 public class MainActivity extends AppCompatActivity {
 
