@@ -71,6 +71,20 @@ public class ConfigServerActivity extends AppCompatActivity {
 //        serveredt = findViewById(R.id.serveredt);
 //        SERVER_IP = "192.168.43.111";
 
+        /**
+         Handler is Here
+         */
+//        final Handler handler = new Handler();
+//
+//        final Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                finish();
+//                System.exit(0);
+//            }
+//        };
+//        handler.postDelayed(runnable, 5000);
+
         userManagerSharedPrefs = new UserManagerSharedPrefs(this);
         Context context = ConfigServerActivity.this.getApplicationContext();
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
