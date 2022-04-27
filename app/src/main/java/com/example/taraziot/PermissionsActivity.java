@@ -17,8 +17,8 @@ import java.util.List;
 public class PermissionsActivity extends AppCompatActivity {
 
     MaterialButton grant, nextPage;
-    //    String[] permissions = new String[]{RequestPermission.SMS,RequestPermission.LOCATION};
-    String[] permissions = new String[]{RequestPermission.LOCATION};
+        String[] permissions = new String[]{RequestPermission.SMS,RequestPermission.LOCATION};
+//    String[] permissions = new String[]{RequestPermission.LOCATION};
     UserManagerSharedPrefs userManagerSharedPrefs;
     Boolean permissionsState;
 

@@ -24,7 +24,8 @@
         android:layout_marginTop="84dp"
         android:layout_marginEnd="16dp"
         android:padding="10dp"
-        android:text="May we ask for permission?"
+        android:textStyle="bold"
+        android:text="مجوز دسترسی به لوکیشن و SMS"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,12 +34,13 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/descriptionTxt"
-        android:layout_width="wrap_content"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="4dp"
         android:padding="10dp"
-        android:text="awdawdawdawdawdawddawdawdadadwdwad"
+        android:text="تمامی برنامه‌ها برای دسترسی به نام وای-فای و مشخصات آن نیاز به دسترسی لوکیشن دارند.
+همچنین جهت دریافت وضعیت سنسور و ارسال دستورها به آن، به مجوز دریافت و ارسال پیامک نیاز است. در صورتی که اپلیکیشن به این موارد دسترسی نداشته باشد نمیتوانید دستگاه خود را راه اندازی کنید."
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,9 +50,9 @@
         android:id="@+id/grant"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="128dp"
-        android:text="grant"
+        android:text="قبول دسترسی"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTxt" />
@@ -61,8 +63,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="132dp"
         android:layout_marginTop="12dp"
-        android:text="Enter"
-
+        android:text="ورود به برنامه"
         app:cornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/grant" />

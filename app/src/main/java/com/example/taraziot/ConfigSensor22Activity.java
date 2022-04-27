@@ -77,7 +77,7 @@ public class ConfigSensor22Activity extends AppCompatActivity {
 //        SERVER_IP = "192.168.0.100";
 
         WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
-       currentWifiName = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
+        currentWifiName = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
 
         WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
         int ip3 = wifiInfo.getIpAddress();
@@ -132,6 +132,8 @@ public class ConfigSensor22Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //               ssidNameTrimmed = userManagerSharedPrefs.getSsidNameForSave().substring(1);
+                ssidNameTrimmed = userManagerSharedPrefs.getSsidNameForSave();
+//               ssidNameTrimmed = "SRV3658";
 //                if (ssidNameTrimmed.charAt(ssidNameTrimmed.length() - 1) == 'x') {
 //                }
 
@@ -139,12 +141,12 @@ public class ConfigSensor22Activity extends AppCompatActivity {
 
 //                Toast.makeText(context, ssidNameTrimmed, Toast.LENGTH_SHORT).show();
 
-ssidNameTrimmed = "YAS2";
-                String sensorNameConfirmation = ssidNameTrimmed;
-                String serverNameConfirmation = currentWifiName;
+//ssidNameTrimmed = "YAS2";
+                String sensorNameConfirmation = currentWifiName;
+                String serverNameConfirmation = ssidNameTrimmed;
                 new AlertDialog.Builder(ConfigSensor22Activity.this)
                         .setTitle("تایید نهایی")
-                        .setMessage(" \nاطلاعات سرور "+sensorNameConfirmation+ " به سنسور " + serverNameConfirmation + " ارسال شود؟")
+                        .setMessage(" \nاطلاعات سرور " + sensorNameConfirmation + " به سنسور " + serverNameConfirmation + " ارسال شود؟")
                         .setPositiveButton("بله", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -158,7 +160,7 @@ ssidNameTrimmed = "YAS2";
                                 mainMessage = "1:" + ssidNameTrimmed + ",2:" + userManagerSharedPrefs.getServerPassword();
                                 try {
                                     new Thread(new Thread3(mainMessage)).start();
-                                } catch (Exception e){
+                                } catch (Exception e) {
                                     System.out.println(e.toString());
                                     Toast.makeText(context, "مشکلی پیش آمد. یا هنوز به سرور متصل هستید و یا به دستگاه اشتباهی وصل شده اید.", Toast.LENGTH_LONG).show();
                                 }
@@ -194,7 +196,7 @@ ssidNameTrimmed = "YAS2";
                     @Override
                     public void run() {
 //                        ssidName.setText("متصل به \n"+ currentWifiName);
-                        ssidName.setText("متصل به "+ currentWifiName);
+                        ssidName.setText("متصل به " + currentWifiName);
                         sendShit.setEnabled(true);
 //                        ssidName.setBackgroundColor(Color.parseColor("#E0FFEB"));
                         ssidName.setTextColor(Color.parseColor("#0EBF01"));

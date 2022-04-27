@@ -40,7 +40,8 @@ public class ConfigServerActivity extends AppCompatActivity {
     TextInputEditText edtSimCard, edtSerialNumber, edtAdminPhoneNumber, edtPassword, edtConfirmPassword,
             edtFirstUserPhoneNumber, edtSecondUserPhoneNumber;
     //    edtThirdUserPhoneNumber, edtFourthUserPhoneNumber;
-    Button btnConfig, btnmacc, btntest2222;
+    Button btnConfig;
+//    btnmacc, btntest2222;
     String SERVER_IP, mainMessage,
             simCard, serialNumber, adminPhoneNumber, password, confirmPassword, firstUserPhoneNumber, secondUserPhoneNumber,
             thirdUserPhoneNumber, fourthUserPhoneNumber, serverMac, serverMacTrimmed, srvSerial = "SRV-Serial: ", senSerial = "SEN-Serial: ";
@@ -62,8 +63,8 @@ public class ConfigServerActivity extends AppCompatActivity {
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         edtFirstUserPhoneNumber = findViewById(R.id.edtFirstUserPhoneNumber);
         edtSecondUserPhoneNumber = findViewById(R.id.edtSecondUserPhoneNumber);
-        btnmacc = findViewById(R.id.btnmacc);
-        btntest2222 = findViewById(R.id.btntest2222);
+//        btnmacc = findViewById(R.id.btnmacc);
+//        btntest2222 = findViewById(R.id.btntest2222);
 //        edtThirdUserPhoneNumber = findViewById(R.id.edtThirdUserPhoneNumber);
 //        edtFourthUserPhoneNumber = findViewById(R.id.edtFourthUserPhoneNumber);
         btnConfig = findViewById(R.id.btnConfig);
@@ -97,8 +98,9 @@ public class ConfigServerActivity extends AppCompatActivity {
         Thread1 = new Thread(new Thread1());
         Thread1.start();
 
-
-        edtSimCard.setText("09198290411");
+//        09127938973
+//        09359698705
+        edtSimCard.setText("09359698705");
         edtAdminPhoneNumber.setText("09192503313");
         edtPassword.setText("12345678");
         edtConfirmPassword.setText("12345678");
@@ -106,37 +108,37 @@ public class ConfigServerActivity extends AppCompatActivity {
         edtSecondUserPhoneNumber.setText("09192503314");
 
 
-        btntest2222.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ConfigServerActivity.this, ConfigSensor22Activity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        btnmacc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ConfigServerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION
-                    }, 0);
-                } else {
-                    WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
-                    String ssidNameForPrint = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
-                    WifiInfo info = wifiMgr.getConnectionInfo();
-                    serverMac = info.getBSSID(); //Mac Address
-//                    String ipAddress = Formatter.formatIpAddress(ip);
-                    int index23 = serverMac.indexOf(":");
-                    serverMacTrimmed = serverMac.substring(index23 + 7);
-                    slogan_name.setText(serverMac);
-                    srvSerial = srvSerial + serverMacTrimmed;
-//                    ssidName.setText(srvSerial);
-                    ssidName.setText(ssidNameForPrint);
-                }
-
-            }
-        });
+//        btntest2222.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(ConfigServerActivity.this, ConfigSensor22Activity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+//
+//        btnmacc.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(ConfigServerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION
+//                    }, 0);
+//                } else {
+//                    WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
+//                    String ssidNameForPrint = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
+//                    WifiInfo info = wifiMgr.getConnectionInfo();
+//                    serverMac = info.getBSSID(); //Mac Address
+////                    String ipAddress = Formatter.formatIpAddress(ip);
+//                    int index23 = serverMac.indexOf(":");
+//                    serverMacTrimmed = serverMac.substring(index23 + 7);
+//                    slogan_name.setText(serverMac);
+//                    srvSerial = srvSerial + serverMacTrimmed;
+////                    ssidName.setText(srvSerial);
+//                    ssidName.setText(ssidNameForPrint);
+//                }
+//
+//            }
+//        });
 
         btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
