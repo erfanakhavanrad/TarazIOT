@@ -23,18 +23,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:textSize="15sp"
         android:text="راهنما: ابتدا روی دکمه زیر کلیک کنید و پس از انتخاب سنسور به این صفحه بازگشته و سپس دکمه تایید را فشار دهید. در صورتی که به دستگاه اشتباه متصل باشید دکمه ارسال غیرفعال است."
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/wfiSettingBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
         android:layout_marginTop="44dp"
-        android:padding="5dp"
-        android:text="wifi seetting"
+        android:padding="10dp"
+        android:text="تنظیمات WI-FI"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ssidName" />
 
@@ -43,7 +43,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="216dp"
-        android:text="Send"
+        android:textSize="20sp"
+        android:enabled="false"
+        android:text="ارسال اطلاعات"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wfiSettingBtn" />
 

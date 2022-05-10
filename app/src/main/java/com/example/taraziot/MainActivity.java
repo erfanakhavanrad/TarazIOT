@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 userManagerSharedPrefs.clearAllInformation();
-                                Intent intent = new Intent(MainActivity.this, ConfigServerActivity.class);
+                                Intent intent = new Intent(MainActivity.this, PermissionsActivity.class);
                                 startActivity(intent);
                                 finish();
 
