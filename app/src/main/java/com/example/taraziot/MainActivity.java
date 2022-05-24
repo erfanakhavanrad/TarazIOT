@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 // TODO: 4/26/2022 1- Clean the code. 2- Turn WIFI on in all pages. 3- In the Wild test the application. 4- UI Change. 5- IP test for wifi 6- Thread change when sending data from sensor after server. 
+// TODO: 5/24/22 1- Clean server and sensor message. 2- Loading 3- Help 4- Nightmode 5- icon and splash 6- Remove one from alarm and remove extra tracks. 
 
 public class MainActivity extends AppCompatActivity {
 
