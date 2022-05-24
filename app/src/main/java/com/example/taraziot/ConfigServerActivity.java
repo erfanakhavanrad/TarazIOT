@@ -116,8 +116,8 @@ public class ConfigServerActivity extends AppCompatActivity {
 
 //        09127938973
 //        09359698705
-        edtSimCard.setText("09192503312");
-        edtAdminPhoneNumber.setText("09192503313");
+        edtSimCard.setText("09368810941");
+        edtAdminPhoneNumber.setText("09127938973");
         edtPassword.setText("12345678");
         edtConfirmPassword.setText("12345678");
         edtFirstUserPhoneNumber.setText("09192503314");

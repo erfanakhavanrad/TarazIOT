@@ -385,7 +385,7 @@ public class ConfigSensor22Activity extends AppCompatActivity {
 
                                 } else {
                                     Toast.makeText(ConfigSensor22Activity.this, "مشکلی پیش آمد. لطفا مجددا تلاش کنید.", Toast.LENGTH_LONG).show();
-                                    userManagerSharedPrefs.registeredSensor(true);
+                                    userManagerSharedPrefs.registeredSensor(false);
 
                                 }
                             }
