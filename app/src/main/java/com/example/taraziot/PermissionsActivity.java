@@ -125,6 +125,7 @@ public class PermissionsActivity extends AppCompatActivity {
                     userManagerSharedPrefs.allowed(true);
                     Intent intent = new Intent(PermissionsActivity.this, ConfigServerActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
 
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(PermissionsActivity.this);
