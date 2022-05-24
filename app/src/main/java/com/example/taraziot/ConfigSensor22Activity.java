@@ -279,7 +279,7 @@ public class ConfigSensor22Activity extends AppCompatActivity {
                 String serverNameConfirmation = ssidNameTrimmed;
                 new AlertDialog.Builder(ConfigSensor22Activity.this)
                         .setTitle("تایید نهایی")
-                        .setMessage(" \nاطلاعات سرور " + sensorNameConfirmation + " به سنسور " + serverNameConfirmation + " ارسال شود؟")
+                        .setMessage(" \nاطلاعات سرور " + serverNameConfirmation + " به سنسور " + sensorNameConfirmation + " ارسال شود؟")
                         .setPositiveButton("بله", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

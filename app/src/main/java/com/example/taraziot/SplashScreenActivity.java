@@ -54,6 +54,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 if (!registered && allowed) {
 //                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                     Intent intent = new Intent(SplashScreenActivity.this, ConfigServerActivity.class);
+//                    Intent intent = new Intent(SplashScreenActivity.this, PermissionsActivity.class);
                     startActivity(intent);
                     finish();
 
