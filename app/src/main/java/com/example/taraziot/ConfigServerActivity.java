@@ -231,173 +231,110 @@ public class ConfigServerActivity extends AppCompatActivity {
         });
     }
 //
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-////        btntest2222 = findViewById(R.id.btntest2222);
-////        edtThirdUserPhoneNumber = findViewById(R.id.edtThirdUserPhoneNumber);
-////        edtFourthUserPhoneNumber = findViewById(R.id.edtFourthUserPhoneNumber);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        /**
+         Handler is Here
+         */
+//        final Handler handler = new Handler();
 //
-////        serveredt = findViewById(R.id.serveredt);
-////        SERVER_IP = "192.168.43.111";
-//
-//        /**
-//         Handler is Here
-//         */
-////        final Handler handler = new Handler();
-////
-////        final Runnable runnable = new Runnable() {
-////            @Override
-////            public void run() {
-////                finish();
-////                System.exit(0);
-////            }
-////        };
-////        handler.postDelayed(runnable, 5000);
-//
-//        userManagerSharedPrefs = new UserManagerSharedPrefs(this);
-//        Context context = ConfigServerActivity.this.getApplicationContext();
-//        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-//        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-////        Toast.makeText(context, "first " + ip, Toast.LENGTH_SHORT).show();
-//// cut the last octet from ip (if you want to keep the . at the end, add 1 to the second parameter
-//        String firstThreeOctets = ip.substring(0, ip.lastIndexOf(".")); // 192.168.1
-//
-//
-////        String lastOctet = ip.substring(ip.lastIndexOf(".") + 1); // 97
-////        Toast.makeText(context, "Second " + lastOctet, Toast.LENGTH_SHORT).show();
-//        String newIp = firstThreeOctets + ".1"; // 192.168.1.100
-////        Toast.makeText(context, "Third " + newIp, Toast.LENGTH_SHORT).show();
-////        Toast.makeText(context, "ip: " + ip, Toast.LENGTH_SHORT).show();
-////        SERVER_IP = "192.168.43.111";
-////        SERVER_IP = "192.168.43.111";
-//
-////                SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
-////        SERVER_IP = newIp;
-//        SERVER_IP = "192.168.133.100";
-////        SERVER_IP =
-////        SERVER_IP = serveredt.getText().toString().trim();
-////        Toast.makeText(context, "in", Toast.LENGTH_SHORT).show();
-//        SERVER_PORT = 8888;
-//        Thread1 = new Thread(new Thread1());
-//        Thread1.start();
-//
-////        09127938973
-////        09359698705
-//        edtSimCard.setText("09192503312");
-//        edtAdminPhoneNumber.setText("09127938973");
-//        edtPassword.setText("12345678");
-//        edtConfirmPassword.setText("12345678");
-//        edtFirstUserPhoneNumber.setText("09192503314");
-//        edtSecondUserPhoneNumber.setText("09192503314");
-//
-//
-////        btntest2222.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                Intent intent = new Intent(ConfigServerActivity.this, ConfigSensor22Activity.class);
-////                startActivity(intent);
-////                finish();
-////            }
-////        });
-////
-////        btnmacc.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-////                    ActivityCompat.requestPermissions(ConfigServerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION
-////                    }, 0);
-////                } else {
-////                    WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
-////                    String ssidNameForPrint = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
-////                    WifiInfo info = wifiMgr.getConnectionInfo();
-////                    serverMac = info.getBSSID(); //Mac Address
-//////                    String ipAddress = Formatter.formatIpAddress(ip);
-////                    int index23 = serverMac.indexOf(":");
-////                    serverMacTrimmed = serverMac.substring(index23 + 7);
-////                    slogan_name.setText(serverMac);
-////                    srvSerial = srvSerial + serverMacTrimmed;
-//////                    ssidName.setText(srvSerial);
-////                    ssidName.setText(ssidNameForPrint);
-////                }
-////
-////            }
-////        });
-//
-//        btnConfig.setOnClickListener(new View.OnClickListener() {
+//        final Runnable runnable = new Runnable() {
 //            @Override
-//            public void onClick(View v) {
-//                simCard = edtSimCard.getText().toString().trim();
-////                 serialNumber = edtSerialNumber.getText().toString().trim();
-//                adminPhoneNumber = edtAdminPhoneNumber.getText().toString().trim();
-//                password = edtPassword.getText().toString().trim();
-//                confirmPassword = edtConfirmPassword.getText().toString().trim();
-//                firstUserPhoneNumber = edtFirstUserPhoneNumber.getText().toString().trim();
-//                secondUserPhoneNumber = edtSecondUserPhoneNumber.getText().toString().trim();
-////                 thirdUserPhoneNumber = edtThirdUserPhoneNumber.getText().toString().trim();
-////                 fourthUserPhoneNumber = edtFourthUserPhoneNumber.getText().toString().trim();
-//
-//
-////                String[] values = {simCard, adminPhoneNumber, password, confirmPassword,
-////                        firstUserPhoneNumber, secondUserPhoneNumber, thirdUserPhoneNumber, fourthUserPhoneNumber};
-//
-//
-//                String[] values = {simCard, adminPhoneNumber, password, confirmPassword};
-//
-//                Boolean valid = true;
-////                int validNumber = 1;
-//                for (int i = 0; i < values.length; i++) {
-//                    if (TextUtils.isEmpty(values[i])) {
-//                        valid = false;
-////                        validNumber = 0;
-//                        break;
-//                    }
-////                    System.out.println(valid);
-//                }
-//
-//
-//                Boolean passwordValid = false;
-//                //start
-//                if (valid) {
-//                    if (password.equals(confirmPassword)) {
-//                        passwordValid = true;
-//
-//                    } else {
-//                        passwordValid = false;
-//                    }
-//                    if (passwordValid && valid) {
-//                        mainMessage = "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + firstUserPhoneNumber + ",4:" + secondUserPhoneNumber + ",5:" + password;
-//                        mainMessage = mainMessage.replaceAll("\\s+", "");
-//                        mainMessage = mainMessage.trim();
-//                        mainMessage = mainMessage + System.lineSeparator();
-//                        userManagerSharedPrefs.saveServerPassword(password);
-//                        new Thread(new Thread3(mainMessage)).start();
-//                    } else {
-//                        Toast.makeText(context, "مقادیر رمز یکسان نیستند", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                } else {
-//                    Toast.makeText(ConfigServerActivity.this, "فیلدهای اجباری را پر کنید", Toast.LENGTH_SHORT).show();
-//
-//                    if (TextUtils.isEmpty(edtSimCard.getText())) {
-//                        edtSimCard.setError("اجباری");
-//                    }
-//                    if (TextUtils.isEmpty(edtAdminPhoneNumber.getText())) {
-//                        edtAdminPhoneNumber.setError("اجباری");
-//                    }
-//                    if (TextUtils.isEmpty(edtPassword.getText())) {
-//                        edtPassword.setError("اجباری");
-//                    }
-//
-//                    if (TextUtils.isEmpty(edtConfirmPassword.getText())) {
-//                        edtConfirmPassword.setError("اجباری");
-//                    }
-//
-//                }
-//                //end
+//            public void run() {
+//                finish();
+//                System.exit(0);
 //            }
-//        });
-//    }
+//        };
+//        handler.postDelayed(runnable, 5000);
+
+        Context context = ConfigServerActivity.this.getApplicationContext();
+        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+
+        SERVER_IP = "192.168.133.100";
+        SERVER_PORT = 8888;
+        Thread1 = new Thread(new Thread1());
+        Thread1.start();
+
+//        09127938973
+//        09359698705
+        edtSimCard.setText("09192503312");
+        edtAdminPhoneNumber.setText("09127938973");
+        edtPassword.setText("12345678");
+        edtConfirmPassword.setText("12345678");
+        edtFirstUserPhoneNumber.setText("09192503314");
+        edtSecondUserPhoneNumber.setText("09192503314");
+
+        btnConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simCard = edtSimCard.getText().toString().trim();
+//                 serialNumber = edtSerialNumber.getText().toString().trim();
+                adminPhoneNumber = edtAdminPhoneNumber.getText().toString().trim();
+                password = edtPassword.getText().toString().trim();
+                confirmPassword = edtConfirmPassword.getText().toString().trim();
+                firstUserPhoneNumber = edtFirstUserPhoneNumber.getText().toString().trim();
+                secondUserPhoneNumber = edtSecondUserPhoneNumber.getText().toString().trim();
+
+                String[] values = {simCard, adminPhoneNumber, password, confirmPassword};
+
+                Boolean valid = true;
+//                int validNumber = 1;
+                for (int i = 0; i < values.length; i++) {
+                    if (TextUtils.isEmpty(values[i])) {
+                        valid = false;
+//                        validNumber = 0;
+                        break;
+                    }
+//                    System.out.println(valid);
+                }
+
+
+                Boolean passwordValid = false;
+                //start
+                if (valid) {
+                    if (password.equals(confirmPassword)) {
+                        passwordValid = true;
+
+                    } else {
+                        passwordValid = false;
+                    }
+                    if (passwordValid && valid) {
+                        mainMessage = "1:" + simCard + ",2:" + adminPhoneNumber + ",3:" + firstUserPhoneNumber + ",4:" + secondUserPhoneNumber + ",5:" + password;
+                        mainMessage = mainMessage.replaceAll("\\s+", "");
+                        mainMessage = mainMessage.trim();
+                        mainMessage = mainMessage + System.lineSeparator();
+                        userManagerSharedPrefs.saveServerPassword(password);
+                        new Thread(new Thread3(mainMessage)).start();
+                    } else {
+                        Toast.makeText(context, "مقادیر رمز یکسان نیستند", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(ConfigServerActivity.this, "فیلدهای اجباری را پر کنید", Toast.LENGTH_SHORT).show();
+
+                    if (TextUtils.isEmpty(edtSimCard.getText())) {
+                        edtSimCard.setError("اجباری");
+                    }
+                    if (TextUtils.isEmpty(edtAdminPhoneNumber.getText())) {
+                        edtAdminPhoneNumber.setError("اجباری");
+                    }
+                    if (TextUtils.isEmpty(edtPassword.getText())) {
+                        edtPassword.setError("اجباری");
+                    }
+
+                    if (TextUtils.isEmpty(edtConfirmPassword.getText())) {
+                        edtConfirmPassword.setError("اجباری");
+                    }
+
+                }
+                //end
+            }
+        });
+    }
 
     private PrintWriter output;
     private BufferedReader input;
