@@ -10,24 +10,25 @@
 
     <TextView
         android:id="@+id/slogan_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
+        android:padding="5dp"
         android:text="جهت تنظیم دستگاه، اطلاعات خود را وارد کنید. پس از اتصال صحیح به سرور، دکمه ثبت اطلاعات فعال می‌شود."
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <EditText-->
-<!--        android:id="@+id/serveredt"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:hint="Ip"-->
-<!--        android:padding="15dp"-->
-<!--        android:layout_marginTop="32dp"-->
-<!--/>-->
+    <!--        <EditText-->
+    <!--        android:id="@+id/serveredt"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:hint="Ip"-->
+    <!--        android:padding="15dp"-->
+    <!--        android:layout_marginTop="32dp"-->
+    <!--/>-->
 
     <TextView
         android:id="@+id/ssidName"
@@ -236,29 +237,29 @@
             <!--                android:text="false"-->
             <!--                android:textColor="@color/black" />-->
 
-<!--            <Button-->
-<!--                android:id="@+id/btnmacc"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:backgroundTint="@color/blue"-->
-<!--                android:elevation="0dp"-->
-<!--                android:text="btnmacc"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textSize="15sp" />-->
+            <!--            <Button-->
+            <!--                android:id="@+id/btnmacc"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:layout_weight="2"-->
+            <!--                android:backgroundTint="@color/blue"-->
+            <!--                android:elevation="0dp"-->
+            <!--                android:text="btnmacc"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:textSize="15sp" />-->
 
-<!--            <Button-->
-<!--                android:id="@+id/btntest2222"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:backgroundTint="@color/blue"-->
-<!--                android:elevation="0dp"-->
-<!--                android:text="Sensor2222"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textSize="25sp" />-->
+            <!--            <Button-->
+            <!--                android:id="@+id/btntest2222"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:layout_weight="2"-->
+            <!--                android:backgroundTint="@color/blue"-->
+            <!--                android:elevation="0dp"-->
+            <!--                android:text="Sensor2222"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:textSize="25sp" />-->
 
             <Button
                 android:id="@+id/btnConfig"
