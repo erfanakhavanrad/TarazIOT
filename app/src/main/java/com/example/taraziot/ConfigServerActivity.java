@@ -34,7 +34,7 @@ import java.net.Socket;
 @SuppressLint("SetTextI18n")
 public class ConfigServerActivity extends AppCompatActivity {
 
-    Thread Thread1 = null;
+
     //    EditText etIP, etPort;
     TextView ssidName, slogan_name;
     EditText serveredt;
@@ -44,13 +44,12 @@ public class ConfigServerActivity extends AppCompatActivity {
     Button btnConfig;
     //    btnmacc, btntest2222;
     String SERVER_IP, mainMessage,
-            simCard, serialNumber, adminPhoneNumber, password, confirmPassword, firstUserPhoneNumber, secondUserPhoneNumber,
-            thirdUserPhoneNumber, fourthUserPhoneNumber, serverMac, serverMacTrimmed, srvSerial = "SRV-Serial: ", senSerial = "SEN-Serial: ";
-
+            simCard, serialNumber, adminPhoneNumber, password, confirmPassword, firstUserPhoneNumber, secondUserPhoneNumber;
 
     UserManagerSharedPrefs userManagerSharedPrefs;
     int SERVER_PORT;
     Socket socket;
+    Thread Thread1 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,64 +57,25 @@ public class ConfigServerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config_server);
         ssidName = findViewById(R.id.ssidName);
         edtSimCard = findViewById(R.id.edtSimCard);
-//        edtSerialNumber = findViewById(R.id.edtSerialNumber);
         edtAdminPhoneNumber = findViewById(R.id.edtAdminPhoneNumber);
         edtPassword = findViewById(R.id.edtPassword);
         slogan_name = findViewById(R.id.slogan_name);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         edtFirstUserPhoneNumber = findViewById(R.id.edtFirstUserPhoneNumber);
         edtSecondUserPhoneNumber = findViewById(R.id.edtSecondUserPhoneNumber);
-//        btnmacc = findViewById(R.id.btnmacc);
-//        btntest2222 = findViewById(R.id.btntest2222);
-//        edtThirdUserPhoneNumber = findViewById(R.id.edtThirdUserPhoneNumber);
-//        edtFourthUserPhoneNumber = findViewById(R.id.edtFourthUserPhoneNumber);
         btnConfig = findViewById(R.id.btnConfig);
-//        serveredt = findViewById(R.id.serveredt);
-//        SERVER_IP = "192.168.43.111";
-
-        /**
-         Handler is Here
-         */
-//        final Handler handler = new Handler();
-//
-//        final Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                finish();
-//                System.exit(0);
-//            }
-//        };
-//        handler.postDelayed(runnable, 5000);
 
         userManagerSharedPrefs = new UserManagerSharedPrefs(this);
         Context context = ConfigServerActivity.this.getApplicationContext();
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-//        Toast.makeText(context, "first " + ip, Toast.LENGTH_SHORT).show();
-// cut the last octet from ip (if you want to keep the . at the end, add 1 to the second parameter
-        String firstThreeOctets = ip.substring(0, ip.lastIndexOf(".")); // 192.168.1
-
-
-//        String lastOctet = ip.substring(ip.lastIndexOf(".") + 1); // 97
-//        Toast.makeText(context, "Second " + lastOctet, Toast.LENGTH_SHORT).show();
-        String newIp = firstThreeOctets + ".1"; // 192.168.1.100
-//        Toast.makeText(context, "Third " + newIp, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(context, "ip: " + ip, Toast.LENGTH_SHORT).show();
-//        SERVER_IP = "192.168.43.111";
-//        SERVER_IP = "192.168.43.111";
-
-//                SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
-//        SERVER_IP = newIp;
         SERVER_IP = "192.168.133.100";
-//        SERVER_IP =
-//        SERVER_IP = serveredt.getText().toString().trim();
-//        Toast.makeText(context, "in", Toast.LENGTH_SHORT).show();
+
         SERVER_PORT = 8888;
+
         Thread1 = new Thread(new Thread1());
         Thread1.start();
 
-//        09127938973
-//        09359698705
         edtSimCard.setText("09368810941");
         edtAdminPhoneNumber.setText("09127938973");
         edtPassword.setText("12345678");
@@ -123,38 +83,6 @@ public class ConfigServerActivity extends AppCompatActivity {
         edtFirstUserPhoneNumber.setText("09192503314");
         edtSecondUserPhoneNumber.setText("09192503314");
 
-
-//        btntest2222.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ConfigServerActivity.this, ConfigSensor22Activity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-//
-//        btnmacc.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(ConfigServerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION
-//                    }, 0);
-//                } else {
-//                    WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
-//                    String ssidNameForPrint = wifiMgr.getConnectionInfo().getSSID(); // SSID Name
-//                    WifiInfo info = wifiMgr.getConnectionInfo();
-//                    serverMac = info.getBSSID(); //Mac Address
-////                    String ipAddress = Formatter.formatIpAddress(ip);
-//                    int index23 = serverMac.indexOf(":");
-//                    serverMacTrimmed = serverMac.substring(index23 + 7);
-//                    slogan_name.setText(serverMac);
-//                    srvSerial = srvSerial + serverMacTrimmed;
-////                    ssidName.setText(srvSerial);
-//                    ssidName.setText(ssidNameForPrint);
-//                }
-//
-//            }
-//        });
 
         btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,12 +94,6 @@ public class ConfigServerActivity extends AppCompatActivity {
                 confirmPassword = edtConfirmPassword.getText().toString().trim();
                 firstUserPhoneNumber = edtFirstUserPhoneNumber.getText().toString().trim();
                 secondUserPhoneNumber = edtSecondUserPhoneNumber.getText().toString().trim();
-//                 thirdUserPhoneNumber = edtThirdUserPhoneNumber.getText().toString().trim();
-//                 fourthUserPhoneNumber = edtFourthUserPhoneNumber.getText().toString().trim();
-
-
-//                String[] values = {simCard, adminPhoneNumber, password, confirmPassword,
-//                        firstUserPhoneNumber, secondUserPhoneNumber, thirdUserPhoneNumber, fourthUserPhoneNumber};
 
 
                 String[] values = {simCard, adminPhoneNumber, password, confirmPassword};
@@ -230,25 +152,12 @@ public class ConfigServerActivity extends AppCompatActivity {
             }
         });
     }
-//
+
+
     @Override
     protected void onResume() {
         super.onResume();
 
-
-        /**
-         Handler is Here
-         */
-//        final Handler handler = new Handler();
-//
-//        final Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                finish();
-//                System.exit(0);
-//            }
-//        };
-//        handler.postDelayed(runnable, 5000);
 
         Context context = ConfigServerActivity.this.getApplicationContext();
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -256,8 +165,16 @@ public class ConfigServerActivity extends AppCompatActivity {
 
         SERVER_IP = "192.168.133.100";
         SERVER_PORT = 8888;
+        if (!Thread1.isAlive()) {
+            Thread Thread1 = null;
         Thread1 = new Thread(new Thread1());
         Thread1.start();
+        } else{
+            Toast.makeText(context, "FUCK OFF", Toast.LENGTH_SHORT).show();
+        }
+//        Thread Thread1 = null;
+//        Thread1 = new Thread(new Thread1());
+//        Thread1.start();
 
 //        09127938973
 //        09359698705
@@ -334,17 +251,20 @@ public class ConfigServerActivity extends AppCompatActivity {
                 //end
             }
         });
+
+
     }
 
-    private PrintWriter output;
+    private PrintWriter output1;
     private BufferedReader input;
 
     class Thread1 implements Runnable {
+
         public void run() {
 
             try {
                 socket = new Socket(SERVER_IP, SERVER_PORT);
-                output = new PrintWriter(socket.getOutputStream());
+                output1 = new PrintWriter(socket.getOutputStream());
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 runOnUiThread(new Runnable() {
                     @Override
@@ -370,19 +290,7 @@ public class ConfigServerActivity extends AppCompatActivity {
                 try {
                     final String message = input.readLine();
 
-//                    new CountDownTimer(5000, 1000) {
-//                        @Override
-//                        public void onTick(long l) {
-////                                        Toast.makeText(ConfigServerActivity.this, "now", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        @Override
-//                        public void onFinish() {
-//                            if (message == null) {
-//                                Toast.makeText(ConfigServerActivity.this, "هیچ پاسخی از سرور دریافت نشد. لطفا مجددا تلاش کنید.", Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//                    }.start();
+
                     if (message != null) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -394,31 +302,12 @@ public class ConfigServerActivity extends AppCompatActivity {
                                     userManagerSharedPrefs.saveSSIDName(ssidNameForPrint.trim());
                                     userManagerSharedPrefs.registered(true);
                                     userManagerSharedPrefs.destinationAddress(simCard);
-//                                    userManagerSharedPrefs.
-//                                    Toast.makeText(ConfigServerActivity.this, "اطلاعات با موفقیت ذخیره شد.", Toast.LENGTH_LONG).show();
-//                                    Toast.makeText(ConfigServerActivity.this, "پس از ۵ ثانیه اپلیکیشن بسته میشود.", Toast.LENGTH_LONG).show();
                                     Toast.makeText(ConfigServerActivity.this, "سرور با موفقیت تنظیم شد.", Toast.LENGTH_LONG).show();
 
-                                    final Handler handler = new Handler();
+//                                    final Handler handler = new Handler();
                                     Intent intent = new Intent(ConfigServerActivity.this, ConfigSensor22Activity.class);
-                                    final Runnable runnable = new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            startActivity(intent);
-                                            try {
-                                                socket.close();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-                                            finish();
-
-//                                            finish();
-//                                            System.exit(0);
-                                        }
-                                    };
-                                    handler.postDelayed(runnable, 3000);
-
-
+                                    startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(ConfigServerActivity.this, "مشکلی پیش آمد. لطفا مجددا تلاش کنید.", Toast.LENGTH_LONG).show();
                                     userManagerSharedPrefs.registered(false);
@@ -428,6 +317,7 @@ public class ConfigServerActivity extends AppCompatActivity {
                             }
                         });
                     } else {
+                        Thread Thread1 = null;
                         Thread1 = new Thread(new Thread1());
                         Thread1.start();
                         return;
@@ -448,17 +338,24 @@ public class ConfigServerActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            output.write(message);
-            output.flush();
+//            output1.write(message);
+            output1.println(message);
+            output1.flush();
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ssidName.append("client: " + message + "\n");
+                    ssidName.append("tell me if you are the one : " + message + "\n");
 //                    edtSimCard.setText("");
                     System.out.println(message);
+//                    Thread Thread1 = null;
+//                    Thread1 = new Thread(new Thread1());
+//                    Thread1.interrupt();
+
                     // TODO: 3/9/22 Above line
                 }
             });
         }
     }
+
 }
