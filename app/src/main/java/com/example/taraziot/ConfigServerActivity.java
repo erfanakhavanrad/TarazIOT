@@ -170,7 +170,8 @@ public class ConfigServerActivity extends AppCompatActivity {
         Thread1 = new Thread(new Thread1());
         Thread1.start();
         } else{
-            Toast.makeText(context, "FUCK OFF", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "FUCK OFF", Toast.LENGTH_SHORT).show();
+            System.out.println("Thread was already awake.");
         }
 //        Thread Thread1 = null;
 //        Thread1 = new Thread(new Thread1());

@@ -202,9 +202,15 @@ public class ConfigSensor22Activity extends AppCompatActivity {
 //        SERVER_IP = baseIp + deviceIpTrimmed;
         SERVER_IP = "192.168.133.1";
         SERVER_PORT = 8888;
-        Thread1 = new Thread(new ConfigSensor22Activity.Thread1());
-        Thread1.start();
 
+        if (!Thread1.isAlive()) {
+            Thread Thread1 = null;
+            Thread1 = new Thread(new Thread1());
+            Thread1.start();
+        } else{
+//            Toast.makeText(context, "FUCK OFF", Toast.LENGTH_SHORT).show();
+            System.out.println("Thread was already awake.");
+        }
 
     }
 
