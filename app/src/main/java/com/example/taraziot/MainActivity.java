@@ -19,6 +19,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -228,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
 //                statusTxt.setText("hjjh");
                 sendRefreshStatusSMS(modifiedDestinationAddress);
+                startTimer();
 //                Intent intent = getIntent();
 //                String message = intent.getStringExtra("message");
 //                Toast.makeText(MainActivity.this, "MAin "+ message, Toast.LENGTH_SHORT).show();
@@ -402,6 +404,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 // End of onCreate
+
+    CountDownTimer cTimer = null;
+
+    //start timer function
+    void startTimer() {
+        cTimer = new CountDownTimer(10000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                statusRefreshButton.setEnabled(false);
+                statusRefreshButton.setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                statusRefreshButton.setText("");
+                statusRefreshButton.setEnabled(true);
+            }
+        };
+        cTimer.start();
+    }
+
+
+    void cancelTimer() {
+        if (cTimer != null)
+            cTimer.cancel();
+    }
+
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
