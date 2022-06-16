@@ -3,6 +3,9 @@ package com.example.taraziot;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,9 +14,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.telephony.SmsManager;
@@ -25,13 +32,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RawRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.taraziot.receiver.SMSReceiverImpl;
+import com.example.taraziot.service.AudioService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,7 +56,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, armAlarmButton, disarmAlarmButton, disableAlarmSoundButton, deleteInfoBtn;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton,
+            armAlarmButton, disarmAlarmButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton;
     public static TextView smsNumberText, statusTxt, armedStatusTxt;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
@@ -84,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         armAlarmButton = findViewById(R.id.armAlarmButton);
         disarmAlarmButton = findViewById(R.id.disarmAlarmButton);
         disableAlarmSoundButton = findViewById(R.id.disableAlarmSoundButton);
+        disableNotificationAlarmButton = findViewById(R.id.disableNotificationAlarmButton);
         configServerBtn = findViewById(R.id.configServerBtn);
         deleteInfoBtn = findViewById(R.id.deleteInfoBtn);
 //destinationAddress = "9127938973";
@@ -370,6 +384,15 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+
+
+        disableNotificationAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(new Intent(MainActivity.this,AudioService.class));
+                Toast.makeText(MainActivity.this, "آلارم گوشی قطع شد", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -693,199 +716,199 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void sendStartSMS() {
-
-        try {
-
-            //Broadcast for Sent SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک ارسال شد";
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            state = "یک خطای عمومی رخ داد";
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            state = "اپراتور در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            state = " پروتکل PDU در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            state = "سیم کارت در دسترس نیست";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_SENT));
-
-            //Broadcast for Delivered SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک تحویل داده شد";
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            state = "پیامک تحویل داده نشد";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_DELIVERED));
-
-            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage("+989127938973", null, "START", sentSMS, deliverSMS);
-//            smsManager.sendTextMessage("+989359698705", null, "START", sentSMS, deliverSMS);
-
-            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-
-            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
-
-        }
-
-    }
-
-    private void sendStopSMS() {
-
-        try {
-
-            //Broadcast for Sent SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک ارسال شد";
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            state = "یک خطای عمومی رخ داد";
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            state = "اپراتور در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            state = " پروتکل PDU در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            state = "سیم کارت در دسترس نیست";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_SENT));
-
-            //Broadcast for Delivered SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک تحویل داده شد";
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            state = "پیامک تحویل داده نشد";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_DELIVERED));
-
-            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage("+989127938973", null, "STOP", sentSMS, deliverSMS);
-//            smsManager.sendTextMessage("+989359698705", null, "STOP", sentSMS, deliverSMS);
-
-            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-
-            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
-
-        }
-
-    }
-
-    private void sendMessage() {
-
-        try {
-
-            //Broadcast for Sent SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک ارسال شد";
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            state = "یک خطای عمومی رخ داد";
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            state = "اپراتور در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            state = " پروتکل PDU در دسترس نیست";
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            state = "سیم کارت در دسترس نیست";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_SENT));
-
-            //Broadcast for Delivered SMS
-            registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String state = "";
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            state = "پیامک تحویل داده شد";
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            state = "پیامک تحویل داده نشد";
-                            break;
-                    }
-                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
-                }
-            }, new IntentFilter(SMS_DELIVERED));
-
-            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage("+989359698705", null, "Start", sentSMS, deliverSMS);
-
-            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-
-            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
-
-        }
-
-    }
+//    private void sendStartSMS() {
+//
+//        try {
+//
+//            //Broadcast for Sent SMS
+//            registerReceiver(new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//
+//                    String state = "";
+//                    switch (getResultCode()) {
+//                        case Activity.RESULT_OK:
+//                            state = "پیامک ارسال شد";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+//                            state = "یک خطای عمومی رخ داد";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+//                            state = "اپراتور در دسترس نیست";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_NULL_PDU:
+//                            state = " پروتکل PDU در دسترس نیست";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+//                            state = "سیم کارت در دسترس نیست";
+//                            break;
+//                    }
+//                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+//                }
+//            }, new IntentFilter(SMS_SENT));
+//
+//            //Broadcast for Delivered SMS
+//            registerReceiver(new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//                    String state = "";
+//                    switch (getResultCode()) {
+//                        case Activity.RESULT_OK:
+//                            state = "پیامک تحویل داده شد";
+//                            break;
+//                        case Activity.RESULT_CANCELED:
+//                            state = "پیامک تحویل داده نشد";
+//                            break;
+//                    }
+//                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+//                }
+//            }, new IntentFilter(SMS_DELIVERED));
+//
+//            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+//            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+//
+//            SmsManager smsManager = SmsManager.getDefault();
+//            smsManager.sendTextMessage("+989127938973", null, "START", sentSMS, deliverSMS);
+////            smsManager.sendTextMessage("+989359698705", null, "START", sentSMS, deliverSMS);
+//
+//            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+//
+//        } catch (Exception e) {
+//
+//            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+//
+//        }
+//
+//    }
+//
+//    private void sendStopSMS() {
+//
+//        try {
+//
+//            //Broadcast for Sent SMS
+//            registerReceiver(new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//
+//                    String state = "";
+//                    switch (getResultCode()) {
+//                        case Activity.RESULT_OK:
+//                            state = "پیامک ارسال شد";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+//                            state = "یک خطای عمومی رخ داد";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+//                            state = "اپراتور در دسترس نیست";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_NULL_PDU:
+//                            state = " پروتکل PDU در دسترس نیست";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+//                            state = "سیم کارت در دسترس نیست";
+//                            break;
+//                    }
+//                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+//                }
+//            }, new IntentFilter(SMS_SENT));
+//
+//            //Broadcast for Delivered SMS
+//            registerReceiver(new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//                    String state = "";
+//                    switch (getResultCode()) {
+//                        case Activity.RESULT_OK:
+//                            state = "پیامک تحویل داده شد";
+//                            break;
+//                        case Activity.RESULT_CANCELED:
+//                            state = "پیامک تحویل داده نشد";
+//                            break;
+//                    }
+//                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+//                }
+//            }, new IntentFilter(SMS_DELIVERED));
+//
+//            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+//            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+//
+//            SmsManager smsManager = SmsManager.getDefault();
+//            smsManager.sendTextMessage("+989127938973", null, "STOP", sentSMS, deliverSMS);
+////            smsManager.sendTextMessage("+989359698705", null, "STOP", sentSMS, deliverSMS);
+//
+//            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+//
+//        } catch (Exception e) {
+//
+//            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+//
+//        }
+//
+//    }
+//
+//    private void sendMessage() {
+//
+//        try {
+//
+//            //Broadcast for Sent SMS
+//            registerReceiver(new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//
+//                    String state = "";
+//                    switch (getResultCode()) {
+//                        case Activity.RESULT_OK:
+//                            state = "پیامک ارسال شد";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+//                            state = "یک خطای عمومی رخ داد";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+//                            state = "اپراتور در دسترس نیست";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_NULL_PDU:
+//                            state = " پروتکل PDU در دسترس نیست";
+//                            break;
+//                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+//                            state = "سیم کارت در دسترس نیست";
+//                            break;
+//                    }
+//                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+//                }
+//            }, new IntentFilter(SMS_SENT));
+//
+//            //Broadcast for Delivered SMS
+//            registerReceiver(new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//                    String state = "";
+//                    switch (getResultCode()) {
+//                        case Activity.RESULT_OK:
+//                            state = "پیامک تحویل داده شد";
+//                            break;
+//                        case Activity.RESULT_CANCELED:
+//                            state = "پیامک تحویل داده نشد";
+//                            break;
+//                    }
+//                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+//                }
+//            }, new IntentFilter(SMS_DELIVERED));
+//
+//            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+//            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+//
+//            SmsManager smsManager = SmsManager.getDefault();
+//            smsManager.sendTextMessage("+989359698705", null, "Start", sentSMS, deliverSMS);
+//
+//            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+//
+//        } catch (Exception e) {
+//
+//            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+//
+//        }
+//
+//    }
 
     private void requestSendSMSpermission() {
 
@@ -1096,51 +1119,51 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    private void getSMSDetails() {
-        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append("*********SMS History*************** :");
-            Uri uri = Uri.parse("content://sms");
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            if (cursor.moveToFirst()) {
-                for (int i = 0; i < cursor.getCount(); i++) {
-                    String body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
-                            .toString();
-                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"))
-                            .toString();
-                    String date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
-                            .toString();
-                    Date smsDayTime = new Date(Long.valueOf(date));
-                    String type = cursor.getString(cursor.getColumnIndexOrThrow("type"))
-                            .toString();
-                    String typeOfSMS = null;
-                    switch (Integer.parseInt(type)) {
-                        case 1:
-                            typeOfSMS = "INBOX";
-                            break;
-                        case 2:
-                            typeOfSMS = "SENT";
-                            break;
-                        case 3:
-                            typeOfSMS = "DRAFT";
-                            break;
-                    }
-                    stringBuffer.append("\nPhone Number:--- " + number + " \nMessage Type:--- "
-                            + typeOfSMS + " \nMessage Date:--- " + smsDayTime
-                            + " \nMessage Body:--- " + body);
-                    stringBuffer.append("\n----------------------------------");
-                    cursor.moveToNext();
-                }
-//                smsNumberText.setText(stringBuffer);
-                Toast.makeText(this, stringBuffer, Toast.LENGTH_SHORT).show();
-            }
-            cursor.close();
-        } else {
-            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
-        }
-    }
+//
+//    private void getSMSDetails() {
+//        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
+//            StringBuffer stringBuffer = new StringBuffer();
+//            stringBuffer.append("*********SMS History*************** :");
+//            Uri uri = Uri.parse("content://sms");
+//            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+//            if (cursor.moveToFirst()) {
+//                for (int i = 0; i < cursor.getCount(); i++) {
+//                    String body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
+//                            .toString();
+//                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"))
+//                            .toString();
+//                    String date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+//                            .toString();
+//                    Date smsDayTime = new Date(Long.valueOf(date));
+//                    String type = cursor.getString(cursor.getColumnIndexOrThrow("type"))
+//                            .toString();
+//                    String typeOfSMS = null;
+//                    switch (Integer.parseInt(type)) {
+//                        case 1:
+//                            typeOfSMS = "INBOX";
+//                            break;
+//                        case 2:
+//                            typeOfSMS = "SENT";
+//                            break;
+//                        case 3:
+//                            typeOfSMS = "DRAFT";
+//                            break;
+//                    }
+//                    stringBuffer.append("\nPhone Number:--- " + number + " \nMessage Type:--- "
+//                            + typeOfSMS + " \nMessage Date:--- " + smsDayTime
+//                            + " \nMessage Body:--- " + body);
+//                    stringBuffer.append("\n----------------------------------");
+//                    cursor.moveToNext();
+//                }
+////                smsNumberText.setText(stringBuffer);
+//                Toast.makeText(this, stringBuffer, Toast.LENGTH_SHORT).show();
+//            }
+//            cursor.close();
+//        } else {
+//            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
+//        }
+//    }
 
 
 }

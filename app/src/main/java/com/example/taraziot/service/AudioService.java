@@ -20,6 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RawRes;
 import androidx.core.app.NotificationCompat;
 
+import com.example.taraziot.ChooseDeviceActivity;
+import com.example.taraziot.ConfigServerActivity;
+import com.example.taraziot.MainActivity;
+import com.example.taraziot.SplashScreenActivity;
+
 import java.io.Serializable;
 
 public class AudioService extends Service {
@@ -122,10 +127,19 @@ public class AudioService extends Service {
                 this, 0, intent, 0
         );
 
+
+        Intent intent2 = new Intent(AudioService.this, MainActivity.class);
+//        startActivity(intent2);
+        PendingIntent pendingIntent2 = PendingIntent.getActivity(
+                this, 0, intent2, 0
+        );
+
+
         return new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle("دزدگیر به کار افتاده است")
                 .setContentText("سریعا محل را چک کنید")
                 .setSmallIcon(android.R.drawable.stat_sys_warning)
+                .setContentIntent(pendingIntent2)
                 .addAction(
                         android.R.drawable.ic_media_pause, "قطع صدای موبایل",
                         pendingIntent
@@ -136,7 +150,7 @@ public class AudioService extends Service {
     public void createNotificationChannel() {
         if (isAndroidOreo()) {
             NotificationChannel serviceChannel = new NotificationChannel(
-                    NOTIFICATION_CHANNEL_ID, "Audio Service", NotificationManager.IMPORTANCE_DEFAULT
+                    NOTIFICATION_CHANNEL_ID, "Audio Service", NotificationManager.IMPORTANCE_HIGH
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
