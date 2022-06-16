@@ -3,6 +3,7 @@ package com.example.taraziot;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -389,14 +390,29 @@ public class MainActivity extends AppCompatActivity {
         disableNotificationAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stopService(new Intent(MainActivity.this,AudioService.class));
-                Toast.makeText(MainActivity.this, "آلارم گوشی قطع شد", Toast.LENGTH_SHORT).show();
+                if (isMyServiceRunning(AudioService.class)) {
+                    stopService(new Intent(MainActivity.this, AudioService.class));
+                    Toast.makeText(MainActivity.this, "آلارم گوشی قطع شد", Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(MainActivity.this, "آلارمی پخش نمیشود", Toast.LENGTH_SHORT).show();
+
             }
         });
 
 
     }
 // End of onCreate
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void configSharedP() {
 
