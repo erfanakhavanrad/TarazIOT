@@ -115,14 +115,24 @@ public class SMSReceiverImpl extends SMSReceiver {
 
 
                 case "E56S2":
-                    MainActivity.statusTxt.setText("دستگاه روشن و فعال است");
+                    MainActivity.statusTxt.setText("دزدگیر روشن و فعال است");
                     MainActivity.statusTxt.setTextColor(Color.parseColor("#0EBF01"));
+                    MainActivity.disarmAndArmAlarmButton.setText("غیر فعال نمودن دزدگیر");
+                    MainActivity.valueOfEnableNumber = 1;
+                    MainActivity.disarmAndArmAlarmButton.setTextColor(Color.parseColor("#ffffff"));
+//                    MainActivity.disarmAndArmAlarmButton.setBackgroundColor(Color.parseColor("#ffffff"));
+                    MainActivity.disarmAndArmAlarmButton.setEnabled(true);
                     break;
 
 
                 case "T2E6S":
-                    MainActivity.statusTxt.setText("دستگاه خاموش و غیر فعال است");
+                    MainActivity.statusTxt.setText("دزدگیر خاموش و غیر فعال است");
                     MainActivity.statusTxt.setTextColor(Color.parseColor("#d42427"));
+                    MainActivity.disarmAndArmAlarmButton.setText("فعال نمودن دزدگیر");
+                    MainActivity.valueOfEnableNumber = 0;
+                    MainActivity.disarmAndArmAlarmButton.setTextColor(Color.parseColor("#ffffff"));
+//                    MainActivity.disarmAndArmAlarmButton.setBackgroundColor(Color.parseColor("#ffffff"));
+                    MainActivity.disarmAndArmAlarmButton.setEnabled(true);
                     break;
 
 

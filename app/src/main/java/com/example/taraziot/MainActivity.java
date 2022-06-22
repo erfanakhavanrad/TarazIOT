@@ -58,9 +58,11 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton,
-            armAlarmButton, disarmAlarmButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton;
-    public static TextView smsNumberText, statusTxt, armedStatusTxt;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton;
+    public static TextView smsNumberText, statusTxt;
+    public static int valueOfEnableNumber;
+    public static Button disarmAndArmAlarmButton;
+
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
     String SMS_SENT = "SMS_SENT";
@@ -95,13 +97,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         statusRefreshButton = findViewById(R.id.statusRefreshButton);
         statusTxt = findViewById(R.id.statusTxt);
-        armedStatusTxt = findViewById(R.id.armedStatusTxt);
-        armAlarmButton = findViewById(R.id.armAlarmButton);
-        disarmAlarmButton = findViewById(R.id.disarmAlarmButton);
+//        armedStatusTxt = findViewById(R.id.armedStatusTxt);
+//        armAlarmButton = findViewById(R.id.armAlarmButton);
+//        disarmAlarmButton = findViewById(R.id.disarmAlarmButton);
+        disarmAndArmAlarmButton = findViewById(R.id.disarmAndArmAlarmButton);
         disableAlarmSoundButton = findViewById(R.id.disableAlarmSoundButton);
         disableNotificationAlarmButton = findViewById(R.id.disableNotificationAlarmButton);
         configServerBtn = findViewById(R.id.configServerBtn);
         deleteInfoBtn = findViewById(R.id.deleteInfoBtn);
+
+
 //destinationAddress = "9127938973";
 //destinationAddress = "9944420283";
         checkAndRequestPermissions();
@@ -205,20 +210,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        disarmAlarmButton.setOnClickListener(new View.OnClickListener() {
+
+        disarmAndArmAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                sendDisarmAlarmSMS(modifiedDestinationAddress);
+            public void onClick(View v) {
+                if (valueOfEnableNumber == 1) {
+                    sendDisarmAlarmSMS(modifiedDestinationAddress);
+                } else if (valueOfEnableNumber == 0) {
+                    sendArmAlarmSMS(modifiedDestinationAddress);
+                } else {
+                    Toast.makeText(MainActivity.this, "مشکلی پیش آمد", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-
-        armAlarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendArmAlarmSMS(modifiedDestinationAddress);
-            }
-        });
+//
+//        disarmAlarmButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sendDisarmAlarmSMS(modifiedDestinationAddress);
+//            }
+//        });
+//
+//
+//        armAlarmButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sendArmAlarmSMS(modifiedDestinationAddress);
+//            }
+//        });
 
 
         statusRefreshButton.setOnClickListener(new View.OnClickListener() {
@@ -230,6 +249,9 @@ public class MainActivity extends AppCompatActivity {
 //                statusTxt.setText("hjjh");
                 sendRefreshStatusSMS(modifiedDestinationAddress);
                 startTimer();
+//                getSMSDetails();
+
+
 //                Intent intent = getIntent();
 //                String message = intent.getStringExtra("message");
 //                Toast.makeText(MainActivity.this, "MAin "+ message, Toast.LENGTH_SHORT).show();
@@ -409,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
 
     //start timer function
     void startTimer() {
-        cTimer = new CountDownTimer(10000, 1000) {
+        cTimer = new CountDownTimer(20000, 1000) {
             public void onTick(long millisUntilFinished) {
                 statusRefreshButton.setEnabled(false);
                 statusRefreshButton.setText("" + millisUntilFinished / 1000);
@@ -423,6 +445,24 @@ public class MainActivity extends AppCompatActivity {
         cTimer.start();
     }
 
+    void startTimer2() {
+        cTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                if (isMyServiceRunning(SMSReceiverImpl.class)) {
+//                    BroadcastReceiver.PendingResult;
+                    cancelTimer();
+                }
+            }
+
+            public void onFinish() {
+//                statusRefreshButton.setText("");
+//                statusRefreshButton.setEnabled(true);
+                Toast.makeText(MainActivity.this, "پاسخی دریافت نشد. وضعیت دستگاه را بررسی کنید", Toast.LENGTH_SHORT).show();
+            }
+        };
+        cTimer.start();
+    }
+
 
     void cancelTimer() {
         if (cTimer != null)
@@ -430,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
+    public boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -730,6 +770,8 @@ public class MainActivity extends AppCompatActivity {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
                             state = "پیامک تحویل داده شد";
+                            startTimer2();
+//                            *da * ad * awd * awd
                             break;
                         case Activity.RESULT_CANCELED:
                             state = "پیامک تحویل داده نشد";
@@ -1162,51 +1204,51 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//
-//    private void getSMSDetails() {
-//        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
-//            StringBuffer stringBuffer = new StringBuffer();
-//            stringBuffer.append("*********SMS History*************** :");
-//            Uri uri = Uri.parse("content://sms");
-//            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-//            if (cursor.moveToFirst()) {
-//                for (int i = 0; i < cursor.getCount(); i++) {
-//                    String body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
-//                            .toString();
-//                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"))
-//                            .toString();
-//                    String date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
-//                            .toString();
-//                    Date smsDayTime = new Date(Long.valueOf(date));
-//                    String type = cursor.getString(cursor.getColumnIndexOrThrow("type"))
-//                            .toString();
-//                    String typeOfSMS = null;
-//                    switch (Integer.parseInt(type)) {
-//                        case 1:
-//                            typeOfSMS = "INBOX";
-//                            break;
-//                        case 2:
-//                            typeOfSMS = "SENT";
-//                            break;
-//                        case 3:
-//                            typeOfSMS = "DRAFT";
-//                            break;
-//                    }
-//                    stringBuffer.append("\nPhone Number:--- " + number + " \nMessage Type:--- "
-//                            + typeOfSMS + " \nMessage Date:--- " + smsDayTime
-//                            + " \nMessage Body:--- " + body);
-//                    stringBuffer.append("\n----------------------------------");
-//                    cursor.moveToNext();
-//                }
-////                smsNumberText.setText(stringBuffer);
-//                Toast.makeText(this, stringBuffer, Toast.LENGTH_SHORT).show();
-//            }
-//            cursor.close();
-//        } else {
-//            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
-//        }
-//    }
+
+    private void getSMSDetails() {
+        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("*********SMS History*************** :");
+            Uri uri = Uri.parse("content://sms");
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    String body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
+                            .toString();
+                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"))
+                            .toString();
+                    String date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                            .toString();
+                    Date smsDayTime = new Date(Long.valueOf(date));
+                    String type = cursor.getString(cursor.getColumnIndexOrThrow("type"))
+                            .toString();
+                    String typeOfSMS = null;
+                    switch (Integer.parseInt(type)) {
+                        case 1:
+                            typeOfSMS = "INBOX";
+                            break;
+                        case 2:
+                            typeOfSMS = "SENT";
+                            break;
+                        case 3:
+                            typeOfSMS = "DRAFT";
+                            break;
+                    }
+                    stringBuffer.append("\nPhone Number:--- " + number + " \nMessage Type:--- "
+                            + typeOfSMS + " \nMessage Date:--- " + smsDayTime
+                            + " \nMessage Body:--- " + body);
+                    stringBuffer.append("\n----------------------------------");
+                    cursor.moveToNext();
+                }
+//                smsNumberText.setText(stringBuffer);
+                Toast.makeText(this, stringBuffer, Toast.LENGTH_SHORT).show();
+            }
+            cursor.close();
+        } else {
+            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
+        }
+    }
 
 
 }

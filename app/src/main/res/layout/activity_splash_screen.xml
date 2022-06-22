@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/taraznet2" />
+        app:srcCompat="@drawable/taraz_n_main" />
 
     <TextView
         android:id="@+id/textSlogan"
