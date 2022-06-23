@@ -83,7 +83,7 @@
         android:layout_marginLeft="110dp"
         android:layout_marginTop="60dp"
         android:layout_marginRight="110dp"
-        android:background="@drawable/customborder"
+        android:background="@drawable/button_selector"
         android:backgroundTint="@color/white"
         android:text="قطع صدای آژیر دزدگیر"
         android:textColor="@color/white"
@@ -100,14 +100,20 @@
         android:layout_marginLeft="110dp"
         android:layout_marginTop="60dp"
         android:layout_marginRight="110dp"
-        android:background="@drawable/customborder"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/button_selector"
         android:text="قطع صدای آژیر موبایل"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/disableAlarmSoundButton" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/dadffgd"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/disableNotificationAlarmButton" />
 
     <Button
         android:id="@+id/configServerBtn"

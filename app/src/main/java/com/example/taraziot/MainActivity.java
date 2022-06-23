@@ -1,6 +1,7 @@
 package com.example.taraziot;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -28,6 +29,7 @@ import android.os.Vibrator;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -58,7 +60,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton,
+            dadffgd;
     public static TextView smsNumberText, statusTxt;
     public static int valueOfEnableNumber;
     public static Button disarmAndArmAlarmButton;
@@ -105,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         disableNotificationAlarmButton = findViewById(R.id.disableNotificationAlarmButton);
         configServerBtn = findViewById(R.id.configServerBtn);
         deleteInfoBtn = findViewById(R.id.deleteInfoBtn);
+        dadffgd = findViewById(R.id.dadffgd);
 
 
 //destinationAddress = "9127938973";
@@ -203,6 +207,19 @@ public class MainActivity extends AppCompatActivity {
 //        destinationAddress = "awdwad";
 //        Toast.makeText(this, modified, Toast.LENGTH_SHORT).show();
 
+        dadffgd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "adad", Toast.LENGTH_SHORT).show();
+                if(dadffgd.isSelected())
+                    dadffgd.setSelected(true);
+                else
+                    dadffgd.setSelected(false);
+
+            }
+        });
+
+
         disableAlarmSoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,8 +261,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: 3/14/22 send sms
-
-
+//                final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.rocket);
+//                statusRefreshButton.startAnimation(myAnim);
+onShakeImage();
 //                statusTxt.setText("hjjh");
                 sendRefreshStatusSMS(modifiedDestinationAddress);
                 startTimer();
@@ -426,6 +444,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 // End of onCreate
+
+
+    public void onShakeImage() {
+
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(disableAlarmSoundButton, "rotation", 0f, 1f, 0f, -1f, 0f); // rotate o degree then 20 degree and so on for one loop of rotation.
+// animateView (View object)
+        rotate.setRepeatCount(10); // repeat the loop 20 times
+        rotate.setDuration(50); // animation play time 100 ms
+        rotate.start();
+    }
+
 
     CountDownTimer cTimer = null;
 
