@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +29,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
@@ -60,8 +62,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton,
-            dadffgd;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton;
     public static TextView smsNumberText, statusTxt;
     public static int valueOfEnableNumber;
     public static Button disarmAndArmAlarmButton;
@@ -108,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         disableNotificationAlarmButton = findViewById(R.id.disableNotificationAlarmButton);
         configServerBtn = findViewById(R.id.configServerBtn);
         deleteInfoBtn = findViewById(R.id.deleteInfoBtn);
-        dadffgd = findViewById(R.id.dadffgd);
 
 
 //destinationAddress = "9127938973";
@@ -207,16 +207,31 @@ public class MainActivity extends AppCompatActivity {
 //        destinationAddress = "awdwad";
 //        Toast.makeText(this, modified, Toast.LENGTH_SHORT).show();
 
-        dadffgd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "adad", Toast.LENGTH_SHORT).show();
-                if(dadffgd.isSelected())
-                    dadffgd.setSelected(true);
-                else
-                    dadffgd.setSelected(false);
 
+        disableAlarmSoundButton.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    final Handler handler = new Handler();
+
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            disableAlarmSoundButton.setBackgroundColor(Color.parseColor("#009ed6"));
+                        }
+                    };
+                    handler.postDelayed(runnable, 50);
+
+
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                    disableAlarmSoundButton.setBackgroundColor(Color.parseColor("#004760"));
+                }
+                return false;
             }
+
         });
 
 
@@ -225,6 +240,32 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 sendDisableAlarmSoundSMS(modifiedDestinationAddress);
             }
+        });
+
+
+        disarmAndArmAlarmButton.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    final Handler handler = new Handler();
+
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            disarmAndArmAlarmButton.setBackgroundColor(Color.parseColor("#009ed6"));
+                        }
+                    };
+                    handler.postDelayed(runnable, 50);
+
+
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    disarmAndArmAlarmButton.setBackgroundColor(Color.parseColor("#004760"));
+                }
+                return false;
+            }
+
         });
 
 
@@ -263,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: 3/14/22 send sms
 //                final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.rocket);
 //                statusRefreshButton.startAnimation(myAnim);
-onShakeImage();
+                onShakeImage();
 //                statusTxt.setText("hjjh");
                 sendRefreshStatusSMS(modifiedDestinationAddress);
                 startTimer();
@@ -427,6 +468,43 @@ onShakeImage();
 //                }
 //            }
 //        });
+
+
+//        final Handler handler = new Handler();
+//
+//        final Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                finish();
+//                System.exit(0);
+//            }
+//        };
+//        handler.postDelayed(runnable, 1000);
+
+        disableNotificationAlarmButton.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    final Handler handler = new Handler();
+
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            disableNotificationAlarmButton.setBackgroundColor(Color.parseColor("#009ed6"));
+                        }
+                    };
+                    handler.postDelayed(runnable, 50);
+
+
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    disableNotificationAlarmButton.setBackgroundColor(Color.parseColor("#004760"));
+                }
+                return false;
+            }
+
+        });
 
 
         disableNotificationAlarmButton.setOnClickListener(new View.OnClickListener() {
