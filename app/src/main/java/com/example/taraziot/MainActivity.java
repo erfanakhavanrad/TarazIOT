@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,11 +63,12 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
-    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, disableAlarmSoundButton, deleteInfoBtn, disableNotificationAlarmButton;
+    Button btnRefresh, b1, stop, vibrate, startService, stopService, stopSMS, startSMS, configServerBtn, statusRefreshButton, disableAlarmSoundButton,
+            deleteInfoBtn, disableNotificationAlarmButton, onAndOffLight;
     public static TextView smsNumberText, statusTxt;
     public static int valueOfEnableNumber;
     public static Button disarmAndArmAlarmButton;
-
+    LinearLayout firstLinear;
     EditText text;
     private final int SMS_REQUEST_CODE = 100;
     String SMS_SENT = "SMS_SENT";
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     String destinationAddress, statusFromServer;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-
+    Boolean value = false;
 //    SMSReceiverImpl smsReceiver = new SMSReceiverImpl();
 
 
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firstLinear = findViewById(R.id.firstLinear);
         statusRefreshButton = findViewById(R.id.statusRefreshButton);
         statusTxt = findViewById(R.id.statusTxt);
 //        armedStatusTxt = findViewById(R.id.armedStatusTxt);
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         disableNotificationAlarmButton = findViewById(R.id.disableNotificationAlarmButton);
         configServerBtn = findViewById(R.id.configServerBtn);
         deleteInfoBtn = findViewById(R.id.deleteInfoBtn);
+        onAndOffLight = findViewById(R.id.onAndOffLight);
 
 
 //destinationAddress = "9127938973";
@@ -207,6 +211,20 @@ public class MainActivity extends AppCompatActivity {
 //        destinationAddress = "awdwad";
 //        Toast.makeText(this, modified, Toast.LENGTH_SHORT).show();
 
+// hey
+        onAndOffLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!value) {
+                    sendLightOffSMS(modifiedDestinationAddress);
+                } else if (value) {
+                    sendLightOnSMS(modifiedDestinationAddress);
+
+                }
+            }
+        });
+
 
         disableAlarmSoundButton.setOnTouchListener(new View.OnTouchListener() {
 
@@ -297,25 +315,21 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+        firstLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRefreshStatusSMS(modifiedDestinationAddress);
+                startTimer();
+            }
+        });
 
         statusRefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 3/14/22 send sms
-//                final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.rocket);
-//                statusRefreshButton.startAnimation(myAnim);
-                onShakeImage();
-//                statusTxt.setText("hjjh");
+
+//                onShakeImage();
                 sendRefreshStatusSMS(modifiedDestinationAddress);
                 startTimer();
-//                getSMSDetails();
-
-
-//                Intent intent = getIntent();
-//                String message = intent.getStringExtra("message");
-//                Toast.makeText(MainActivity.this, "MAin "+ message, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(MainActivity.this, destinationAddress, Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -541,11 +555,13 @@ public class MainActivity extends AppCompatActivity {
         cTimer = new CountDownTimer(20000, 1000) {
             public void onTick(long millisUntilFinished) {
                 statusRefreshButton.setEnabled(false);
+                firstLinear.setEnabled(false);
                 statusRefreshButton.setText("" + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
                 statusRefreshButton.setText("");
+                firstLinear.setEnabled(true);
                 statusRefreshButton.setEnabled(true);
             }
         };
@@ -553,18 +569,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void startTimer2() {
-        cTimer = new CountDownTimer(30000, 1000) {
+        cTimer = new CountDownTimer(20000, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (isMyServiceRunning(SMSReceiverImpl.class)) {
-//                    BroadcastReceiver.PendingResult;
                     cancelTimer();
                 }
             }
 
             public void onFinish() {
-//                statusRefreshButton.setText("");
-//                statusRefreshButton.setEnabled(true);
-                Toast.makeText(MainActivity.this, "پاسخی دریافت نشد. وضعیت دستگاه را بررسی کنید", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+                statusTxt.setText("پاسخی دریافت نشد. وضعیت دستگاه را بررسی کنید");
+            }
+        };
+        cTimer.start();
+    }
+
+
+    void startTimer3() {
+        cTimer = new CountDownTimer(3000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                onAndOffLight.setEnabled(false);
+//                onAndOffLight.append("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+//                onAndOffLight.append("");
+                onAndOffLight.setEnabled(true);
             }
         };
         cTimer.start();
@@ -701,6 +731,150 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+    private void sendLightOffSMS(String destinationAddress) {
+
+        try {
+
+            //Broadcast for Sent SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک ارسال شد";
+                            value = true;
+                            onAndOffLight.setText("غیرفعال کردن رله");
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            state = "یک خطای عمومی رخ داد";
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            state = "اپراتور در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            state = " پروتکل PDU در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            state = "سیم کارت در دسترس نیست";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_SENT));
+
+            //Broadcast for Delivered SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک تحویل داده شد";
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            state = "پیامک تحویل داده نشد";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_DELIVERED));
+
+            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+
+            SmsManager smsManager = SmsManager.getDefault();
+//            Toast.makeText(this, destinationAddress, Toast.LENGTH_SHORT).show();
+            String newdestination = "+98" + destinationAddress;
+            smsManager.sendTextMessage(newdestination, null, "3W9T6", sentSMS, deliverSMS);
+//            smsManager.sendTextMessage("+989359698705", null, "START", sentSMS, deliverSMS);
+
+            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+            startTimer3();
+
+        } catch (Exception e) {
+
+//            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    private void sendLightOnSMS(String destinationAddress) {
+
+        try {
+
+            //Broadcast for Sent SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک ارسال شد";
+                            value = false;
+                            onAndOffLight.setText("فعال کردن رله");
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            state = "یک خطای عمومی رخ داد";
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            state = "اپراتور در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            state = " پروتکل PDU در دسترس نیست";
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            state = "سیم کارت در دسترس نیست";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_SENT));
+
+            //Broadcast for Delivered SMS
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String state = "";
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            state = "پیامک تحویل داده شد";
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            state = "پیامک تحویل داده نشد";
+                            break;
+                    }
+                    Toast.makeText(context, state, Toast.LENGTH_SHORT).show();
+                }
+            }, new IntentFilter(SMS_DELIVERED));
+
+            PendingIntent sentSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+            PendingIntent deliverSMS = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+
+            SmsManager smsManager = SmsManager.getDefault();
+//            Toast.makeText(this, destinationAddress, Toast.LENGTH_SHORT).show();
+            String newdestination = "+98" + destinationAddress;
+            smsManager.sendTextMessage(newdestination, null, "6T9W3", sentSMS, deliverSMS);
+//            smsManager.sendTextMessage("+989359698705", null, "START", sentSMS, deliverSMS);
+
+            Toast.makeText(MainActivity.this, " ارسال پیامک آغاز شد", Toast.LENGTH_SHORT).show();
+            startTimer3();
+
+        } catch (Exception e) {
+
+//            Toast.makeText(MainActivity.this, " پیامک ارسال نشد", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
 
     private void sendDisarmAlarmSMS(String destinationAddress) {
 
@@ -851,6 +1025,7 @@ public class MainActivity extends AppCompatActivity {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
                             state = "پیامک ارسال شد";
+                            startTimer2();
                             break;
                         case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                             state = "یک خطای عمومی رخ داد";
@@ -877,7 +1052,7 @@ public class MainActivity extends AppCompatActivity {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
                             state = "پیامک تحویل داده شد";
-                            startTimer2();
+
 //                            *da * ad * awd * awd
                             break;
                         case Activity.RESULT_CANCELED:

@@ -106,6 +106,21 @@
         app:layout_constraintTop_toBottomOf="@+id/disableAlarmSoundButton" />
 
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/onAndOffLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="110dp"
+        android:text="فعال/غیر فعال نمودن رله"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/disableNotificationAlarmButton" />
+
+
     <Button
         android:id="@+id/configServerBtn"
         android:layout_width="30dp"
